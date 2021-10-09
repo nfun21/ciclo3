@@ -1,0 +1,143 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 696px;
+}
+
+.u-section-1 .u-text-1 {
+  margin: 0 auto;
+}
+
+.u-section-1 .u-text-2 {
+  margin: 43px auto 0;
+}
+
+.u-section-1 .u-text-3 {
+  width: 625px;
+  margin: 43px auto 0;
+}
+
+.u-section-1 .u-text-4 {
+  margin: 49px auto 0;
+}
+
+.u-section-1 .u-btn-1 {
+  border-style: none;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: 121px auto 0 344px;
+  padding: 8px 33px;
+}
+
+.u-section-1 .u-btn-2 {
+  border-style: none;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: -40px auto 0 61px;
+  padding: 8px 33px;
+}
+
+.u-section-1 .u-btn-3 {
+  border-style: none;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: -40px 334px 0 auto;
+  padding: 8px 33px;
+}
+
+.u-section-1 .u-btn-4 {
+  border-style: none;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: -40px 61px 0 auto;
+  padding: 8px 33px;
+}
+
+.u-section-1 .u-btn-5 {
+  border-style: none;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: 38px 61px 60px auto;
+  padding: 8px 33px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-text-3 {
+    margin-top: 484px;
+    margin-right: 343px;
+  }
+
+  .u-section-1 .u-text-4 {
+    margin-top: -37px;
+  }
+
+  .u-section-1 .u-btn-1 {
+    margin-left: 144px;
+  }
+
+  .u-section-1 .u-btn-2 {
+    margin-left: 0;
+  }
+
+  .u-section-1 .u-btn-3 {
+    margin-right: 134px;
+  }
+
+  .u-section-1 .u-btn-4 {
+    margin-right: 0;
+  }
+
+  .u-section-1 .u-btn-5 {
+    margin-top: 70px;
+    margin-right: 0;
+    margin-bottom: 58px;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-text-3 {
+    margin-right: 263px;
+  }
+
+  .u-section-1 .u-btn-1 {
+    margin-left: 0;
+  }
+
+  .u-section-1 .u-btn-3 {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-text-3 {
+    margin-top: 506px;
+    margin-right: 197px;
+    width: 540px;
+  }
+
+  .u-section-1 .u-text-4 {
+    margin-top: -59px;
+  }
+
+  .u-section-1 .u-btn-3 {
+    margin-top: -15px;
+  }
+
+  .u-section-1 .u-btn-5 {
+    margin-top: 45px;
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-text-3 {
+    margin-right: 124px;
+    width: 340px;
+  }
+
+  .u-section-1 .u-text-4 {
+    margin-top: -110px;
+  }
+
+  .u-section-1 .u-btn-1 {
+    margin-top: 136px;
+  }
+}
