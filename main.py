@@ -30,7 +30,7 @@ def ingresar():
    if form.validate_on_submit():
       return 'form validated'
    return render_template("ingresar.html", form=form)
-
+#
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
    return render_template("registrarse.html")
@@ -58,6 +58,35 @@ def reviews():
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
    return render_template("gestion-vuelos.html")
+
+@app.route("/crear-usuario", methods = ["GET", "POST"])
+def crearusuario():
+   return render_template("crear-usuario.html")
+
+@app.route("/editar-usuario", methods = ["GET", "POST"])
+def editarusuario():
+   return render_template("editar-usuario.html")
+   
+@app.route("/eliminar-usuario", methods = ["GET", "POST"])
+def eliminarusuario():
+   return render_template("gestion-usuarios.html")  
+   # Mensaje de confirmación de accion eliminar PENDIENTE 
+
+@app.route("/crear-vuelo", methods = ["GET", "POST"])
+def crearvuelo():
+   return render_template("crear-vuelo.html")
+
+@app.route("/editar-vuelo", methods = ["GET", "POST"])
+def editarvuelo():
+   return render_template("editar-vuelo.html")
+
+@app.route("/piloto", methods = ["GET", "POST"])
+def piloto():
+   return render_template("piloto.html")
+
+@app.route("/pasajeros", methods = ["GET", "POST"])
+def pasajeros():
+   return render_template("pasajeros.html")
 
 
 
