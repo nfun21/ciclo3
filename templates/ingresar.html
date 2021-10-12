@@ -60,11 +60,26 @@
       </div></header>
     <section class="u-align-center u-clearfix u-section-1" id="sec-c882">
       <div class="u-clearfix u-sheet u-sheet-1">
+        
         <div class="u-form u-login-control u-form-1">
-          <form action="#" method="POST" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
+         <div> {% for field, errors in form.errors.items() %}
+    <ul>
+
+      <li class="u-form-send-error u-form-send-message" style="list-style: none;">{{ errors }} </li>    
+        </ul>
+    {% endfor %}</div>
+    <!---INICIO FORMULARIO DE INGRESO -->
+          <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
+            {{ form.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="username-a30d" class="u-label">email*</label>
-              <input type="text" placeholder="Ingrese su email" id="username-a30d" name="username" class="u-grey-5 u-input u-input-rectangle u-input-1" required="">
+              <input type="text" placeholder="Ingrese su email" id="username-a30d" name="correo" class="u-grey-5 u-input u-input-rectangle u-input-1" required="">
+              {% for error in form.correo.errors %}
+              <div>
+                {{ error }}
+
+              </div>
+              {% endfor %}
             </div>
             <div class="u-form-group u-form-password">
               <label for="password-a30d" class="u-label">Contraseña*</label>
@@ -75,11 +90,14 @@
               <label for="checkbox-a30d" class="u-label">Recordarme</label>
             </div>
             <div class="u-align-center u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1">Ingresar</a>
-              <input type="submit" value="submit" class="u-form-control-hidden">
+              <!---<a href="#" class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1">Ingresar</a>
+              <input type="submit" value="submit" class="u-form-control-hidden">-->
+              {{ form.submit(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
             </div>
-            <input type="hidden" value="" name="recaptchaResponse">
+            <!--<input type="hidden" value="" name="recaptchaResponse">-->
           </form>
+          
+          <!---FINAL FORMULARIO DE INGRESO -->
         </div>
         <a href="recuperar-cuenta" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-btn u-button-style u-login-control u-login-forgot-password u-none u-text-palette-1-base u-btn-2">Recuperar contraseña</a>
         <a href="registrarse" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-btn u-button-style u-login-control u-login-create-account u-none u-text-palette-1-base u-btn-3">Registrarse</a>

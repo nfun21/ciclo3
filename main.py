@@ -1,15 +1,35 @@
 from flask import Flask, render_template
-from wtforms import Form
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, \
+    SubmitField
+from wtforms.validators import ValidationError, DataRequired, \
+    Email, EqualTo, Length
+
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY']="skkakjasdlkasoiq123123sdajkadskl"
 
 @app.route("/", methods = ["GET"])
 def paginaprincipal():
    return render_template("pagina-principal.html")
 
+class FIngreso(FlaskForm):
+   correo = StringField('correo', 
+        validators=[DataRequired(), 
+        Email(message='Correo inválido'), 
+        Length(min=8, message='lalala')])
+   password = PasswordField(label=('Password'), 
+        validators=[DataRequired(), 
+        Length(min=8, message='La contraseña debe tener mínimo %(min)d caracteres.')])
+   submit = SubmitField(label=('INGRESAR'))
 @app.route("/ingresar", methods = ["GET", "POST"])
 def ingresar():
-   return render_template("ingresar.html")
+   form = FIngreso()
+   
+   if form.validate_on_submit():
+      return 'form validated'
+   return render_template("ingresar.html", form=form)
 
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
