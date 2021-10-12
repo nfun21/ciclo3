@@ -14,22 +14,23 @@ app.config['SECRET_KEY']="skkakjasdlkasoiq123123sdajkadskl"
 def paginaprincipal():
    return render_template("pagina-principal.html")
 
-class FIngreso(FlaskForm):
-   correo = StringField('correo', 
-        validators=[DataRequired(), 
-        Email(message='Correo inválido'), 
-        Length(min=8, message='lalala')])
-   password = PasswordField(label=('Password'), 
-        validators=[DataRequired(), 
-        Length(min=8, message='La contraseña debe tener mínimo %(min)d caracteres.')])
-   submit = SubmitField(label=('INGRESAR'))
+class Ingresar(FlaskForm):
+   correo = StringField(label="correo",
+      validators=[DataRequired(),
+      Email(message='El correo no es válido'),
+      Length(min=8, max=120, message='El correo debe tener mínimo 8 caracteres y máximo 120')]
+      )
+   password = PasswordField(label='contraseña', 
+      validators=[DataRequired(),
+      Length(min=8, max=15, message='La contraseña debe tener mínimo 8 caracteres y máximo 15')]
+      )
+   botonEnviar = SubmitField(label="INGRESAR")
+
 @app.route("/ingresar", methods = ["GET", "POST"])
 def ingresar():
-   form = FIngreso()
-   
-   if form.validate_on_submit():
-      return 'form validated'
-   return render_template("ingresar.html", form=form)
+   formularioIngreso = Ingresar()
+   formularioIngreso.validate_on_submit()
+   return render_template("ingresar.html", formularioIngreso = formularioIngreso)
 
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
