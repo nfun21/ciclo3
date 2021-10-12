@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from wtforms import Form
+#from wtforms import Form
 
 app = Flask(__name__)
 
@@ -22,5 +22,22 @@ def consultarvuelo():
 @app.route("/recuperar-cuenta", methods = ["GET", "POST"])
 def recuperarcuenta():
    return render_template("recuperar-cuenta.html")
+
+@app.route("/superadmin", methods = ["GET", "POST"])
+def superadmin():
+   return render_template("superadmin.html")
+
+@app.route("/gestion-usuarios", methods = ["GET", "POST"])
+def gestionusuarios():
+   return render_template("gestion-usuarios.html")
+
+@app.route("/reviews", methods = ["GET", "POST"])
+def reviews():
+   return render_template("reviews.html")
+
+@app.route("/gestion-vuelos", methods = ["GET", "POST"])
+def gestionvuelos():
+   return render_template("gestion-vuelos.html")
+
 
 
