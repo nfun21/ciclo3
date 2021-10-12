@@ -14,5 +14,12 @@ def ingresar():
 def registrarse():
    return render_template("registrarse.html")
 
+@app.route("/consultar-vuelo", methods = ["GET", "POST"])
+def consultarvuelo():
+   return render_template("consultar-vuelo.html")
+
+@app.route("/recuperar-cuenta", methods = ["GET", "POST"])
+def recuperarcuenta():
+   return render_template("recuperar-cuenta.html")
 
 
