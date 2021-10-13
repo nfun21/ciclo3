@@ -1,3 +1,23 @@
+/*arreglos Nicolay*/
+.izquierda{
+  width: calc(48% - 60px);
+  float: left;
+  margin: 10px;
+  padding: 5px;
+
+}
+
+#bordered{
+  border: 3px solid black;
+  border-radius: 10px;
+}
+.bg-img{
+  background: url("images/airplane.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 .u-section-1 {
   background-image: url("images/airplane.jpg");
   background-position: 50% 50%;
