@@ -55,29 +55,42 @@
           <font color="#f1c50e">AEROPUERTO ALFONSO </font>
           <span class="u-text-palette-2-base">LÓPEZ</span>
           <font color="#f1c50e"></font>
-          <span class="u-text-palette-1-base">PUMAREJO</span>
+          <span class="u-text-palette-1-base"> PUMAREJO</span>
         </p>
       </div></header>
     <section class="u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Buscar vuelo</h1>
         <div class="u-align-left u-form u-form-1">
-          <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo-usuario" style="padding: 10px;">
+
+<!-- ACÁ INICIA EL FORMULARIO -->
+          <!-- Errores de validación -->
+          <div>
+            {% for fields, errors in formulariobuscarvuelo.error.items() %}
+            <ul>
+              {% for error in errors %}
+              <li>
+                {{ error }}
+              </li>
+            </ul>
+            {% endfor %}
+          </div>
+          <!-- TERMINAN ERRORES -->
+          <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
+            {{ formulariobuscarvuelo.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-bacb" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Introduzca una ciudad de origen" id="name-bacb" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Introduzca una ciudad de origen" id="name-bacb" name="ciudadorigen" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-group u-form-group-2">
               <label for="text-1be6" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Introduzca una ciudad de destino" id="text-1be6" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" placeholder="Introduzca una ciudad de destino" id="text-1be6" name="ciudaddestino" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-align-right u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1">Buscar</a>
-              <input type="submit" value="submit" class="u-form-control-hidden">
+              {{formulariobuscarvuelo.botonEnviar(class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1)}}
+              
             </div>
-            <div class="u-form-send-message u-form-send-success">Resultados:</div>
-            <div class="u-form-send-error u-form-send-message">Error. No se pudo buscar.</div>
-            <input type="hidden" value="" name="recaptchaResponse">
+            
           </form>
         </div>
         <div class="u-table u-table-responsive u-table-1">

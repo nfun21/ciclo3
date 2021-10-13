@@ -36,9 +36,26 @@ def ingresar():
 def registrarse():
    return render_template("registrarse.html")
 
+class cvueloform(FlaskForm):
+   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=6, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
+   botonEnviar = SubmitField(label='Consultar')
+
 @app.route("/consultar-vuelo", methods = ["GET", "POST"])
 def consultarvuelo():
-   return render_template("consultar-vuelo.html")
+   formularioconsultarvuelo = cvueloform()
+   formularioconsultarvuelo.validate_on_submit()
+   return render_template("consultar-vuelo.html", formularioconsultarvuelo = formularioconsultarvuelo)
+
+class bvueloform(FlaskForm):
+   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')])
+   ciudaddestino = StringField(label='ciudaddestino',validators=[DataRequired(message ='Es necesario establecer la ciudad de destino')])
+   botonEnviar = SubmitField(label="BUSCAR")
+
+@app.route("/buscar-vuelo", methods = ["GET", "POST"])
+def buscarvuelo():
+   formulariobuscarvuelo = bvueloform()
+   formulariobuscarvuelo.validate_on_submit()
+   return render_template("buscar-vuelo.html", formulariobuscarvuelo = formulariobuscarvuelo)
 
 @app.route("/recuperar-cuenta", methods = ["GET", "POST"])
 def recuperarcuenta():

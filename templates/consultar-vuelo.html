@@ -19,7 +19,7 @@
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",
-		"name": "Sistema ge gestión de vuelos G2"
+		"name": "Sistema de gestión de vuelos G2"
 }</script>
     <meta name="theme-color" content="#ff4804">
     <meta property="og:title" content="consultar-vuelo">
@@ -63,12 +63,28 @@
         <h1 class="u-align-center u-text u-text-default u-text-1">Consultar vuelo</h1>
         <p class="u-align-center u-small-text u-text u-text-default u-text-variant u-text-2">Introduzca el código del vuelo</p>
         <div class="u-form u-form-1">
+
+<!-- ACÁ INICIA EL FORMULARIO -->
+          <!-- Errores de validación -->
+          <div>
+            {% for fields, errors in formularioconsultarvuelo.error.items() %}
+            <ul>
+              {% for error in errors %}
+              <li>
+                {{ error }}
+              </li>
+            </ul>
+            {% endfor %}
+          </div>
           <form action="consultar-vuelo" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="consultar-vuelo" style="padding: 10px;">
+            {{ formularioconsultarvuelo.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-a093" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Introduzca el código" id="name-a093" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Introduzca el código" id="name-a093" name="consvuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-align-center u-form-group u-form-submit">
+              {{formularioconsultarvuelo.botonEnviar(class="u-btn u-btn-submit u-button-style")}}
+
               <a href="#" class="u-btn u-btn-submit u-button-style">Consultar</a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
