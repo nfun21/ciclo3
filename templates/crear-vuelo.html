@@ -68,20 +68,36 @@
           </span>
         </h1>
         <div class="u-form u-form-1">
-          <form action="validar-crear-vuelo" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="crear-vuelo" style="padding: 10px;">
-            <input type="hidden" id="siteId" name="siteId" value="65902055">
-            <input type="hidden" id="pageId" name="pageId" value="62109672">
+          <!-- INICIO DEL FORMULARIO CREAR-VUELO -->
+          <!-- ERRORES DE VALIDACION -->
+          <div>
+            {% for fields, errors in formularioCrearVuelo.errors.items()  %}
+            <ul>
+              {% for error in errors %}
+              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
+                {{ error }}
+
+              </li>
+              {% endfor %}
+            </ul>
+            {% endfor %}
+          </div>
+          <!--------------#################-------------------------------------->
+          <form method="POST" action="" >
+            {{ formularioCrearVuelo.csrf_token() }}
+            <!-- <input type="hidden" id="siteId" name="siteId" value="65902055"> -->
+            <!-- <input type="hidden" id="pageId" name="pageId" value="62109672"> -->
             <div class="u-form-group u-form-name">
               <label for="name-d422" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Ciudad de origen" id="name-d422" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Ciudad de origen" id="name-d422" name="ciudadOrigen" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-email u-form-group">
               <label for="email-d422" class="u-form-control-hidden u-label"></label>
-              <input type="email" placeholder="Ciudad de destino" id="email-d422" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Ciudad de destino" id="email-d422" name="ciudadDestino" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-group u-form-group-3">
               <label for="text-4411" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Código" id="text-4411" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" placeholder="Código" id="text-4411" name="codigo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-group u-form-select u-form-group-4">
               <label for="select-a716" class="u-label">Piloto:</label>
@@ -95,11 +111,11 @@
             </div>
             <div class="u-form-group u-form-group-5">
               <label for="text-4d2f" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Avión" id="text-4d2f" name="text-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" placeholder="Avión" id="text-4d2f" name="avion" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-group u-form-group-6">
               <label for="text-2904" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Capacidad" id="text-2904" name="text-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" placeholder="Capacidad" id="text-2904" name="capacidad" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-date u-form-group u-form-group-7">
               <label for="date-16c8" class="u-label">Fecha:</label>
@@ -107,11 +123,13 @@
             </div>
             <div class="u-form-group u-form-group-8">
               <label for="text-504c" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Hora" id="text-504c" name="text-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" placeholder="Hora" id="text-504c" name="hora" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-align-left u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-submit u-button-style">GUARDAR</a>
-              <input type="submit" value="submit" class="u-form-control-hidden">
+              <!-- <a href="#" class="u-btn u-btn-submit u-button-style">GUARDAR</a> -->
+              <!-- <input type="submit" value="submit" class="u-form-control-hidden"> -->
+              {{formularioCrearVuelo.botonGuardar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+
             </div>
             <div class="u-form-send-message u-form-send-success">Se ha creado el vuelo.</div>
             <div class="u-form-send-error u-form-send-message">No se puedo crear el vuelo.</div>

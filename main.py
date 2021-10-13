@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, \
     SubmitField
-from wtforms.validators import ValidationError, DataRequired, \
+from wtforms.validators import InputRequired, ValidationError, DataRequired, \
     Email, EqualTo, Length
 
 
@@ -73,9 +73,20 @@ def eliminarusuario():
    return render_template("gestion-usuarios.html")  
    # Mensaje de confirmación de accion eliminar PENDIENTE 
 
+class CrearVuelo(FlaskForm):
+    ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Ciudad Origen Requerida. ')])
+   #  ciudadDestino = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, message='Ciudad Destino Requerida.')])
+   #  codigo = StringField(label='codigo', validators=[DataRequired(), Length(min = 5, message='Código Requerido.')])
+   #  avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, message='Tipo de Avión Requerido.')])
+   #  capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 5, message='Capacidad de Avión Requerida.')])
+   #  hora = StringField(label='hora', validators=[DataRequired(), Length(min = 5, message='Hora Requerida.')])
+    botonGuardar = SubmitField(label="GUARDAR")
+
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
 def crearvuelo():
-   return render_template("crear-vuelo.html")
+   formularioCrearVuelo = CrearVuelo()
+   formularioCrearVuelo.validate_on_submit()
+   return render_template("crear-vuelo.html", formularioCrearVuelo = formularioCrearVuelo)
 
 @app.route("/editar-vuelo", methods = ["GET", "POST"])
 def editarvuelo():
