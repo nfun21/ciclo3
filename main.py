@@ -2,12 +2,8 @@ from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, \
     SubmitField
-<<<<<<< HEAD
-from wtforms.validators import InputRequired, ValidationError, DataRequired, \
-=======
 from wtforms.fields.core import DateField, IntegerField, SelectField
 from wtforms.validators import ValidationError, DataRequired, \
->>>>>>> e84dc2fd44fe60de518e1af8f73c7349e9bb3665
     Email, EqualTo, Length
 
 
