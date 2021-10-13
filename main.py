@@ -1,6 +1,7 @@
+from typing import Text
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, \
+from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
 from wtforms.validators import ValidationError, DataRequired, \
     Email, EqualTo, Length
@@ -40,9 +41,19 @@ def registrarse():
 def consultarvuelo():
    return render_template("consultar-vuelo.html")
 
+class Recuperar(FlaskForm):
+   datoRecuperar = StringField(label="recuperacion",
+   validators=[DataRequired(),
+   Email(message='El correo no es válido'),
+   Length(min=6, max=120, message='El correo debe tener mínimo %(min)d caracteres y %(max)d máximo')]
+   )
+   botonRecuperar = SubmitField(label="Enviar")
+
 @app.route("/recuperar-cuenta", methods = ["GET", "POST"])
 def recuperarcuenta():
-   return render_template("recuperar-cuenta.html")
+   datosRecuperacion = Recuperar()
+   datosRecuperacion.validate_on_submit()
+   return render_template("recuperar-cuenta.html", datosRecuperacion=datosRecuperacion)
 
 @app.route("/superadmin", methods = ["GET", "POST"])
 def superadmin():
@@ -88,6 +99,10 @@ def piloto():
 @app.route("/pasajeros", methods = ["GET", "POST"])
 def pasajeros():
    return render_template("pasajeros.html")
+
+@app.route("/publicar-review", methods = ["GET", "POST"])
+def publicarreview():
+   return render_template("publicar-review.html")
 
 
 
