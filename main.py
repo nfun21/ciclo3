@@ -182,12 +182,12 @@ def eliminarusuario():
    # Mensaje de confirmación de accion eliminar PENDIENTE 
 
 class CrearVuelo(FlaskForm):
-    ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Ciudad Origen Requerida. ')])
-   #  ciudadDestino = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, message='Ciudad Destino Requerida.')])
-   #  codigo = StringField(label='codigo', validators=[DataRequired(), Length(min = 5, message='Código Requerido.')])
-   #  avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, message='Tipo de Avión Requerido.')])
-   #  capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 5, message='Capacidad de Avión Requerida.')])
-   #  hora = StringField(label='hora', validators=[DataRequired(), Length(min = 5, message='Hora Requerida.')])
+    ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+    ciudadDestino = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+    codigo = StringField(label='codigo', validators=[DataRequired(), Length(min = 2, max = 10, message='Campo Código Requerido:Mínimo 2 y máximo 10 caracteres.')])
+    avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
+    capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
+    hora = StringField(label='hora', validators=[DataRequired(), Length(min = 9 , max = 9,  message='Campo Capacidad Requerido:Escribir formato: HH:MM:SS.')])
     botonGuardar = SubmitField(label="GUARDAR")
 
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
