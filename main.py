@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, \
+from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
 from wtforms.fields.core import DateField, IntegerField, SelectField
 from wtforms.validators import ValidationError, DataRequired, \
@@ -126,7 +126,10 @@ def consultarvuelo():
 
 class bvueloform(FlaskForm):
    ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')])
-   ciudaddestino = StringField(label='ciudaddestino',validators=[DataRequired(message ='Es necesario establecer la ciudad de destino')])
+   ciudaddestino = StringField(label='ciudaddestino',
+      validators=[
+         DataRequired(message ='Es necesario establecer la ciudad de destino'),
+         ])
    botonEnviar = SubmitField(label="BUSCAR")
 
 @app.route("/buscar-vuelo", methods = ["GET", "POST"])
@@ -135,9 +138,19 @@ def buscarvuelo():
    formulariobuscarvuelo.validate_on_submit()
    return render_template("buscar-vuelo.html", formulariobuscarvuelo = formulariobuscarvuelo)
 
+class Recuperar(FlaskForm):
+   datoRecuperar = StringField(label="recuperacion",
+   validators=[DataRequired(),
+   Email(message='El correo no es válido'),
+   Length(min=6, max=120, message='El correo debe tener mínimo %(min)d caracteres y %(max)d máximo')]
+   )
+   botonRecuperar = SubmitField(label="Enviar")
+
 @app.route("/recuperar-cuenta", methods = ["GET", "POST"])
 def recuperarcuenta():
-   return render_template("recuperar-cuenta.html")
+   datosRecuperacion = Recuperar()
+   datosRecuperacion.validate_on_submit()
+   return render_template("recuperar-cuenta.html", datosRecuperacion=datosRecuperacion)
 
 @app.route("/superadmin", methods = ["GET", "POST"])
 def superadmin():
@@ -194,6 +207,10 @@ def piloto():
 @app.route("/pasajeros", methods = ["GET", "POST"])
 def pasajeros():
    return render_template("pasajeros.html")
+
+@app.route("/publicar-review", methods = ["GET", "POST"])
+def publicarreview():
+   return render_template("publicar-review.html")
 
 
 
