@@ -59,47 +59,65 @@
           <span class="u-text-palette-1-base">PUMAREJO</span>
         </p>
       </div></header>
-    <section class="u-align-center u-clearfix u-image u-section-1" id="sec-c882" data-image-width="1600" data-image-height="1067">
+    <section class="bg-img u-align-center" id="sec-c882" data-image-width="1600" data-image-height="1067">
       <div class="u-clearfix u-sheet u-sheet-1">
-        <div class="u-border-2 u-border-grey-dark-1 u-container-style u-group u-radius-15 u-shape-round u-group-1">
+        
+          <div class="izquierda" id="bordered">
           <div class="u-container-layout u-container-layout-1">
-            <h1 class="u-align-center u-custom-font u-font-montserrat u-text u-title u-text-1">
-              <span class="u-text-body-color" style="font-size: 3.75rem;">Crea una cuenta</span>
-            </h1>
-            <h1 class="u-align-center u-custom-font u-font-montserrat u-text u-text-custom-color-5 u-title u-text-2">Datos personales</h1>
-            <h3 class="u-align-justify u-custom-font u-font-montserrat u-text u-text-3">Ingresa tus datos&nbsp;<span class="u-text-palette-1-base"> tal como aparecen en tu documento de identidad. <span class="u-text-black">Los usaremos cuando compres tus tickets.</span>
+            
+            <h2 class="u-align-center u-custom-font u-font-montserrat u-text u-title u-text-1">
+              <span class="u-text-body-color" style="font-size: 0.5 rem;">Crea una cuenta</span>
+            </h2>
+            
+            <h5 style="background-color: white;" class="u-align-justify u-custom-font u-font-montserrat u-text u-text-3">Ingresa tus datos&nbsp;<span class="u-text-palette-1-base"> tal como aparecen en tu documento de identidad. <span class="u-text-black">Los usaremos cuando compres tus tickets.</span>
               </span>
-            </h3>
+            </h5>
+            <!---#############################INICIO FORMULARIO DE REGISTRO####################################-->
+            <!--- ##########         VALIDACIÓN DE ERRORES  #####-->
+            <div>
+              {% for fields, errors in form.errors.items()  %}
+              <ul>
+                {% for error in errors %}
+                <li class="u-form-send-error u-form-send-message" style="list-style: none;">
+                  {{ error }}
+  
+                </li>
+                {% endfor %}
+              </ul>
+              {% endfor %}
+            </div>
             <div class="u-form u-form-1">
-              <form action="#" method="POST" class="u-clearfix u-form-spacing-38 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 0px;">
+        
+              <!--------------#################-------------------------------------->
+              <form action="" method="POST" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form">
+                {{ form.csrf_token() }}
                 <div class="u-form-group u-form-name u-form-group-1">
-                  <label for="name-dc01" class="u-form-control-hidden u-label u-label-1"></label>
-                  <input type="text" placeholder="Nombre(s)" id="name-dc01" name="name-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="">
+                  <input name="nombres" type="text" placeholder="Nombre(s)" id="name-dc01" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="">
                 </div>
                 <div class="u-form-group u-form-group-2">
-                  <label for="name-0b98" class="u-form-control-hidden u-label u-label-2"></label>
-                  <input type="text" placeholder="Apellido(s)" id="name-0b98" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="required">
+                  
+                  <input name="apellidos" type="text" placeholder="Apellido(s)" id="name-0b98" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="required">
                 </div>
                 <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-3">
-                  <label for="select-9496" class="u-form-control-hidden u-label u-label-3"></label>
+                  
                   <div class="u-form-select-wrapper">
-                    <select id="select-9496" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                    <select name="tipoDocumento" id="select-9496"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                       <option value="Tipo de documento">Tipo de documento</option>
                       <option value="Cédula de ciudadania">Cédula de ciudadania</option>
                       <option value="Tarjeta de identidad">Tarjeta de identidad</option>
                       <option value="Pasaporte">Pasaporte</option>
                     </select>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                    
                   </div>
                 </div>
                 <div class="u-form-group u-form-partition-factor-2 u-form-group-4">
-                  <label for="text-5686" class="u-form-control-hidden u-label u-label-4"></label>
-                  <input type="text" placeholder="Número de documento" id="text-5686" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                  
+                  <input name="numDocumento" type="text" placeholder="Número de documento" id="text-5686"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                 </div>
                 <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-5">
-                  <label for="select-8c7e" class="u-form-control-hidden u-label u-label-5"></label>
+                  
                   <div class="u-form-select-wrapper">
-                    <select id="select-8c7e" name="select-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                    <select name="pais" id="select-8c7e" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                       <option value="País de nacimiento">País de nacimiento</option>
                           <option value="Afganistán" id="AF">Afganistán</option>
                           <option value="Albania" id="AL">Albania</option>
@@ -340,70 +358,59 @@
                           <option value="Zimbabue" id="ZW">Zimbabue</option>
                 </select> 
                     </select>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                    
                   </div>
                 </div>
                 <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-6">
-                  <label for="select-1036" class="u-form-control-hidden u-label u-label-6"></label>
+                  
                   <div class="u-form-select-wrapper">
-                    <select id="select-1036" name="select-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                    <select name="genero" id="select-1036"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                       <option value="Género">Género</option>
                       <option value="Masculino">Masculino</option>
                       <option value="Femenino">Femenino</option>
                       <option value="Prefiero no decirlo">Prefiero no decirlo</option>
                     </select>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                    
                   </div>
                 </div>
-                <div class="u-form-date u-form-group u-form-partition-factor-3 u-form-group-7">
-                  <label for="date-5543" class="u-form-control-hidden u-label u-label-7"></label>
-                  <input type="date" placeholder="DD/MMM/YYYY" id="date-5543" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="">
+                <div class="u-form-group u-form-group-2">
+                  <label for="date-5543" class="u-label u-label-7">Fecha de nacimiento</label>
+                  <input name="fechaNacimiento" type="date" placeholder="DD/MMM/YYYY" id="date-5543"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="">
                 </div>
-                <div class="u-form-group u-form-partition-factor-3 u-form-group-8">
-                  <label for="text-a7d2" class="u-form-control-hidden u-label u-label-8"></label>
-                  <input type="text" placeholder="57" id="text-a7d2" name="text-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
-                </div>
-                <div class="u-form-group u-form-partition-factor-3 u-form-group-9">
+                
+                <div class="u-form-group u-form-partition-factor-2 u-form-group-9">
                   <label for="text-5435" class="u-form-control-hidden u-label u-label-9"></label>
-                  <input type="text" placeholder="Número de telefono" id="text-5435" name="text-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                  <input name="telefono" type="text" placeholder="Número de telefono" id="text-5435"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                 </div>
                 <div class="u-form-group u-form-group-10">
                   <label for="text-e6fd" class="u-form-control-hidden u-label u-label-10"></label>
-                  <input type="text" placeholder="e-mail" id="text-e6fd" name="text-4" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                  <input name="correo" type="text" placeholder="e-mail" id="text-e6fd" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                 </div>
                 <div class="u-form-group u-form-group-11">
                   <label for="text-6dbc" class="u-form-control-hidden u-label u-label-11"></label>
-                  <input type="text" placeholder="Contraseña" id="text-6dbc" name="text-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
+                  <input name="password" type="password" placeholder="Contraseña" id="text-6dbc"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
                 </div>
                 <div class="u-form-group u-form-group-12">
                   <label for="text-2b28" class="u-form-control-hidden u-label u-label-12"></label>
-                  <input type="text" placeholder="Confirmar contraseña" id="text-2b28" name="text-5" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white u-input-12">
+                  <input name="passwordConfirmar" type="password" placeholder="Confirmar contraseña" id="text-2b28"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white u-input-12">
                 </div>
-                <div class="u-align-center u-form-group u-form-submit">
-                  <a href="#" class="u-btn u-btn-round u-btn-submit u-button-style u-radius-10 u-btn-1">Registrar</a>
-                  <input type="submit" value="submit" class="u-form-control-hidden">
-                </div>
-                <div class="u-form-send-message u-form-send-success"> Gracias! Tu mensaje ha sido enviado. </div>
-                <div class="u-form-send-error u-form-send-message"> No se puede enviar su mensaje. Por favor, corrija los errores y vuelva a intentarlo. </div>
-                <input type="hidden" value="" name="recaptchaResponse">
+                {{form.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
               </form>
+              <!---#############################FIN FORMULARIO DE REGISTRO####################################-->
             </div>
-            <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-4">Tal como aparece(n) en tu documento de identidad</h6>
-            <h6 class="u-align-left u-custom-font u-font-montserrat u-text u-text-5">Tal como aparece(n) en tu documento de identidad</h6>
+            
           </div>
-        </div>
-        <h4 class="u-custom-font u-font-montserrat u-text u-text-6">¿No recuerdas tu contraseña?&nbsp;<span class="u-text-palette-1-base">
-            <br><a href="recuperar-cuenta">Recuperar contraseña</a>
-          </span>
-        </h4>
-        <h2 class="u-custom-font u-font-montserrat u-text u-text-body-color u-text-7">¡Explora, conoce y vive! </h2>
+          </div><!--float fix-->
+        
+        <div class="izquierda u-align-center" style="text-align: center;">
+        
         <h3 class="u-align-justify u-custom-font u-font-montserrat u-text u-text-8">Si ya eres miembro no necesitas crear una cuenta nueva. Inicia sesión con tus datos</h3>
         <a href="ingresar" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-2">Iniciar sesión</a>
-        <img class="u-image u-image-default u-preserve-proportions u-image-1" src="images/221974267-0.png" alt="">
+        <h2 class="u-custom-font u-font-montserrat u-text u-text-body-color u-text-7">¡Explora, conoce y vive! </h2>
+        <img  width="200" class="u-image u-image-default u-preserve-proportions u-image-1" src="../static/images/221974267-0.png" alt="">
+        </div><!--float fix-->
       </div>
     </section>
-    
-    
     
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-7e24"><div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1"> Todos los Derechos Reservados&nbsp;
