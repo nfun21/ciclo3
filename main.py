@@ -106,7 +106,7 @@ def editarusuario():
 @app.route("/eliminar-usuario", methods = ["GET", "POST"])
 def eliminarusuario():
    return render_template("gestion-usuarios.html")  
-   # Mensaje de confirmación de accion eliminar PENDIENTE 
+   
 
 class CrearVuelo(FlaskForm):
     ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
