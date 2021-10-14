@@ -160,8 +160,20 @@ def pasajeros():
 
 class publicarReview(FlaskForm):
    review= StringField(label="review",
-   validators=[DataRequired(),Length(min=4, max=8, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
-   
+   validators=[DataRequired(message="Es necesario que escriba un comentario."),Length(min=4, max=750, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
+   puntaje= SelectField(label="puntaje",
+      choices=[
+         ('1'),
+         ('2'),
+         ('3'),
+         ('4'),
+         ('5')
+         ],
+      validate_choice=True,
+      validators=[
+         DataRequired(message='El campo de puntaje no puede quedar vacío')
+      ]
+   )
   
 
    btnEnviar = SubmitField(label="Enviar")

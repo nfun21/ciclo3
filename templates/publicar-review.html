@@ -69,7 +69,7 @@
         <div>
           {% for fields, errors in enviarReview.errors.items() %}
           <ul>
-            {% for error in erros %}
+            {% for error in errors %}
             <li class="u-form-send-error u-form-send-message" style="list-style: none;">
               {{ error }}
             </li>
@@ -89,7 +89,7 @@
             <div class="u-form-group u-form-select u-form-group-2">
               <label for="select-b77b" class="u-label">Puntuación</label>
               <div class="u-form-select-wrapper">
-                <select name="Puntuación" id="select-b77b" name="review-score" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="select-b77b" name="puntaje" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="5">5</option>
                   <option value="4">4</option>
                   <option value="3">3</option>
