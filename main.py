@@ -128,9 +128,9 @@ class bvueloform(FlaskForm):
    ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')])
    ciudaddestino = StringField(label='ciudaddestino',
       validators=[
-         DataRequired(message ='Es necesario establecer la ciudad de destino'),
+         DataRequired(message ='Es necesario establecer la ciudad de destino'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')
          ])
-   botonEnviar = SubmitField(label="BUSCAR")
+   botonEnviar = SubmitField(label='BUSCAR')
 
 @app.route("/buscar-vuelo", methods = ["GET", "POST"])
 def buscarvuelo():
