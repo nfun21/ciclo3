@@ -62,19 +62,32 @@
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de vuelos</h1>
         <div class="u-align-left u-form u-form-1">
-          <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
+          <!--inicio formulario-->
+          <!--validación de errores-->
+          <div>
+            {% for fields, errors in form.errors.items()  %}
+            <ul>
+              {% for error in errors %}
+              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
+                {{ error }}
+
+              </li>
+              {% endfor %}
+            </ul>
+            {% endfor %}
+          </div>
+          <form action="" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
             <div class="u-form-group u-form-name">
-              <label for="name-bacb" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Introduzca un código de vuelo" id="name-bacb" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              {{ form.csrf_token() }}
+              
+              <input type="text" placeholder="Introduzca un código de vuelo" id="consvuelo" name="consvuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-align-right u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1">Buscar</a>
-              <input type="submit" value="submit" class="u-form-control-hidden">
+              {{form.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
             </div>
-            <div class="u-form-send-message u-form-send-success">Mostrando resultados</div>
-            <div class="u-form-send-error u-form-send-message">Error. No se pudo buscar.</div>
-            <input type="hidden" value="" name="recaptchaResponse">
+            
           </form>
+          <!---fin formulario-->
         </div>
         <a href="crear-vuelo" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-4-base u-radius-6 u-btn-2">Crear nuevo vuelo</a>
         <div class="u-expanded-width u-table u-table-responsive u-table-1">
@@ -127,7 +140,7 @@ By: Grupo 47-2-Mintic2022</p>
           <p class="u-align-center u-text u-text-palette-1-base u-text-1">¿Estás seguro que deseas cancelar este vuelo?</p>
           <a href="superadmin" class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1">SÍ</a>
           <a href="#" class="u-border-none u-btn u-button-style u-hover-palette-1-dark-1 u-palette-2-base u-btn-2">NO</a>
-        </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
+        </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
       </div>
     </section><style>.u-section-4 {
   min-height: 826px;

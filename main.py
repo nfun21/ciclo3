@@ -1,3 +1,4 @@
+from typing import Text
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
@@ -5,6 +6,7 @@ from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
 from wtforms.fields.core import DateField, IntegerField, SelectField
 from wtforms.validators import ValidationError, DataRequired, \
     Email, EqualTo, Length
+import formularios as formularios
 
 
 
@@ -15,102 +17,19 @@ app.config['SECRET_KEY']="skkakjasdlkasoiq123123sdajkadskl"
 def paginaprincipal():
    return render_template("pagina-principal.html")
 
-class Fingreso(FlaskForm):
-   correo = StringField(label="correo",
-      validators=[DataRequired(),
-      Email(message='El correo no es válido'),
-      Length(min=8, max=120, message='El correo debe tener mínimo 8 caracteres y máximo 120')]
-      )
-   password = PasswordField(label='contraseña', 
-      validators=[DataRequired(),
-      Length(min=8, max=15, message='La contraseña debe tener mínimo 8 caracteres y máximo 15')]
-      )
-   botonEnviar = SubmitField(label="INGRESAR")
 
-class Fregistro(FlaskForm):
-   nombres=StringField(label='nombres',
-      validators=[
-         DataRequired(message='El campo de nombres no puede quedar vacío'),
-         Length(min=3, max=120, message='El nombre no puede tener menos de 3 caracteres y más de 120')
-      ]
-   )
 
-   apellidos=StringField(label='apellidos',
-      validators=[
-         DataRequired(message='El campo de apellidos no puede quedar vacío'),
-         Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
-      ]
-   )
-   cedula ='Cédula de ciudadania'
-   tarjetaId ='Tarjeta de identidad'
-   pasaporte = 'Pasaporte'
-   
-   tipoDocumento=SelectField(label='tipo doc',
-      choices=[
-         (cedula),
-         (tarjetaId),
-         (pasaporte)
-         ], 
-         validate_choice=True,
-         validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío')]
-         )
-         
-  
-   numDocumento = StringField(label='número doc',
-      validators=[
-         DataRequired(message='El campo de número de documento no puede quedar vacío'),
-         Length(min=8, max=70, message="La identificación introducida es muy larga o muy corta")
-      ]
-   )
-   
-   
 
-   genero= SelectField(label="género",
-      choices=[
-         ('Masculino'),
-         ('Femenino'),
-         ('Prefiero no decirlo')
-         ],
-      validate_choice=True,
-      validators=[
-         DataRequired(message='El campo de genero no puede quedar vacío')
-      ]
-   )
-
-   fechaNacimiento = DateField(label="Fecha nacimiento",
-      
-      validators=[DataRequired(message='El campo de fecha de nacimiento no puede quedar vacío')]
-      )
-
-   telefono=StringField(label="telefono",
-      validators=[
-         DataRequired(message='El campo de teléfono no puede quedar vacío'),
-         Length(min=6,max=20, message='El número de teléfono es muy corto o muy largo')
-      ]
-   )
-   correo = StringField(label="correo",
-      validators=[DataRequired(message='El campo de correo no puede quedar vacío'),
-      Email(message='El correo no es válido'),
-      Length(min=8, max=120, message='El correo debe tener mínimo 8 caracteres y máximo 120')]
-      )
-   password = PasswordField(label='contraseña', 
-      validators=[DataRequired(message='El campo de contraseña no puede quedar vacío'),
-      Length(min=8, max=15, message='La contraseña debe tener mínimo 8 caracteres y máximo 15'),
-      EqualTo('passwordConfirmar', message='Las contraseñas no coinciden')
-      ]
-   )
-   passwordConfirmar = PasswordField(label="Confirmar contraseña")
-   botonEnviar = SubmitField(label="REGISTRARSE")
 
 @app.route("/ingresar", methods = ["GET", "POST"])
 def ingresar():
-   formularioIngreso = Fingreso()
+   formularioIngreso = formularios.Ingreso()
    formularioIngreso.validate_on_submit()
    return render_template("ingresar.html", formularioIngreso = formularioIngreso)
 
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
-   form = Fregistro()
+   form = formularios.Registro()
    form.validate_on_submit()
    return render_template("registrarse.html", form = form)
 
@@ -158,7 +77,9 @@ def superadmin():
 
 @app.route("/gestion-usuarios", methods = ["GET", "POST"])
 def gestionusuarios():
-   return render_template("gestion-usuarios.html")
+   form = formularios.BuscarUsuario()
+   form.validate_on_submit()
+   return render_template("gestion-usuarios.html", form=form)
 
 @app.route("/reviews", methods = ["GET", "POST"])
 def reviews():
@@ -166,15 +87,21 @@ def reviews():
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
-   return render_template("gestion-vuelos.html")
+   form = cvueloform()
+   form.validate_on_submit()
+   return render_template("gestion-vuelos.html", form=form)
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
 def crearusuario():
-   return render_template("crear-usuario.html")
+   form = formularios.CrearEditarUsuario()
+   form.validate_on_submit()
+   return render_template("crear-usuario.html", form=form)
 
 @app.route("/editar-usuario", methods = ["GET", "POST"])
 def editarusuario():
-   return render_template("editar-usuario.html")
+   form = formularios.CrearEditarUsuario()
+   form.validate_on_submit()
+   return render_template("editar-usuario.html", form=form)
    
 @app.route("/eliminar-usuario", methods = ["GET", "POST"])
 def eliminarusuario():
@@ -231,9 +158,20 @@ def piloto():
 def pasajeros():
    return render_template("pasajeros.html")
 
+class publicarReview(FlaskForm):
+   review= StringField(label="review",
+   validators=[DataRequired(),Length(min=4, max=8, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
+   
+  
+
+   btnEnviar = SubmitField(label="Enviar")
+
 @app.route("/publicar-review", methods = ["GET", "POST"])
 def publicarreview():
-   return render_template("publicar-review.html")
+   enviarReview = publicarReview()
+   enviarReview.validate_on_submit()
+   return render_template("publicar-review.html",enviarReview=enviarReview)
+
 
 
 
