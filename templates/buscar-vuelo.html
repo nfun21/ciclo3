@@ -69,7 +69,7 @@
             {% for fields, errors in formulariobuscarvuelo.errors.items() %}
             <ul>
               {% for error in errors %}
-              <li>
+              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
                 {{ error }}
               </li>
               {% endfor %}
@@ -77,7 +77,7 @@
             {% endfor %}
           </div>
           <!-- TERMINAN ERRORES -->
-          <form action="buscar-vuelo" method="POST">
+          <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
             {{ formulariobuscarvuelo.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-bacb" class="u-form-control-hidden u-label"></label>
