@@ -1,3 +1,4 @@
+from typing import Text
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
@@ -90,8 +91,6 @@ def gestionvuelos():
    form.validate_on_submit()
    return render_template("gestion-vuelos.html", form=form)
 
-
-
 @app.route("/crear-usuario", methods = ["GET", "POST"])
 def crearusuario():
    form = formularios.CrearEditarUsuario()
@@ -136,9 +135,20 @@ def piloto():
 def pasajeros():
    return render_template("pasajeros.html")
 
+class publicarReview(FlaskForm):
+   review= StringField(label="review",
+   validators=[DataRequired(),Length(min=4, max=8, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
+   
+  
+
+   btnEnviar = SubmitField(label="Enviar")
+
 @app.route("/publicar-review", methods = ["GET", "POST"])
 def publicarreview():
-   return render_template("publicar-review.html")
+   enviarReview = publicarReview()
+   enviarReview.validate_on_submit()
+   return render_template("publicar-review.html",enviarReview=enviarReview)
+
 
 
 
