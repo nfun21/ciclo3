@@ -1,0 +1,60 @@
+CREATE TABLE `Roles` (
+  `idRol` int,
+  `nombreRol` int,
+  PRIMARY KEY (`idRol`)
+);
+
+CREATE TABLE `Usuario` (
+  `idUser` int,
+  `idRol` int,
+  `nombres` varchar(50),
+  `apellidos` varchar(50),
+  `tipoDocumento` varchar(50),
+  `pais` varchar(70),
+  `genero` varchar(30),
+  `fechaNacimiento` datetime,
+  `telefono` int,
+  `correo` varchar(200),
+  `password` varchar(255),
+  PRIMARY KEY (`idUser`),
+  FOREIGN KEY (`idRol`) REFERENCES `Roles`(`idRol`)
+);
+
+CREATE TABLE `VueloPilotos` (
+  `idVuelo` int,
+  `idUser` int,
+  FOREIGN KEY (`idUser`) REFERENCES `Usuario`(`idUser`)
+);
+
+CREATE TABLE `Vuelo` (
+  `idVuelo` int,
+  `estadoVuelo` varchar(20),
+  `origenVuelo` varchar(50),
+  `destinoVuelo` varchar(50),
+  `capacidad` int,
+  `avion` varchar(40),
+  `fechaVuelo` timestamp,
+  `horaVuelo` timestamp,
+  PRIMARY KEY (`idVuelo`)
+);
+
+CREATE TABLE `Review` (
+  `idReview` int,
+  `idVuelo` int,
+  `comment` varchar(200),
+  `puntuacion` int,
+  `idUser` int,
+  PRIMARY KEY (`idReview`),
+  FOREIGN KEY (`idUser`) REFERENCES `Usuario`(`idUser`),
+  FOREIGN KEY (`idReview`) REFERENCES `Vuelo`(`idVuelo`)
+);
+
+CREATE TABLE `Reservas` (
+  `idReserva` int,
+  `idUser` int,
+  `idVuelo` int,
+  PRIMARY KEY (`idReserva`),
+  FOREIGN KEY (`idUser`) REFERENCES `Usuario`(`idUser`),
+  FOREIGN KEY (`idVuelo`) REFERENCES `Vuelo`(`idVuelo`)
+);
+
