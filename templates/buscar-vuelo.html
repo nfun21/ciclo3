@@ -66,7 +66,7 @@
 <!-- ACÁ INICIA EL FORMULARIO -->
           <!-- Errores de validación -->
           <div>
-            {% for fields, errors in formulariobuscarvuelo.errors.items() %}
+            {% for fields, errors in frmbuscarvuelo.errors.items() %}
             <ul>
               {% for error in errors %}
               <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -78,7 +78,7 @@
           </div>
           <!-- TERMINAN ERRORES -->
           <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
-            {{ formulariobuscarvuelo.csrf_token() }}
+            {{ frmbuscarvuelo.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-bacb" class="u-form-control-hidden u-label"></label>
               <input type="text" placeholder="Introduzca una ciudad de origen" id="name-bacb" name="ciudadorigen" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
@@ -88,13 +88,15 @@
               <input type="text" placeholder="Introduzca una ciudad de destino" id="text-1be6" name="ciudaddestino" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-align-right u-form-group u-form-submit">
-              {{formulariobuscarvuelo.botonEnviar(class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1")}}
+              {{frmbuscarvuelo.botonEnviar(class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1")}}
               
             </div>
             
           </form>
         </div>
+
         <div class="u-table u-table-responsive u-table-1">
+          
           <table class="u-table-entity">
             <colgroup>
               <col width="9.5%">
@@ -118,15 +120,16 @@
             </thead>
             <tbody class="u-table-body">
               <tr style="height: 69px;">
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">abc173</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Bogotá</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Barranquilla</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">6/10/2021</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">13:00</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-13">30</td>
+                {% for usu in Vuelo %}
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ usu["idVuelo"]}}</p></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ usu["origenVuelo"]}}</p></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ usu["destinoVuelo"]}}</p></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ usu["fechaVuelo"]}}</p></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ usu["horaVuelo"]}}</p></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-13"><p>{{ usu["capacidad"]}}</p></td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-14">
-                  <a class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2" href="reservar-vuelo">Reservar</a>
-                </td>
+                  <a class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2" href="reservar-vuelo">Reservar</a></td>
+                {% endfor %}
               </tr>
             </tbody>
           </table>

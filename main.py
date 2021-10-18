@@ -47,9 +47,9 @@ class bvueloform(FlaskForm):
    ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')])
    ciudaddestino = StringField(label='ciudaddestino',
       validators=[
-         DataRequired(message ='Es necesario establecer la ciudad de destino'),
+         DataRequired(message ='Es necesario establecer la ciudad de destino'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')
          ])
-   botonEnviar = SubmitField(label="BUSCAR")
+   botonEnviar = SubmitField(label='BUSCAR')
 
 @app.route("/buscar-vuelo", methods = ["GET", "POST"])
 def buscarvuelo():
@@ -106,7 +106,7 @@ def editarusuario():
 @app.route("/eliminar-usuario", methods = ["GET", "POST"])
 def eliminarusuario():
    return render_template("gestion-usuarios.html")  
-   # Mensaje de confirmación de accion eliminar PENDIENTE 
+   
 
 class CrearVuelo(FlaskForm):
     ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
