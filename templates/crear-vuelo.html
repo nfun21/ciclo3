@@ -71,7 +71,7 @@
           <!-- INICIO DEL FORMULARIO CREAR-VUELO -->
           <!-- ERRORES DE VALIDACION -->
           <div>
-            {% for fields, errors in formularioCrearVuelo.errors.items()  %}
+            {% for fields, errors in form.errors.items()  %}
             <ul>
               {% for error in errors %}
               <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -84,7 +84,7 @@
           </div>
           <!--------------#################-------------------------------------->
           <form method="POST" action="" >
-            {{ formularioCrearVuelo.csrf_token() }}
+            {{ form.csrf_token() }}
             <!-- <input type="hidden" id="siteId" name="siteId" value="65902055"> -->
             <!-- <input type="hidden" id="pageId" name="pageId" value="62109672"> -->
             <div class="u-form-group u-form-name">
@@ -128,7 +128,7 @@
             <div class="u-align-left u-form-group u-form-submit">
               <!-- <a href="#" class="u-btn u-btn-submit u-button-style">GUARDAR</a> -->
               <!-- <input type="submit" value="submit" class="u-form-control-hidden"> -->
-              {{formularioCrearVuelo.botonGuardar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+              {{form.botonGuardar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
 
             </div>
             <div class="u-form-send-message u-form-send-success">Se ha creado el vuelo.</div>

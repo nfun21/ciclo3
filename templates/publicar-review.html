@@ -67,7 +67,7 @@
         </p>
         <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
         <div>
-          {% for fields, errors in enviarReview.errors.items() %}
+          {% for fields, errors in form.errors.items() %}
           <ul>
             {% for error in errors %}
             <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -81,7 +81,7 @@
         <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
         <div class="u-expanded-width u-form u-form-1">
           <form action="" method="POST" >
-            {{ enviarReview.csrf_token() }}
+            {{ form.csrf_token() }}
             <div class="u-form-group u-form-message">
               <label for="message-0173" class="u-form-control-hidden u-label"></label>
               <textarea placeholder="Ingrese sus comentarios" rows="4" cols="50" id="message-0173" name="review" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white"></textarea>
@@ -100,7 +100,7 @@
               </div>
             </div>
             <div class="u-align-left u-form-group u-form-submit">
-              {{ enviarReview.btnEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+              {{ form.btnEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
             </div>
             <div class="u-form-send-message u-form-send-success">Se publicó la reseña.</div>
             <div class="u-form-send-error u-form-send-message">No se pudo publicar la reseña.</div>

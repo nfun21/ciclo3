@@ -65,7 +65,7 @@
   <!---INICIO DEL FORMULARIO DE INGRESO-->
           <!--ERRORES DE VALIDACIÓN-->
           <div>
-            {% for fields, errors in formularioIngreso.errors.items()  %}
+            {% for fields, errors in form.errors.items()  %}
             <ul>
               {% for error in errors %}
               <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -78,7 +78,7 @@
           </div>
           <!--------------#################-------------------------------------->
           <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
-            {{ formularioIngreso.csrf_token() }}
+            {{ form.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="username-a30d" class="u-label">email*</label>
               <input type="text" placeholder="Ingrese su email" id="username-a30d" name="correo" class="u-grey-5 u-input u-input-rectangle u-input-1" required="">
@@ -93,7 +93,7 @@
               <label for="checkbox-a30d" class="u-label">Recordarme</label>
             </div>
             <div class="u-align-center u-form-group u-form-submit">
-              {{formularioIngreso.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+              {{form.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
               
             </div>
             

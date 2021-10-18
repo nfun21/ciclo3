@@ -66,7 +66,7 @@
 <!-- ACÁ INICIA EL FORMULARIO -->
           <!-- Errores de validación -->
           <div>
-            {% for fields, errors in frmbuscarvuelo.errors.items() %}
+            {% for fields, errors in form.errors.items() %}
             <ul>
               {% for error in errors %}
               <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -78,7 +78,7 @@
           </div>
           <!-- TERMINAN ERRORES -->
           <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
-            {{ frmbuscarvuelo.csrf_token() }}
+            {{ form.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-bacb" class="u-form-control-hidden u-label"></label>
               <input type="text" placeholder="Introduzca una ciudad de origen" id="name-bacb" name="ciudadorigen" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
@@ -88,7 +88,7 @@
               <input type="text" placeholder="Introduzca una ciudad de destino" id="text-1be6" name="ciudaddestino" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-align-right u-form-group u-form-submit">
-              {{frmbuscarvuelo.botonEnviar(class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1")}}
+              {{form.botonEnviar(class="u-btn u-btn-round u-btn-submit u-button-style u-radius-5 u-btn-1")}}
               
             </div>
             

@@ -67,7 +67,7 @@
 <!-- ACÁ INICIA EL FORMULARIO -->
           <!-- Errores de validación -->
           <div>
-            {% for fields, errors in formularioconsultarvuelo.errors.items() %}
+            {% for fields, errors in form.errors.items() %}
             <ul>
               {% for error in errors %}
               <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -78,13 +78,13 @@
             {% endfor %}
           </div>
           <form action="" method="POST">
-            {{ formularioconsultarvuelo.csrf_token() }}
+            {{ form.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-a093" class="u-form-control-hidden u-label"></label>
               <input type="text" placeholder="Introduzca el código" id="name-a093" name="consvuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-align-center u-form-group u-form-submit">
-              {{formularioconsultarvuelo.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+              {{form.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
 
              
              
@@ -92,6 +92,7 @@
             
           </form>
         </div>
+        {%if consVuelo%}
         <div class="u-table u-table-responsive u-table-1">
           <table class="u-table-entity">
             <colgroup>
@@ -101,17 +102,17 @@
             <thead class="u-grey-50 u-table-header u-table-header-1">
               <tr style="height: 40px;">
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Información del vuelo</th>
-                <th class="u-border-1 u-border-grey-50 u-table-cell">abc173</th>
+                <th class="u-border-1 u-border-grey-50 u-table-cell"> {{consVuelo.idVuelo}} </th>
               </tr>
             </thead>
             <tbody class="u-table-body">
               <tr style="height: 75px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Estado del vuelo:</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Abordando</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.estadoVuelo}} </td>
               </tr>
               <tr style="height: 76px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Origen- Destino:</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Bogotá - Barranquilla</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.origenVuelo}} - {{consVuelo.destinoVuelo}}</td>
               </tr>
               <tr style="height: 76px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Piloto:</td>
@@ -119,15 +120,16 @@
               </tr>
               <tr style="height: 76px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Capacidad:</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">100/ 150 pasajeros</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consVuelo.capacidad}} </td>
               </tr>
               <tr style="height: 76px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Avión</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">828912da</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.avion}} </td>
               </tr>
             </tbody>
           </table>
         </div>
+      {% endif %}
       </div>
     </section>
     

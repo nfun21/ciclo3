@@ -81,7 +81,7 @@
             <div class="u-form u-form-1">
               <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
               <div>
-                {% for fields, errors in datosRecuperacion.errors.items() %}
+                {% for fields, errors in form.errors.items() %}
                 <ul>
                   {% for error in errors %}
                   <li class="u-form-send-error u-form-send-message" style="list-style: none;">
@@ -93,13 +93,13 @@
               </div>
 
               <form action="" method="POST">
-                {{ datosRecuperacion.csrf_token() }}
+                {{ form.csrf_token() }}
                 <div class="u-form-group">
                   <label for="name-0b98" class="u-form-control-hidden u-label u-label-1"></label>
                   <input type="text" placeholder="Dato de identificación" id="name-0b98" name="datoRecuperar" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="required">
                 </div>
                 <div class="u-align-center u-form-group u-form-submit">
-                  {{datosRecuperacion.botonRecuperar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+                  {{form.botonRecuperar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
                   <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
                 </div>
               </form>
