@@ -36,7 +36,6 @@ def consultarvuelo():
    consVuelo = ""
    if request.method == "POST":
       idVuelo =request.form.get('consvuelo')
-      print(idVuelo)
       vuelo = Vuelo()
       consVuelo = vuelo.consultarVuelo(idVuelo)
       #debes consultar con el id del Vuelo en la tabla de VueloPilotos
