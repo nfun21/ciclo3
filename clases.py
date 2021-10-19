@@ -45,7 +45,7 @@ class Usuario():
 
 class piloto():
     def pilotodata(self):
-        sentencia = "SELECT nombres, apellidos, genero, fecha, numdocumento, paisdenacimiento, cargo, numtelefono, email FROM Usuario WHERE idRol =?"
+        sentencia = "SELECT nombres, apellidos, genero, fecha, numdocumento, paisdenacimiento, cargo, numtelefono, email FROM Usuario WHERE idUser =?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
