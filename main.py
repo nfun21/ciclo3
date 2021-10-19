@@ -104,9 +104,14 @@ def superadmin():
 
 @app.route("/gestion-usuarios", methods = ["GET", "POST"])
 def gestionusuarios():
-   form = frmBuscarUsuario()
-   form.validate_on_submit()
-   return render_template("gestion-usuarios.html", form=form)
+      #verifica que el usuario esté logueado y tenga rol de superadmin
+   if 'idUser' in session and session["rol"] == 3:
+      form = frmBuscarUsuario()
+      form.validate_on_submit()
+      return render_template("gestion-usuarios.html", form=form)
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/reviews", methods = ["GET", "POST"])
 def reviews():
@@ -114,37 +119,64 @@ def reviews():
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
-   form = frmConsVuelo()
-   form.validate_on_submit()
-   return render_template("gestion-vuelos.html", form=form)
+   #verifica que el usuario esté logueado y tenga rol de superadmin
+   if 'idUser' in session and session["rol"] == 3:
+      form = frmConsVuelo()
+      form.validate_on_submit()
+      return render_template("gestion-vuelos.html", form=form)
+          
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
 def crearusuario():
-   form = frmCrearEditarUsuario()
-   form.validate_on_submit()
-   return render_template("crear-usuario.html", form=form)
+   if 'idUser' in session and session["rol"] == 3:         
+      form = frmCrearEditarUsuario()
+      form.validate_on_submit()
+      return render_template("crear-usuario.html", form=form)
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/editar-usuario", methods = ["GET", "POST"])
 def editarusuario():
-   form = frmCrearEditarUsuario()
-   form.validate_on_submit()
-   return render_template("editar-usuario.html", form=form)
+   if 'idUser' in session and session["rol"] == 3:
+      form = frmCrearEditarUsuario()
+      form.validate_on_submit()
+      return render_template("editar-usuario.html", form=form)        
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
    
 @app.route("/eliminar-usuario", methods = ["GET", "POST"])
 def eliminarusuario():
-   return render_template("gestion-usuarios.html")  
+   if 'idUser' in session and session["rol"] == 3:
+      return render_template("gestion-usuarios.html")  
+              
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
    
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
 def crearvuelo():
-   form = frmCrearVuelo()
-   form.validate_on_submit()
-   return render_template("crear-vuelo.html", form = form)
+   if 'idUser' in session and session["rol"] == 3:
+      form = frmCrearVuelo()
+      form.validate_on_submit()
+      return render_template("crear-vuelo.html", form = form)        
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/editar-vuelo", methods = ["GET", "POST"])
 def editarvuelo():
-   form = frmEditarVuelo()
-   form.validate_on_submit()
-   return render_template("editar-vuelo.html", form = form)
+   if 'idUser' in session and session["rol"] == 3:
+      form = frmEditarVuelo()
+      form.validate_on_submit()
+      return render_template("editar-vuelo.html", form = form)       
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
    
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
@@ -152,7 +184,13 @@ def piloto():
 
 @app.route("/pasajeros", methods = ["GET", "POST"])
 def pasajeros():
-   return render_template("pasajeros.html")
+          #verifica que el usuario esté logueado y tenga rol de superadmin
+   if 'idUser' in session and session["rol"] == 1:
+      return render_template("pasajeros.html")
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
+
 
 @app.route("/publicar-review", methods = ["GET", "POST"])
 def publicarreview():
