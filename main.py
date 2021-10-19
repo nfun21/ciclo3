@@ -148,7 +148,11 @@ def editarvuelo():
    
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
-   return render_template("piloto.html")
+   if 'idUser' in session and session["rol"] == 3:
+      return render_template("piloto.html")
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/pasajeros", methods = ["GET", "POST"])
 def pasajeros():
