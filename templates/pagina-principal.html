@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html style="font-size: 16px;">
   <head>
@@ -86,7 +87,18 @@
       </div>
     </section>
     
-    
+    {% block mensajes %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="mensajes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endwith %}
+{% endblock %}
     
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-7e24"><div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1"> Todos los Derechos Reservados&nbsp;

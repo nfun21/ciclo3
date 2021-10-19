@@ -76,11 +76,11 @@ class frmIngreso(FlaskForm):
    correo = StringField(label="correo",
       validators=[DataRequired(),
       Email(message='El correo no es válido'),
-      Length(min=8, max=120, message='El correo debe tener mínimo 8 caracteres y máximo 120')]
+      Length(min=2, max=120, message='El correo debe tener mínimo 8 caracteres y máximo 120')]
       )
    password = PasswordField(label='contraseña', 
       validators=[DataRequired(),
-      Length(min=8, max=15, message='La contraseña debe tener mínimo 8 caracteres y máximo 15')]
+      Length(min=2, max=15, message='La contraseña debe tener mínimo 8 caracteres y máximo 15')]
       )
    botonEnviar = SubmitField(label="INGRESAR")
 
