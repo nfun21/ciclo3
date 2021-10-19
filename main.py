@@ -1,5 +1,5 @@
 from typing import Text
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
@@ -8,6 +8,8 @@ from wtforms.validators import ValidationError, DataRequired, \
     Email, EqualTo, Length
 from formularios import*
 import os
+import hashlib
+from werkzeug.utils import escape, redirect
 from clases import *
 
 
@@ -20,9 +22,46 @@ def paginaprincipal():
 
 @app.route("/ingresar", methods = ["GET", "POST"])
 def ingresar():
-   form = frmIngreso()
-   form.validate_on_submit()
-   return render_template("ingresar.html", form = form)
+   #para verificar que el usuario esta logueado
+   if 'idUser' in session:#verifica que la llave idUser existe en la sesión. Si existe, quiere decir que el usuario está logueado y no podrá ver /ingresar.
+      return redirect(url_for('paginaprincipal'))
+   else:
+      form = frmIngreso()
+      if form.validate_on_submit():
+         correo = escape(form.correo.data)
+         password = escape(form.password.data)
+         enc = hashlib.sha256(password.encode())
+         pass_enc = enc.hexdigest()
+         usuario = Usuario()
+         login = usuario.login(correo, pass_enc)
+         if login:
+            #se crea la sesión
+            session['idUser'] = login['idUser']
+            session['nombres'] = login['nombres']
+            session['apellidos'] = login['apellidos']
+            session['rol'] = login['idRol']
+            
+            #se envía al usuario a su página principal específica
+            if session['rol'] == 1:
+               return redirect(url_for('pasajeros'))
+            elif session['rol'] == 2:
+               return redirect(url_for('piloto'))
+            elif session['rol'] == 3:
+               return redirect(url_for('superadmin'))
+            else:
+               session.clear()
+               return redirect(url_for('paginaprincipal'))
+         else:
+            flash("Datos incorrectos")
+            return redirect(url_for('ingresar'))
+
+         
+      return render_template("ingresar.html", form = form)
+@app.route('/salir')
+def salir():
+   session.clear()
+   flash('Se cerró la sesión.')
+   return redirect(url_for('paginaprincipal'))
 
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
@@ -38,9 +77,7 @@ def consultarvuelo():
       idVuelo =request.form.get('consvuelo')
       vuelo = Vuelo()
       consVuelo = vuelo.consultarVuelo(idVuelo)
-      #debes consultar con el id del Vuelo en la tabla de VueloPilotos
-      #debes consultar cons los ids de los pilotos, los nombres en a tabla de Usuario
-      #luego, debes unir esos nombres en la variable de consVuelo
+      
    form.validate_on_submit()
    return render_template("consultar-vuelo.html", form = form, consVuelo = consVuelo)
 
@@ -58,7 +95,12 @@ def recuperarcuenta():
 
 @app.route("/superadmin", methods = ["GET", "POST"])
 def superadmin():
-   return render_template("superadmin.html")
+   #verifica que el usuario esté logueado y tenga rol de superadmin
+   if 'idUser' in session and session["rol"] == 3:
+      return render_template("superadmin.html")
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/gestion-usuarios", methods = ["GET", "POST"])
 def gestionusuarios():

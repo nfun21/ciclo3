@@ -1,3 +1,4 @@
+from flask import session
 import sqlite3
 from sqlite3 import Error
 
@@ -14,7 +15,7 @@ class Database():
 class Vuelo():
     def consultarVuelo(self, idVuelo):
         
-        sentencia = "SELECT * FROM Vuelo WHERE idVuelo= ?"
+        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo, t.nombres as piloto FROM Usuario t JOIN VueloPilotos itb ON t.idUser = itb.idUser JOIN Vuelo i ON itb.idVuelo = i.idVuelo WHERE i.idVuelo = ?"
         db = Database()
         con = db.sql_connection()
 
@@ -25,3 +26,19 @@ class Vuelo():
         con.close()
 
         return vuelo
+
+class Usuario():
+    # def consultarUsuario(self, correo):
+
+    def login(self, correo, password):
+        sentencia = "SELECT nombres, apellidos, idUser, idRol FROM Usuario WHERE correo = ? AND  password = ?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[correo, password])
+        con.commit()
+        usuario = cursorObj.fetchone()
+        con.close()
+
+        return usuario
+    
