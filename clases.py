@@ -42,3 +42,16 @@ class Usuario():
 
         return usuario
     
+
+class piloto():
+    def pilotodata(self):
+        sentencia = "SELECT nombres, apellidos, genero, fecha, numdocumento, paisdenacimiento, cargo, numtelefono, email FROM Usuario WHERE idRol =?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[])
+        con.commit()
+        usuario = cursorObj.fetchone()
+        con.close()
+
+        return piloto
