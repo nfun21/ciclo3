@@ -1,13 +1,18 @@
 from flask import session
 import sqlite3
 from sqlite3 import Error
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
 
 class Database():
     def sql_connection(self):
         try:
             con=sqlite3.connect('database/database.db')
             # para que genere un diccionario cuando trae los resultados
-            con.row_factory = sqlite3.Row
+            con.row_factory = dict_factory
             return con
         except Error:
             print(Error)
@@ -59,15 +64,29 @@ class Usuario():
         return deleteUsuario
     
 
-class piloto():
-    def pilotodata(self):
-        sentencia = "SELECT nombres, apellidos, genero, fecha, numdocumento, paisdenacimiento, cargo, numtelefono, email FROM Usuario WHERE idRol =?"
+class Piloto():
+    def consultarVuelo(self, idUser):
+        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo FROM Vuelo i JOIN VueloPilotos itb ON i.idVuelo = itb.idVuelo JOIN Usuario t ON itb.idUser = t.idUser WHERE t.idUser = ?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[])
+        cursorObj.execute(sentencia,[idUser])
         con.commit()
-        usuario = cursorObj.fetchone()
+        pilotovuelo = cursorObj.fetchall()
         con.close()
 
-        return piloto
+        return pilotovuelo
+
+    def consultarPerfil(self, idUser):
+        sentencia = "SELECT nombres, apellidos, genero, fechaNacimiento, idUser, pais, idRol, telefono, correo FROM Usuario WHERE idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        pilotodata = cursorObj.fetchone()
+        con.close()
+
+        return pilotodata
+
+    

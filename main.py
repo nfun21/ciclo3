@@ -57,6 +57,7 @@ def ingresar():
 
          
       return render_template("ingresar.html", form = form)
+
 @app.route('/salir')
 def salir():
    session.clear()
@@ -188,8 +189,14 @@ def editarvuelo():
    
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
-   if 'idUser' in session and session["rol"] == 3:
-          return render_template("piloto.html")
+   if 'idUser' in session and session["rol"] == 2:
+      vueloPiloto = ""
+      datosPiloto = ""
+      piloto = Piloto()
+      vueloPiloto = piloto.consultarVuelo(session["idUser"])
+      datosPiloto = piloto.consultarPerfil(session["idUser"])
+         
+      return render_template("piloto.html", vueloPiloto = vueloPiloto, datosPiloto=datosPiloto)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
