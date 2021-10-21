@@ -29,6 +29,17 @@ class Vuelo():
         vuelo = cursorObj.fetchone()
         con.close()
         return vuelo
+    def crearVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha):
+        estado = "EN ESPERA"
+        sentencia = "INSERT INTO Vuelo (capacidad, origenVuelo, destinoVuelo, avion, fecha, estado) VALUES (?,?,?,?,?,?)"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[capacidad, origenVuelo, destinoVuelo, avion, fecha,estado])
+        con.commit()
+        vuelo = cursorObj.fetchone()
+        con.close()
+        return vuelo
 
 class Usuario():
     def login(self, correo, password):
@@ -42,17 +53,19 @@ class Usuario():
         con.close()
         return usuario
 
-    def consultarUsuario(self, idUser):
-        sentencia = "SELECT i.nombres, i.correo, i.idUser, i.idRol, t.nombreRol as nombreRol FROM Roles t JOIN Roles itb ON t.idRol = itb.idRol JOIN Usuario i ON itb.idRol = i.idRol WHERE i.idUser = ? "
+    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc):
+        #Validar que no exista usuario en la tabla con datos ingresados usar select para validar
+        sentencia = "SELECT correo FROM Usuario WHERE idUser = ?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[idUser])
+        cursorObj.execute(sentencia,[numDocumento])
         con.commit()
-        usuarioInfo= cursorObj.fetchone()
+        usuario = cursorObj.fetchone()
         con.close()
-        return usuarioInfo
+        return usuario
 
+<<<<<<< HEAD
     def eliminar(self,idUser):
         sentencia = "DELETE FROM Usuario WHERE idUser = ?"
         db = Database()
@@ -72,6 +85,21 @@ class Usuario():
         editarUser= cursorObj.fetchone()
         con.close()
         return editarUser
+=======
+    
+        if usuario == "":
+            #Preparar sentencia SQL para registro usuario
+            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?)"
+            db = Database()
+            con = db.sql_connection()
+            #Crear cursor para manipular la BD
+            cursorObj = con.cursor()
+            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc])
+            con.commit()
+            con.close()
+        else:
+            return "Usuario ya Existe"          
+>>>>>>> 574eaef623b402240e1ca70690b2c03c6b27e5e8
     
     """ falta pais """
     def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
@@ -109,4 +137,30 @@ class Piloto():
 
         return pilotodata
 
+    def buscarPiloto(self, nombrePiloto):
+        nombrePiloto = '%' + nombrePiloto + '%'
+        sentencia = "SELECT nombres, apellidos, numdocumento, idUser FROM Usuario WHERE idRol = 2 AND nombre LIKE ?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[nombrePiloto])
+        con.commit()
+        piloto = cursorObj.fetchall()
+        con.close()
+        return piloto
+
+class Pasajero():
     
+    def consultarReviews(self, idUser):
+            
+        sentencia = "SELECT * FROM review WHERE idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        review = cursorObj.fetchall()
+        con.close()
+
+        return review

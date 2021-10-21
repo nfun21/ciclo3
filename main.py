@@ -65,10 +65,30 @@ def salir():
    flash('Se cerró la sesión.')
    return redirect(url_for('paginaprincipal'))
 
+#API Rest para registrar al usuario
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
    form = frmRegistro()
-   form.validate_on_submit()
+   if request.method == "POST":
+      #Condicional para asegurar validaciones requeridas
+      if form.validate_on_submit():
+         #capturar los datos del formulario en variables
+         nombres = form.nombres.data
+         apellidos = form.apellidos.data
+         tipoDocumento = form.tipoDocumento.data
+         numDocumento = form.numDocumento.data
+         #pais = pendiente
+         genero = form.genero.data
+         fechaNacimiento = form.fechaNacimiento.data
+         telefono = form.telefono.data
+         correo = form.correo.data
+         password = form.password.data
+         #Cifrar el password
+         enc = hashlib.sha256(password.encode())
+         pass_enc = enc.hexdigest()
+         #instanciar clase para acceso a BD
+         usuario = Usuario()
+         usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc)
    return render_template("registrarse.html", form = form)
 
 @app.route("/consultar-vuelo", methods = ["GET", "POST"])
@@ -124,7 +144,9 @@ def gestionusuarios():
 
 @app.route("/reviews", methods = ["GET", "POST"])
 def reviews():
-   return render_template("reviews.html")
+   pasajero = Pasajero
+   reviews = pasajero.consultarReviews(session['idUser'])
+   return render_template("reviews.html", reviews=reviews)
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
@@ -139,7 +161,7 @@ def gestionvuelos():
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
-def crearusuario():
+def crearsuario():
    if 'idUser' in session and session["rol"] == 3:         
       form = frmCrearEditarUsuario()
       form.validate_on_submit()
@@ -187,7 +209,16 @@ def eliminarusuario(idUser):
 def crearvuelo():
    if 'idUser' in session and session["rol"] == 3:
       form = frmCrearVuelo()
-      form.validate_on_submit()
+      if form.validate_on_submit():
+         vuelo = Vuelo()
+         capacidad = request.form.get('capacidad')
+         origenVuelo = request.form.get('origenVuelo')
+         destinoVuelo = request.form.get('destinoVuelo')
+         avion =request.form.get('avion')
+         fecha = request.form.get('fecha')
+         vuelo.crearVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha)
+         flash('Se creó el vuelo con éxito')
+         return redirect(url_for)
       return render_template("crear-vuelo.html", form = form)        
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
@@ -216,6 +247,12 @@ def piloto():
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
+# -------------------------------------------------------------------------
+@app.route("/buscarpiloto")
+def buscarpiloto():
+   pilot = piloto()
+   resultados = piloto.buscarPiloto()
+
 
 @app.route("/pasajeros", methods = ["GET", "POST"])
 def pasajeros():

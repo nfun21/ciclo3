@@ -71,6 +71,8 @@ class frmCrearVuelo(FlaskForm):
     capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
     hora = StringField(label='hora', validators=[DataRequired(), Length(min = 9 , max = 9,  message='Campo Capacidad Requerido:Escribir formato: HH:MM:SS.')])
     botonGuardar = SubmitField(label="GUARDAR")
+    piloto = StringField(label='Piloto')
+    copiloto = StringField(label='Copiloto')
 
 class frmIngreso(FlaskForm):
    correo = StringField(label="correo",
@@ -98,15 +100,15 @@ class frmRegistro(FlaskForm):
          Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
       ]
    )
-   cedula ='Cédula de ciudadania'
-   tarjetaId ='Tarjeta de identidad'
-   pasaporte = 'Pasaporte'
+   CC ='Cédula de ciudadania'
+   TI ='Tarjeta de identidad'
+   PS = 'Pasaporte'
    
    tipoDocumento=SelectField(label='tipo doc',
       choices=[
-         (cedula),
-         (tarjetaId),
-         (pasaporte)
+         (CC),
+         (TI),
+         (PS)
          ], 
          validate_choice=True,
          validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío')]
