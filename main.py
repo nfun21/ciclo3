@@ -1,5 +1,5 @@
 from typing import Text
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
@@ -8,6 +8,7 @@ from wtforms.validators import ValidationError, DataRequired, \
     Email, EqualTo, Length
 from formularios import*
 import os
+import json
 import hashlib
 from werkzeug.utils import escape, redirect
 from clases import *
@@ -97,7 +98,10 @@ def consultarvuelo():
    if request.method == "POST":
       idVuelo =request.form.get('consvuelo')
       vuelo = Vuelo()
-      consVuelo = vuelo.consultarVuelo(idVuelo)
+      if 'idUser' in session:
+         consVuelo = vuelo.consultarVuelo(idVuelo, session['idUser'])
+      else:
+         consVuelo = vuelo.consultarVuelo(idVuelo)
       
    form.validate_on_submit()
    return render_template("consultar-vuelo.html", form = form, consVuelo = consVuelo)
@@ -189,33 +193,90 @@ def eliminarusuario(id):
    
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
 def crearvuelo():
-   if 'idUser' in session and session["rol"] == 3:
-      form = frmCrearVuelo()
+   #if 'idUser' in session and session["rol"] == 3:
+      
+      form = frmCrearEditarVuelo()
       if form.validate_on_submit():
          vuelo = Vuelo()
          capacidad = request.form.get('capacidad')
          origenVuelo = request.form.get('origenVuelo')
          destinoVuelo = request.form.get('destinoVuelo')
+         estadoVuelo = request.form.get('estadoVuelo')
          avion =request.form.get('avion')
          fecha = request.form.get('fecha')
-         vuelo.crearVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha)
+         idPiloto = request.form.get('idPiloto')
+         idcoPiloto = request.form.get('idcoPiloto')
+         if idPiloto == idcoPiloto:
+            flash('Piloto y co-piloto no pueden ser iguales.')
+            return render_template("crear-vuelo.html", form = form) 
+         vuelo.crearVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo)
          flash('Se creó el vuelo con éxito')
-         return redirect(url_for)
+         return redirect(url_for('paginaprincipal'))
       return render_template("crear-vuelo.html", form = form)        
+   # else:
+   #    flash('Usted no tiene permisos para acceder a esta página.')
+   #    return redirect(url_for('paginaprincipal'))
+
+@app.route("/editar-vuelo/<idVuelo>", methods = ["GET", "POST"])
+def editarvuelo(idVuelo):
+   #if 'idUser' in session and session["rol"] == 3:
+      form = frmCrearEditarVuelo()
+      vuelo = Vuelo()
+      vueloencontrado = vuelo.consultarVuelo(idVuelo)
+      if request.method == "POST":
+         form.validate_on_submit()
+         capacidad = request.form.get('capacidad')
+         origenVuelo = request.form.get('origenVuelo')
+         destinoVuelo = request.form.get('destinoVuelo')
+         estadoVuelo = request.form.get('estadoVuelo')
+         avion =request.form.get('avion')
+         fecha = request.form.get('fecha')
+         idPiloto = request.form.get('idPiloto')
+         idcoPiloto = request.form.get('idcoPiloto')
+         if idPiloto == idcoPiloto:
+            flash('Piloto y co-piloto no pueden ser iguales.')
+            return render_template("crear-vuelo.html", form = form) 
+         vuelo.editarVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo, idVuelo)
+         flash('Se editó el vuelo con éxito')
+         return redirect(url_for('paginaprincipal'))
+      return render_template("editar-vuelo.html", form = form, vuelo = vueloencontrado)       
+  # else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
+
+@app.route("/eliminar-vuelo/<idVuelo>")
+def eliminarVuelo(idVuelo):
+   if 'idUser' in session and session["rol"] == 3:
+      vuelo = Vuelo()
+      vuelo.eliminarVuelo(idVuelo)
+      flash('El vuelo se ha eliminado con éxito.')
+      return redirect(url_for('gestionvuelos'))
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      #return redirect(url_for('paginaprincipal'))
+
+@app.route("/reservar-vuelo/<idVuelo>")
+def reservarVuelo(idVuelo):
+   if 'idUser' in session:
+      vuelo = Vuelo()
+      vuelo.reservarVuelo(idVuelo, session['idUser'])
+      flash('El vuelo se ha reservado con éxito.')
+      return redirect(url_for('paginaprincipal'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
 
-@app.route("/editar-vuelo", methods = ["GET", "POST"])
-def editarvuelo():
-   if 'idUser' in session and session["rol"] == 3:
-      form = frmEditarVuelo()
-      form.validate_on_submit()
-      return render_template("editar-vuelo.html", form = form)       
+@app.route("/cancelar-reserva/<idVuelo>")
+def cancelarReservaVuelo(idVuelo):
+   if 'idUser' in session:
+      vuelo = Vuelo()
+      vuelo.cancelarReservaVuelo(idVuelo, session['idUser'])
+      flash('La reserva se ha cancelado.')
+      return redirect(url_for('paginaprincipal'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
-      return redirect(url_for('paginaprincipal'))
-   
+      return redirect(url_for('consultarvuelo'))
+
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
    if 'idUser' in session and session["rol"] == 2:
@@ -232,8 +293,10 @@ def piloto():
 # -------------------------------------------------------------------------
 @app.route("/buscarpiloto")
 def buscarpiloto():
-   pilot = piloto()
-   resultados = piloto.buscarPiloto()
+   nombrePiloto = request.args.get('nombre')
+   piloto = Piloto()
+   resultados = piloto.buscarPiloto(nombrePiloto)
+   return Response(json.dumps(resultados), mimetype='application/json')
 
 
 @app.route("/pasajeros", methods = ["GET", "POST"])

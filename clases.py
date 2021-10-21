@@ -18,28 +18,79 @@ class Database():
             print(Error)
 
 class Vuelo():
-    def consultarVuelo(self, idVuelo):
-        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo, t.nombres as piloto FROM Usuario t JOIN VueloPilotos itb ON t.idUser = itb.idUser JOIN Vuelo i ON itb.idVuelo = i.idVuelo WHERE i.idVuelo = ?"
+    def consultarVuelo(self, idVuelo, idUser=""):
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[idVuelo])
+        sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = ?) as reservado FROM Vuelo v JOIN Usuario p on v.idPiloto = p.idUser JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE idVuelo = ?"
+        cursorObj.execute(sentencia,[idUser, idVuelo, idVuelo])
         con.commit()
         vuelo = cursorObj.fetchone()
+        
         con.close()
         return vuelo
-    def crearVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha):
-        estado = "EN ESPERA"
-        sentencia = "INSERT INTO Vuelo (capacidad, origenVuelo, destinoVuelo, avion, fecha, estado) VALUES (?,?,?,?,?,?)"
+    def crearVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idCopiloto, estadoVuelo):
+        sentencia = "INSERT INTO Vuelo (capacidad, origenVuelo, destinoVuelo, avion, fechaVuelo,idPiloto, idcoPiloto, estadoVuelo) VALUES (?,?,?,?,?,?,?,?)"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[capacidad, origenVuelo, destinoVuelo, avion, fecha,estado])
+        cursorObj.execute(sentencia,[capacidad, origenVuelo, destinoVuelo, avion, fecha,idPiloto,idCopiloto, estadoVuelo])
         con.commit()
         vuelo = cursorObj.fetchone()
         con.close()
         return vuelo
 
+    def editarVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idCopiloto, estadoVuelo,idVuelo):
+        sentencia = "UPDATE Vuelo SET capacidad = ?, origenVuelo=?, destinoVuelo=?, avion=?, fechaVuelo=?,idPiloto=?, idcoPiloto=?, estadoVuelo=? WHERE idVuelo=?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[capacidad, origenVuelo, destinoVuelo, avion, fecha,idPiloto,idCopiloto, estadoVuelo,idVuelo])
+        con.commit()
+#        vuelo = cursorObj.fetchone()
+        con.close()
+
+    def eliminarVuelo(self,idVuelo):
+        sentencia = "DELETE FROM Vuelo WHERE idVuelo=?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idVuelo])
+        con.commit()
+        con.close()
+
+    def reservarVuelo(self, idVuelo, idUser):
+        sentencia = "SELECT * FROM Reservas WHERE idVuelo = ? AND idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idVuelo, idUser])
+        con.commit()
+        reserva = cursorObj.fetchone()
+        con.close()
+        if reserva:
+            return False
+        sentencia = "INSERT INTO Reservas (idVuelo, idUser) VALUES(?,?)"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idVuelo, idUser])
+        con.commit()
+        con.close()
+        return True
+
+    def cancelarReservaVuelo(self, idVuelo, idUser):
+        sentencia = "DELETE FROM Reservas WHERE idVuelo = ? AND idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idVuelo, idUser])
+        con.commit()
+        con.close()
+
+    def buscarVuelo():
+        pass
+    
 class Usuario():
     def login(self, correo, password):
         sentencia = "SELECT nombres, apellidos, idUser, idRol FROM Usuario WHERE correo = ? AND  password = ?"
@@ -106,7 +157,7 @@ class Piloto():
 
     def buscarPiloto(self, nombrePiloto):
         nombrePiloto = '%' + nombrePiloto + '%'
-        sentencia = "SELECT nombres, apellidos, numdocumento, idUser FROM Usuario WHERE idRol = 2 AND nombre LIKE ?"
+        sentencia = "SELECT nombres, apellidos, idUser FROM Usuario WHERE idRol = 2 AND nombres LIKE ?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()

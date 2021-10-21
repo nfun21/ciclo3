@@ -6,14 +6,16 @@
     <meta name="keywords" content="Gestión de vuelos">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>editar-vuelo</title>
+    <title>Editar vuelo</title>
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
-<link rel="stylesheet" href="../static/editar-vuelo.css" media="screen">
-    <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
+<link rel="stylesheet" href="../static/crear-vuelo.css" media="screen">
+    
     <script class="u-script" type="text/javascript" src="../static/nicepage.js" defer=""></script>
     <meta name="generator" content="Sistema de gestión de vuelos G2">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
-    
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
     
     <script type="application/ld+json">{
@@ -22,10 +24,13 @@
 		"name": "Sistema ge gestión de vuelos G2"
 }</script>
     <meta name="theme-color" content="#ff4804">
-    <meta property="og:title" content="editar-vuelo">
+    <meta property="og:title" content="crear-vuelo">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
   </head>
+  <script>
+    var requestUrl = '{{url_for("buscarpiloto")}}?nombre=';
+  </script>
   <body class="u-body"><header class="u-clearfix u-header u-header" id="sec-d507"><div class="u-clearfix u-sheet u-sheet-1">
         <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
           <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
@@ -36,6 +41,16 @@
 </defs></svg>
             </a>
           </div>
+          {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="mensajes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endwith %}
           <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../" style="padding: 10px 20px;">Página principal</a>
 </li></ul>
@@ -61,14 +76,9 @@
     <section class="u-align-center u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de Vuelos - Editar Vuelo</h1>
-        <h1 class="u-text u-text-2">
-          <span style="font-size: 2.25rem;"></span>
-          <span style="font-size: 2.25rem;">
-            <span class="u-text-body-color">Por favor ingrese la informacion correspondiente para editar el vuelo.</span>
-          </span>
-        </h1>
+        
         <div class="u-form u-form-1">
-          <!-- INICIO DEL FORMULARIO EDITAR-VUELO -->
+          <!-- INICIO DEL FORMULARIO CREAR-VUELO -->
           <!-- ERRORES DE VALIDACION -->
           <div>
             {% for fields, errors in form.errors.items()  %}
@@ -83,65 +93,71 @@
             {% endfor %}
           </div>
           <!--------------#################-------------------------------------->
-          <form action="" method="POST" >
+          <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             {{ form.csrf_token() }}
+            <!-- <input type="hidden" id="siteId" name="siteId" value="65902055"> -->
+            <!-- <input type="hidden" id="pageId" name="pageId" value="62109672"> -->
             <div class="u-form-group u-form-name">
-              <label for="name-d422" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Ciudad de origen" id="name-d422" name="ciudadOrigen" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <label for="name-d422" class="Editar u-label">Origen</label>
+              <input type="text" value="{{vuelo.origenVuelo}}" placeholder="Ciudad de origen" id="name-d422" name="origenVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-email u-form-group">
-              <label for="email-d422" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Ciudad de destino" id="email-d422" name="ciudadDestino" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <label for="email-d422" class="Editar u-label">Destino</label>
+              <input type="text" value="{{vuelo.destinoVuelo}} "placeholder="Ciudad de destino" id="email-d422" name="destinoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
-            <div class="u-form-group u-form-group-3">
-              <label for="text-4411" class="u-form-control-hidden u-label"></label>
+            <!-- <div class="u-form-group u-form-group-3">
+              <label for="text-4411" class="Editar u-label"></label>
               <input type="text" placeholder="Código" id="text-4411" name="codigo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-            </div>
+            </div> -->
             <div class="u-form-group u-form-select u-form-group-4">
               <label for="select-a716" class="u-label">Piloto:</label>
               <div class="u-form-select-wrapper">
-                <select id="select-a716" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  <option value="Piloto1">Piloto1</option>
-                  <option value="Piloto2">Piloto2</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                <input type="text" id="piloto" name="piloto" value="{{vuelo.piloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <input type="hidden" id="idPiloto" name="idPiloto" value="{{vuelo.idPiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                
               </div>
+            </div>
+              <div class="u-form-group u-form-select u-form-group-4">
+                <label for="select-a716" class="u-label">Co-Piloto:</label>
+                <div class="u-form-select-wrapper">
+                  <input type="text" id="copiloto" name="copiloto" value="{{vuelo.copiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                  <input type="hidden" id="idcoPiloto" name="idcoPiloto" value="{{vuelo.idcoPiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                </div>
             </div>
             <div class="u-form-group u-form-group-5">
-              <label for="text-4d2f" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Avión" id="text-4d2f" name="avion" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <label for="text-4d2f" class="Editar u-label">Avión</label>
+              <input type="text" value="{{vuelo.avion}}" placeholder="Avión" id="text-4d2f" name="avion" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-group u-form-group-6">
-              <label for="text-2904" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Capacidad" id="text-2904" name="capacidad" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-            </div>
-            <div class="u-form-date u-form-group u-form-group-7">
-              <label for="date-16c8" class="u-label">Fecha:</label>
-              <input type="date" placeholder="MM/DD/YYYY" id="date-16c8" name="date" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
-            </div>
-            <div class="u-form-group u-form-group-8">
-              <label for="text-504c" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Hora" id="text-504c" name="hora" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <label for="text-2904" class="Editar u-label">Capacidad</label>
+              <input type="text" value="{{vuelo.capacidad}}" placeholder="Capacidad" id="text-2904" name="capacidad" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-group u-form-select u-form-group-9">
-              <label for="select-0fee" class="u-form-control-hidden u-label"></label>
+              <label for="select-0fee" class="Editar u-label">Estado</label>
               <div class="u-form-select-wrapper">
-                <select id="select-0fee" name="estadoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  <option value="Inicializado">Inicializado</option>
-                  <option value="Abordando">Abordando</option>
-                  <option value="En vuelo">En vuelo</option>
-                  <option value="Aterrizado">Aterrizado</option>
+                <select id="select-0fee" value="{{vuelo.estadoVuelo}}" name="estadoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                  <option value="Inactivo" {% if vuelo.estadoVuelo == "Inactivo"%}selected="selected"{% endif %}>Inactivo</option>
+                  <option value="Inicializado" {% if vuelo.estadoVuelo == "Inicializado"%}selected="selected"{% endif %}>Inicializado</option>
+                  <option value="Abordando" {% if vuelo.estadoVuelo == "Abordando"%}selected="selected"{% endif %}>Abordando</option>
+                  <option value="En vuelo" {% if vuelo.estadoVuelo == "En vuelo"%}selected="selected"{% endif %}>En vuelo</option>
+                  <option value="Aterrizado" {% if vuelo.estadoVuelo == "Aterrizado"%}selected="selected"{% endif %}>Aterrizado</option>
+                  <option value="Finalizado" {% if vuelo.estadoVuelo == "Finalizado"%}selected="selected"{% endif %}>Finalizado</option>
                 </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
+              </div>
+            <div class="u-form-date u-form-group u-form-group-7">
+              <label for="date-16c8" class="u-label">Fecha:</label>
+              <input value="{{vuelo.fechaVuelo}}" type="datetime-local" placeholder="MM/DD/YYYY" id="date-16c8" name="fecha" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
+            
             <div class="u-align-left u-form-group u-form-submit">
               <!-- <a href="#" class="u-btn u-btn-submit u-button-style">GUARDAR</a> -->
-              <!-- <input type="submit" value="submit" class="u-form-control-hidden"> -->
+              <!-- <input type="submit" value="submit" class="Editar"> -->
               {{form.botonGuardar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+
             </div>
             <div class="u-form-send-message u-form-send-success">Se ha creado el vuelo.</div>
-            <div class="u-form-send-error u-form-send-message">No se pueo editar el vuelo.</div>
+            <div class="u-form-send-error u-form-send-message">No se pudo crear el vuelo.</div>
             <input type="hidden" value="" name="recaptchaResponse">
           </form>
         </div>
@@ -154,6 +170,6 @@
         <p class="u-small-text u-text u-text-variant u-text-1"> Todos los Derechos Reservados&nbsp;
 By: Grupo 47-2-Mintic2022</p>
       </div></footer>
-    
+      <script src="{{ url_for('static', filename='core.js') }}"></script>
   </body>
 </html>
