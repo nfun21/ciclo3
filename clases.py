@@ -65,7 +65,6 @@ class Usuario():
         con.close()
         return usuario
 
-<<<<<<< HEAD
     def eliminar(self,idUser):
         sentencia = "DELETE FROM Usuario WHERE idUser = ?"
         db = Database()
@@ -85,22 +84,7 @@ class Usuario():
         editarUser= cursorObj.fetchone()
         con.close()
         return editarUser
-=======
-    
-        if usuario == "":
-            #Preparar sentencia SQL para registro usuario
-            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?)"
-            db = Database()
-            con = db.sql_connection()
-            #Crear cursor para manipular la BD
-            cursorObj = con.cursor()
-            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc])
-            con.commit()
-            con.close()
-        else:
-            return "Usuario ya Existe"          
->>>>>>> 574eaef623b402240e1ca70690b2c03c6b27e5e8
-    
+        
     """ falta pais """
     def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
         sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
