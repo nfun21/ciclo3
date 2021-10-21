@@ -1,3 +1,4 @@
+from sqlite3.dbapi2 import Cursor
 from flask import session
 import sqlite3
 from sqlite3 import Error
@@ -59,10 +60,29 @@ class Usuario():
         cursorObj = con.cursor()
         cursorObj.execute(sentencia,[idUser])
         con.commit()
-        deleteUsuario = cursorObj.fetchone()
         con.close()
-        return deleteUsuario
+
+    def editarUsuario(self,idUser):
+        sentencia= "SELECT nombres,apellidos,tipoDocumento,idUser,fechaNacimiento,telefono,correo,genero,pais,idRol From Usuario Where idUser = ? "
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        editarUser= cursorObj.fetchone()
+        con.close()
+        return editarUser
     
+    """ falta pais """
+    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
+        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
+        db = Database()
+        con = db.sql_connection()
+        cursosObj = con.cursor()
+        cursosObj.execute(sentencia,[nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser])
+        con.commit
+        con.close()
+
 
 class Piloto():
     def consultarVuelo(self, idUser):

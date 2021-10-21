@@ -177,55 +177,31 @@ class frmCrearEditarUsuario(FlaskForm):
          Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
       ]
    )
-   cedula ='Cédula de ciudadania'
-   tarjetaId ='Tarjeta de identidad'
-   pasaporte = 'Pasaporte'
-   
-   tipoDocumento=SelectField(label='tipo doc',
-      choices=[
-         (cedula),
-         (tarjetaId),
-         (pasaporte)
-         ], 
-         validate_choice=True,
-         validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío')]
-         )
-         
-  
-   numDocumento = StringField(label='número doc',
-      validators=[
-         DataRequired(message='El campo de número de documento no puede quedar vacío'),
-         Length(min=8, max=70, message="La identificación introducida es muy larga o muy corta")
-      ]
-   )
-   
-   
 
-   genero= SelectField(label="género",
-      choices=[
-         ('Masculino'),
-         ('Femenino'),
-         ('Prefiero no decirlo')
-         ],
-      validate_choice=True,
+
+   tipoDocumento=StringField(label='tipo doc',
+         validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío'),
+         Length(min=2,max=2, message='El tipo de documento debe tener %{max}d de carácteres')
+         ]
+      )
+         
+   
+   genero= StringField(label="género",
       validators=[
-         DataRequired(message='El campo de genero no puede quedar vacío')
+         DataRequired(message='El campo de genero no puede quedar vacío'),
+         Length(min=8,max=19,message='El género debe tener minimo %{min}d y maximo %{max}d de carácteres')
       ]
+
    )
-   rol= SelectField(label="rol",
-      choices=[
-         ('Pasajero'),
-         ('Piloto'),
-         ('Superadministrador')
-         ],
-      validate_choice=True,
+
+   rol= StringField(label="rol",
       validators=[
-         DataRequired(message='El campo de rol no puede quedar vacío')
+         DataRequired(message='El campo de rol no puede quedar vacío'),
+         Length(min=1,max=1,message='El rol debe estar asignado a un solo número')
       ]
    )
 
    fechaNacimiento = DateField(label="Fecha nacimiento",
-      
       validators=[DataRequired(message='El campo de fecha de nacimiento no puede quedar vacío')]
       )
 
@@ -242,6 +218,9 @@ class frmCrearEditarUsuario(FlaskForm):
       )
    
    botonEnviar = SubmitField(label="GUARDAR")
+
+
+
 
 class frmConsVuelo(FlaskForm):
    consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=6, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
