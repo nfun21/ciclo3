@@ -128,8 +128,13 @@ def gestionusuarios():
       #verifica que el usuario esté logueado y tenga rol de superadmin
    if 'idUser' in session and session["rol"] == 3:
       form = frmBuscarUsuario()
+      consUsuario = ""
+      if request.method == "POST":
+         idUser = request.form.get('consUsuario')
+         infoUser = Usuario()
+         consUsuario = infoUser.consultarUsuario(idUser)
       form.validate_on_submit()
-      return render_template("gestion-usuarios.html", form=form)
+      return render_template("gestion-usuarios.html", form=form, consUsuario = consUsuario)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
@@ -170,10 +175,13 @@ def editarusuario():
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
    
-@app.route("/eliminar-usuario", methods = ["GET", "POST"])
-def eliminarusuario():
+@app.route("/eliminar-usuario/<idUser>", methods = ["GET", "POST"])
+def eliminarusuario(id):
    if 'idUser' in session and session["rol"] == 3:
-      return render_template("gestion-usuarios.html")  
+      #Instaciar calse usuario
+      #Ejecutar metodo eliminar()
+      #Retornar a pag gestion usuario
+      return redirect(url_for('gestion-usuarios.html')) 
               
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
@@ -202,7 +210,13 @@ def editarvuelo():
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
    if 'idUser' in session and session["rol"] == 2:
-      return render_template("piloto.html")
+      vueloPiloto = ""
+      datosPiloto = ""
+      piloto = Piloto()
+      vueloPiloto = piloto.consultarVuelo(session["idUser"])
+      datosPiloto = piloto.consultarPerfil(session["idUser"])
+         
+      return render_template("piloto.html", vueloPiloto = vueloPiloto, datosPiloto=datosPiloto)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))

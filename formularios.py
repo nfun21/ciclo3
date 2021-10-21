@@ -160,7 +160,7 @@ class frmRegistro(FlaskForm):
    botonEnviar = SubmitField(label="REGISTRARSE")
 
 class frmBuscarUsuario(FlaskForm):
-   nombreUsuario = StringField(label="nombreUsuario", validators=[DataRequired(message ='Es necesario digitar el nombre del usuario'), Length (min=3, max=120, message ='El nombre debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
+   idUsuario = StringField(label="idUsuario", validators=[DataRequired(message =' '), Length (min=3, max=120, message ='El ID debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
    botonEnviar = SubmitField(label='Consultar')
 
 class frmCrearEditarUsuario(FlaskForm):
