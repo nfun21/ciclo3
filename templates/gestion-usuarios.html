@@ -83,7 +83,7 @@
             {{ form.csrf_token() }}
             <div class="u-form-group u-form-name">
               <label for="name-bacb" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Introduzca un usuario" id="name-bacb" name="nombreUsuario" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Introduzca un usuario" id="name-bacb" name="consUsuario" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-align-right u-form-group u-form-submit">
               {{form.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
@@ -91,8 +91,10 @@
             
           </form>
         </div>
+
         <a href="crear-usuario" data-page-id="1660621247" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-4-base u-radius-6 u-btn-2">Crear nuevo usuario<br>
         </a>
+        {%if consUsuario %}
         <div class="u-expanded-width u-table u-table-responsive u-table-1">
           <table class="u-table-entity">
             <colgroup>
@@ -114,17 +116,18 @@
             </thead>
             <tbody class="u-table-body">
               <tr style="height: 75px;">
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Sacarias</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Piloto</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">sacarias@gmail.com</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">111829323</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consUsuario.nombres}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consUsuario.nombreRol}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consUsuario.correo}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consUsuario.idUser}}</td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-10"></td>
               </tr>
             </tbody>
           </table>
         </div>
         <a href="editar-usuario" data-page-id="299614782" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-6 u-btn-3">Editar</a>
-        <a href="eliminar-usuario" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-4">Eliminar</a>
+        <a href="eliminar-usuario/{{idUser}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-4">Eliminar</a>
+        {% endif %}
       </div>
     </section>
     
@@ -134,16 +137,5 @@
         <p class="u-small-text u-text u-text-variant u-text-1"> Todos los Derechos Reservados&nbsp;
 By: Grupo 47-2-Mintic2022</p>
       </div></footer>
-    <section class="u-backlink u-clearfix u-grey-80">
-      <a class="u-link" href="" target="_blank">
-        <span>Website Templates</span>
-      </a>
-      <p class="u-text">
-        <span>created with</span>
-      </p>
-      <a class="u-link" href="" target="_blank">
-        <span>Website Builder Software</span>
-      </a>. 
-    </section>
   </body>
 </html>

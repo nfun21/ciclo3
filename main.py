@@ -64,10 +64,30 @@ def salir():
    flash('Se cerró la sesión.')
    return redirect(url_for('paginaprincipal'))
 
+#API Rest para registrar al usuario
 @app.route("/registrarse", methods = ["GET", "POST"])
 def registrarse():
    form = frmRegistro()
-   form.validate_on_submit()
+   if request.method == "POST":
+      #Condicional para asegurar validaciones requeridas
+      if form.validate_on_submit():
+         #capturar los datos del formulario en variables
+         nombres = form.nombres.data
+         apellidos = form.apellidos.data
+         tipoDocumento = form.tipoDocumento.data
+         numDocumento = form.numDocumento.data
+         #pais = pendiente
+         genero = form.genero.data
+         fechaNacimiento = form.fechaNacimiento.data
+         telefono = form.telefono.data
+         correo = form.correo.data
+         password = form.password.data
+         #Cifrar el password
+         enc = hashlib.sha256(password.encode())
+         pass_enc = enc.hexdigest()
+         #instanciar clase para acceso a BD
+         usuario = Usuario()
+         usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc)
    return render_template("registrarse.html", form = form)
 
 @app.route("/consultar-vuelo", methods = ["GET", "POST"])
@@ -108,8 +128,13 @@ def gestionusuarios():
       #verifica que el usuario esté logueado y tenga rol de superadmin
    if 'idUser' in session and session["rol"] == 3:
       form = frmBuscarUsuario()
+      consUsuario = ""
+      if request.method == "POST":
+         idUser = request.form.get('consUsuario')
+         infoUser = Usuario()
+         consUsuario = infoUser.consultarUsuario(idUser)
       form.validate_on_submit()
-      return render_template("gestion-usuarios.html", form=form)
+      return render_template("gestion-usuarios.html", form=form, consUsuario = consUsuario)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
@@ -131,7 +156,7 @@ def gestionvuelos():
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
-def crearusuario():
+def crearsuario():
    if 'idUser' in session and session["rol"] == 3:         
       form = frmCrearEditarUsuario()
       form.validate_on_submit()
@@ -150,10 +175,13 @@ def editarusuario():
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
    
-@app.route("/eliminar-usuario", methods = ["GET", "POST"])
-def eliminarusuario():
+@app.route("/eliminar-usuario/<idUser>", methods = ["GET", "POST"])
+def eliminarusuario(id):
    if 'idUser' in session and session["rol"] == 3:
-      return render_template("gestion-usuarios.html")  
+      #Instaciar calse usuario
+      #Ejecutar metodo eliminar()
+      #Retornar a pag gestion usuario
+      return redirect(url_for('gestion-usuarios.html')) 
               
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
@@ -191,7 +219,13 @@ def editarvuelo():
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
    if 'idUser' in session and session["rol"] == 2:
-      return render_template("piloto.html")
+      vueloPiloto = ""
+      datosPiloto = ""
+      piloto = Piloto()
+      vueloPiloto = piloto.consultarVuelo(session["idUser"])
+      datosPiloto = piloto.consultarPerfil(session["idUser"])
+         
+      return render_template("piloto.html", vueloPiloto = vueloPiloto, datosPiloto=datosPiloto)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
