@@ -20,6 +20,13 @@ app.secret_key = os.urandom(24)
 
 @app.route("/", methods = ["GET"])
 def paginaprincipal():
+   if 'idUser' in session:
+      if session['rol']==1:
+         return redirect(url_for('pasajero'))
+      elif session['rol']==2:
+         return redirect(url_for('piloto'))
+      elif session['rol']==3:
+         return redirect(url_for('superadmin'))
    return render_template("pagina-principal.html")
 
 @app.route("/ingresar", methods = ["GET", "POST"])
@@ -109,9 +116,24 @@ def consultarvuelo():
 
 @app.route("/buscar-vuelo", methods = ["GET", "POST"])
 def buscarvuelo():
+   vuelos=[]
    form = frmBuscarVuelo()
-   form.validate_on_submit()
-   return render_template("buscar-vuelo.html", form = form)
+   autenticado = False
+   if form.validate_on_submit():
+      vuelo = Vuelo()
+      origenVuelo =request.form.get('ciudadorigen')
+      destinoVuelo =request.form.get('ciudaddestino')
+      if 'idUser' in session:
+         idUser=session['idUser']
+         autenticado = True
+      else:
+         idUser = ""
+      vuelos = vuelo.buscarVuelos(origenVuelo,destinoVuelo, idUser)
+      if vuelos:
+         flash('Mostrando resultados para la búsqueda')
+      else:
+         flash('No se encontraron resultados')
+   return render_template("buscar-vuelo.html", form = form, vuelos=vuelos, autenticado = autenticado)
 
 @app.route("/recuperar-cuenta", methods = ["GET", "POST"])
 def recuperarcuenta():
@@ -123,7 +145,7 @@ def recuperarcuenta():
 def superadmin():
    #verifica que el usuario esté logueado y tenga rol de superadmin
    if 'idUser' in session and session["rol"] == 3:
-      return render_template("superadmin.html")
+      return render_template("superadmin.html", session=session)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
@@ -155,12 +177,17 @@ def reviews():
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
    #verifica que el usuario esté logueado y tenga rol de superadmin
-   if 'idUser' in session and session["rol"] == 3:
+   #if 'idUser' in session and session["rol"] == 3:
       form = frmConsVuelo()
       form.validate_on_submit()
-      return render_template("gestion-vuelos.html", form=form)
+      vuelo = Vuelo()
+      vuelos = vuelo.consultarVuelos()
+      ###PAGINACIÓN####
+      pagina = request.args.get('pagina', 1, type=int)
+      vuelos = vuelo.query.paginate(page=pagina, per_page=5)
+      return render_template("gestion-vuelos.html", form=form, vuelos = vuelos)
           
-   else:
+   #else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
 
@@ -321,7 +348,7 @@ def buscarpiloto():
 def pasajeros():
           #verifica que el usuario esté logueado y tenga rol de superadmin
    if 'idUser' in session and session["rol"] == 1:
-      return render_template("pasajeros.html")
+      return render_template("pasajeros.html", session = session)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))

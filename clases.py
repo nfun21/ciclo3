@@ -29,9 +29,20 @@ class Vuelo():
         cursorObj.execute(sentencia,[idUser, idVuelo, idVuelo])
         con.commit()
         vuelo = cursorObj.fetchone()
-        
         con.close()
         return vuelo
+
+    def consultarVuelos(self):
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser"
+        cursorObj.execute(sentencia)
+        con.commit()
+        vuelos = cursorObj.fetchone()
+        con.close()
+        return vuelos
+
     def crearVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idCopiloto, estadoVuelo):
         sentencia = "INSERT INTO Vuelo (capacidad, origenVuelo, destinoVuelo, avion, fechaVuelo,idPiloto, idcoPiloto, estadoVuelo) VALUES (?,?,?,?,?,?,?,?)"
         db = Database()
@@ -91,8 +102,18 @@ class Vuelo():
         con.commit()
         con.close()
 
-    def buscarVuelo():
-        pass
+    def buscarVuelos(self,origenVuelo, destinoVuelo,idUser="") :
+        origenVuelo = '%'+origenVuelo+'%'
+        destinoVuelo = '%'+destinoVuelo+'%'
+        sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = v.idVuelo) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE v.origenVuelo LIKE ? AND v.destinoVuelo LIKE ? AND puestos > 0"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser, origenVuelo, destinoVuelo])
+        con.commit()
+        resultados = cursorObj.fetchall()
+        con.close()
+        return resultados
     
 class Usuario():
     def login(self, correo, password):

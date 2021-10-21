@@ -61,7 +61,7 @@
     <section class="u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Bienvenid@:</h1>
-        <h2 class="u-align-center u-subtitle u-text u-text-default u-text-2">Superadministrador1</h2>
+        <h2 class="u-align-center u-subtitle u-text u-text-default u-text-2">{{session['nombres'] + ' ' + session['apellidos']}}</h2>
         <h1 class="u-align-center u-text u-text-3">
           <span style="font-size: 2.25rem;"></span>
           <span style="font-size: 2.25rem;">Sistema de Gestión Maestro</span>
@@ -73,7 +73,7 @@
         <a href="gestion-usuarios" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Gestionar USUARIOS</a>
         <a href="reviews" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-2">Ver Reseñas</a>
         <a href="gestion-vuelos" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-3">Gestionar Vuelos</a>
-        <a href="../" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-4">Cerrar Sesión</a>
+        <a href="{{url_for('salir')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-4">Cerrar Sesión</a>
       </div>
     </section>
     
