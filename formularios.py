@@ -71,6 +71,8 @@ class frmCrearVuelo(FlaskForm):
     capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
     hora = StringField(label='hora', validators=[DataRequired(), Length(min = 9 , max = 9,  message='Campo Capacidad Requerido:Escribir formato: HH:MM:SS.')])
     botonGuardar = SubmitField(label="GUARDAR")
+    piloto = StringField(label='Piloto')
+    copiloto = StringField(label='Copiloto')
 
 class frmIngreso(FlaskForm):
    correo = StringField(label="correo",

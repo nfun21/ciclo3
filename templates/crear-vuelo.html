@@ -26,6 +26,9 @@
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
   </head>
+  <script>
+    var requestUrl = '{{url_for("buscarpiloto")}}';
+  </script>
   <body class="u-body"><header class="u-clearfix u-header u-header" id="sec-d507"><div class="u-clearfix u-sheet u-sheet-1">
         <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
           <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
@@ -102,11 +105,10 @@
             <div class="u-form-group u-form-select u-form-group-4">
               <label for="select-a716" class="u-label">Piloto:</label>
               <div class="u-form-select-wrapper">
-                <select id="select-a716" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  <option value="Piloto1">Piloto1</option>
-                  <option value="Piloto2">Piloto2</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                <input type="hidden" id="idPiloto" name="idPiloto" value="">
+                <input type="text" id="piloto" name="piloto" value="">
+                <input type="copiloto" id="idcoPiloto" name="idcoPiloto" value="">
+                <input type="hidden" id="copiloto" name="copiloto" value="">
               </div>
             </div>
             <div class="u-form-group u-form-group-5">
