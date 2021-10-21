@@ -76,7 +76,7 @@ def registrarse():
          apellidos = form.apellidos.data
          tipoDocumento = form.tipoDocumento.data
          numDocumento = form.numDocumento.data
-         #pais = pendiente
+         pais = form.pais.data
          genero = form.genero.data
          fechaNacimiento = form.fechaNacimiento.data
          telefono = form.telefono.data
@@ -87,7 +87,7 @@ def registrarse():
          pass_enc = enc.hexdigest()
          #instanciar clase para acceso a BD
          usuario = Usuario()
-         usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc)
+         usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc)
    return render_template("registrarse.html", form = form)
 
 @app.route("/consultar-vuelo", methods = ["GET", "POST"])

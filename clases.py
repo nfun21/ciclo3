@@ -1,6 +1,8 @@
-from flask import session
+from flask import session, flash, redirect
 import sqlite3
 from sqlite3 import Error
+
+from werkzeug.utils import redirect
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -41,7 +43,7 @@ class Usuario():
         con.close()
         return usuario
 
-    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc):
+    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc):
         #Validar que no exista usuario en la tabla con datos ingresados usar select para validar
         sentencia = "SELECT correo FROM Usuario WHERE idUser = ?"
         db = Database()
@@ -52,17 +54,19 @@ class Usuario():
         usuario = cursorObj.fetchone()
         con.close()
         if usuario == "":
-            #Preparar sentencia SQL para registro usuario
-            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?)"
+        #Preparar sentencia SQL para registro usuario
+            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
             db = Database()
             con = db.sql_connection()
             #Crear cursor para manipular la BD
             cursorObj = con.cursor()
-            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc])
+            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
             con.commit()
             con.close()
         else:
-            return "Usuario ya Existe"          
+            flash("Datos incorrectos")
+            #return redirect(url_for('ingresar'))
+            #return "Usuario ya Existe"          
     
 
 class Piloto():
