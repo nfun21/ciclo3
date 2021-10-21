@@ -8,7 +8,7 @@
     <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>Editar Usuario</title>
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
-<link rel="stylesheet" href="../static/crear-usuario.css" media="screen">
+<link rel="stylesheet" href="../static/editar-usuario.css" media="screen">
     <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../static/nicepage.js" defer=""></script>
     <meta name="generator" content="Sistema de gestión de vuelos G2">
@@ -81,72 +81,47 @@
             {{ form.csrf_token() }}
             <div class="u-form-group u-form-name u-form-partition-factor-2">
               <label for="name-340a" class="u-label">Nombre:</label>
-              <input type="text" placeholder="Introduzca su nombre" id="name-340a" name="nombres" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="" maxlength="30">
+              <input type="text" placeholder="Introduzca su nombre" id="name-340a" name="nombres" value={{datosUser.nombres}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="" maxlength="120">
             </div>
             <div class="u-form-group u-form-name u-form-partition-factor-2 u-form-group-2">
               <label for="name-3cc3" class="u-label">Apellido(s)</label>
-              <input type="text" placeholder="Introduzca su apellido" id="name-3cc3" name="apellidos" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="" maxlength="30">
+              <input type="text" placeholder="Introduzca su apellido" id="name-3cc3" name="apellidos" value={{datosUser.apellidos}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="" maxlength="120">
             </div>
             <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-3">
-              <label for="select-27cc" class="u-label">Tipo de identificación.</label>
+              <label for="typeId-27cc" class="u-label">Tipo de identificación.</label>
               <div class="u-form-select-wrapper">
-                <select id="select-27cc" name="tipoDocumento" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  
-                      <option value="Cédula de ciudadania">Cédula de ciudadania</option>
-                      <option value="Tarjeta de identidad">Tarjeta de identidad</option>
-                      <option value="Pasaporte">Pasaporte</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                <input type="text" placeholder="Introduzca tipo de identificación" id="select-27cc" name="tipoDocumento" value={{datosUser.tipoDocumento}}  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="" maxlength="">
+                
               </div>
-            </div>
-            <div class="u-form-group u-form-name u-form-partition-factor-2 u-form-group-4">
-              <label for="name-cf5a" class="u-label">Número de identificación:</label>
-              <input type="text" placeholder="Introduzca su número de identificación" id="name-cf5a" name="numDocumento" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-date u-form-group u-form-group-5">
               <label for="date-646b" class="u-label">Fecha de nacimiento:</label>
-              <input type="date" placeholder="MM/DD/YYYY" id="date-646b" name="fechaNacimiento" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="date" placeholder="MM/DD/YYYY" id="date-646b" name="fechaNacimiento" value={{datosUser.fechaNacimiento}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-group u-form-phone u-form-group-6">
               <label for="phone-0c6d" class="u-label">Télefono de contacto</label>
-              <input type="tel" placeholder="Ingrese su teléfono (por ejemplo, +57 311 4552675)" id="phone-0c6d" name="telefono" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Ingrese su teléfono (por ejemplo, +57 311 4552675)" id="phone-0c6d" name="telefono" value={{datosUser.telefono}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-email u-form-group u-form-group-7">
               <label for="email-9871" class="u-label">E-mail:</label>
-              <input type="email" placeholder="Introduzca una dirección de correo electrónico válida" id="email-9871" name="correo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Introduzca una dirección de correo electrónico válida" id="email-9871" name="correo" value={{datosUser.correo}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-8">
               <label for="select-cf26" class="u-label">Genero</label>
               <div class="u-form-select-wrapper">
-                <select id="select-cf26" name="genero" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="required">
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                  <option value="Prefiero no decirlo">Otro(a)</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                <input type="text" placeholder="Introduzca genero " id="genero-9871" name="genero" value={{datosUser.genero}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">                  
               </div>
             </div>
             <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-9">
               <label for="select-a59d" class="u-label">País de nacimiento</label>
               <div class="u-form-select-wrapper">
-                <select id="select-a59d" name="pais" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="required">
-                  <option value="Afganistán">Afganistán</option>
-                  <option value="Albania">Albania</option>
-                  <option value="Alemania">Alemania</option>
-                  <option value="Andorra">Andorra</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                <input type="text" id="select-a59d" name="pais" value={{datosUser.pais}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="required">               
               </div>
             </div>
             <div class="u-form-group u-form-select u-form-group-10">
               <label for="select-b30c" class="u-label">Rol</label>
               <div class="u-form-select-wrapper">
-                <select id="select-b30c" name="rol" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  <option value="Pasajero">Pasajero</option>
-                  <option value="Piloto">Piloto</option>
-                  <option value="Superadministrador">Superadministrador</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
+                <input type = "text "id="select-b30c" name="rol" value={{datosUser.idRol}} class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">      
               </div>
             </div>
             <div class="u-align-left u-form-group u-form-submit">

@@ -1,6 +1,9 @@
+from sqlite3.dbapi2 import Cursor
 from flask import session
 import sqlite3
 from sqlite3 import Error
+
+from werkzeug.utils import redirect
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -103,7 +106,7 @@ class Usuario():
         con.close()
         return usuario
 
-    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc):
+    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc):
         #Validar que no exista usuario en la tabla con datos ingresados usar select para validar
         sentencia = "SELECT correo FROM Usuario WHERE idUser = ?"
         db = Database()
@@ -114,21 +117,66 @@ class Usuario():
         usuario = cursorObj.fetchone()
         con.close()
         return usuario
+        
+    def consultarUsuario(self, idUser):
+        sentencia = "SELECT i.nombres, i.correo, i.idUser, i.idRol, t.nombreRol as nombreRol FROM Roles t JOIN Roles itb ON t.idRol = itb.idRol JOIN Usuario i ON itb.idRol = i.idRol WHERE i.idUser = ? "
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        usuarioInfo= cursorObj.fetchone()
+        con.close()
+        return usuarioInfo
 
-    
-        if usuario == "":
-            #Preparar sentencia SQL para registro usuario
-            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?)"
+    def eliminar(self,idUser):
+        sentencia = "DELETE FROM Usuario WHERE idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        con.close()
+
+    def editarUsuario(self,idUser):
+        sentencia= "SELECT nombres,apellidos,tipoDocumento,idUser,fechaNacimiento,telefono,correo,genero,pais,idRol From Usuario Where idUser = ? "
+        db = Database()
+        con = db.sql_connection()
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        editarUser= cursorObj.fetchone()
+        con.close()
+        return editarUser
+
+        """ if usuario == "":
+        #Preparar sentencia SQL para registro usuario
+            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
             db = Database()
             con = db.sql_connection()
             #Crear cursor para manipular la BD
             cursorObj = con.cursor()
-            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc])
+            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
             con.commit()
             con.close()
         else:
-            return "Usuario ya Existe"          
-    
+
+            flash("Datos incorrectos")
+            #return redirect(url_for('ingresar'))
+            #return "Usuario ya Existe"          
+
+            return "Usuario ya Existe"   """       
+
+    """ falta pais """
+    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
+        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
+        db = Database()
+        con = db.sql_connection()
+        cursosObj = con.cursor()
+        cursosObj.execute(sentencia,[nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser])
+        con.commit
+        con.close()
+
 
 class Piloto():
     def consultarVuelo(self, idUser):
@@ -166,3 +214,19 @@ class Piloto():
         piloto = cursorObj.fetchall()
         con.close()
         return piloto
+
+class Pasajero():
+    
+    def consultarReviews(self, idUser):
+            
+        sentencia = "SELECT * FROM review WHERE idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        review = cursorObj.fetchall()
+        con.close()
+
+        return review

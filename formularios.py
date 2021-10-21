@@ -106,9 +106,9 @@ class frmRegistro(FlaskForm):
          Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
       ]
    )
-   CC ='Cédula de ciudadania'
-   TI ='Tarjeta de identidad'
-   PS = 'Pasaporte'
+   CC ='CC'
+   TI ='TI'
+   PS = 'PS'
    
    tipoDocumento=SelectField(label='tipo doc',
       choices=[
@@ -128,7 +128,247 @@ class frmRegistro(FlaskForm):
       ]
    )
    
-   
+   pais = SelectField(label="pais",
+      choices=[
+         ('Afganistan'),
+         ('Albania'),
+         ('Alemania'),
+         ('Andorra'),
+         ('Angola'),
+         ('Anguila'),
+         ('Antártida'),
+         ('Antigua y Barbuda'),
+         ('Antillas holandesas'),
+         ('Arabia Saudí'),
+         ('Argelia'),
+         ('Argentina'),
+         ('Armenia'),
+         ('Aruba'),
+         ('Australia'),
+         ('Austria'),
+         ('Azerbaiyán'),
+         ('Bahamas'),
+         ('Bahrein'),
+         ('Bangladesh'),
+         ('Barbados'),
+         ('Bélgica'),
+         ('Belice'),
+         ('Benín'),
+         ('Bermudas'),
+         ('Bhután'),
+         ('Bielorrusia'),
+         ('Birmania'),
+         ('Bolivia'),
+         ('Bosnia y Herzegovina'),
+         ('Botsuana'),
+         ('Brasil'),
+         ('Brunei'),
+         ('Bulgaria'),
+         ('Burkina Faso'),
+         ('Burundi'),
+         ('Cabo Verde'),
+         ('Camboya'),
+         ('Camerún'),
+         ('Canadá'),
+         ('Chad'),
+         ('Chile'),
+         ('China'),
+         ('Chipre'),
+         ('Ciudad estado del Vaticano'),
+         ('Colombia'),
+         ('Comores'),
+         ('Congo'),
+         ('Corea'),
+         ('Corea del Norte'),
+         ('Costa del Marfíl'),
+         ('Costa Rica'),
+         ('Croacia'),
+         ('Cuba'),
+         ('Dinamarca'),
+         ('Djibouri'),
+         ('Dominica'),
+         ('Ecuador'),
+         ('Egipto'),
+         ('El Salvador'),
+         ('Emiratos Arabes Unidos'),
+         ('Eritrea'),
+         ('Eslovaquia'),
+         ('Eslovenia'),
+         ('España'),
+         ('Estados Unidos'),
+         ('Estonia'),
+         ('Etiopi'),
+         ('Ex-República Yugoslava de Macedonia'),
+         ('Filipinas'),
+         ('Finlandia'),
+         ('Francia'),
+         ('Gabón'),
+         ('Gambia'),
+         ('Georgia'),
+         ('Georgia del Sur y las islas Sandwich del Sur'),
+         ('Ghana'),
+         ('Gibraltar'),
+         ('Granada'),
+         ('Grecia'),
+         ('Groenlandia'),
+         ('Guadalupe'),
+         ('Guam'),
+         ('Guatemala'),
+         ('Guayana'),
+         ('Guayana francesa'),
+         ('Guinea'),
+         ('Guinea Ecuatorial'),
+         ('Guinea-Bissau'),
+         ('Haití'),
+         ('Holanda'),
+         ('Honduras'),
+         ('Hong Kong R. A. E'),
+         ('Hungría'),
+         ('India'),
+         ('Indonesia'),
+         ('Irak'),
+         ('Irán'),
+         ('Irlanda'),
+         ('Isla Bouvet'),
+         ('Isla Christmas'),
+         ('Isla Heard e Islas McDonald'),
+         ('Islandia'),
+         ('Islas Caimán'),
+         ('Islas Cook'),
+         ('Islas de Cocos o Keeling'),
+         ('Islas Faroe'),
+         ('Islas Fiyi'),
+         ('Islas Malvinas Islas Falkland'),
+         ('Islas Marianas del norte'),
+         ('Islas Marshall'),
+         ('Islas menores de Estados Unidos'),
+         ('Islas Palau'),
+         ('Islas Salomón'),
+         ('Islas Tokelau'),
+         ('Islas Turks y Caicos'),
+         ('Islas Vírgenes EE.UU.'),
+         ('Islas Vírgenes Reino Unido'),
+         ('Israel'),
+         ('Italia'),
+         ('Jamaica'),
+         ('Japón'),
+         ('Jordania'),
+         ('Kazajistán'),
+         ('Kenia'),
+         ('Kirguizistán'),
+         ('Kiribati'),
+         ('Kuwait'),
+         ('Laos'),
+         ('Lesoto'),
+         ('Letonia'),
+         ('Líbano'),
+         ('Liberia'),
+         ('Libia'),
+         ('Liechtenstein'),
+         ('Lituania'),
+         ('Luxemburgo'),
+         ('Macao R. A. E'),
+         ('Madagascar'),
+         ('Malasia'),
+         ('Malawi'),
+         ('Maldivas'),
+         ('Malí'),
+         ('Malta'),
+         ('Marruecos'),
+         ('Martinica'),
+         ('Mauricio'),
+         ('Mauritania'),
+         ('Mayotte'),
+         ('México'),
+         ('Micronesia'),
+         ('Moldavia'),
+         ('Mónaco'),
+         ('Mongolia'),
+         ('Montserrat'),
+         ('Mozambique'),
+         ('Namibia'),
+         ('Nauru'),
+         ('Nepal'),
+         ('Nicaragua'),
+         ('Níger'),
+         ('Nigeria'),
+         ('Niue'),
+         ('Norfolk'),
+         ('Noruega'),
+         ('Nueva Caledonia'),
+         ('Nueva Zelanda'),
+         ('Omán'),
+         ('Panamá'),
+         ('Papua Nueva Guinea'),
+         ('Paquistán'),
+         ('Paraguay'),
+         ('Perú'),
+         ('Pitcairn'),
+         ('Polinesia francesa'),
+         ('Polonia'),
+         ('Portugal'),
+         ('Puerto Rico'),
+         ('Qatar'),
+         ('Reino Unido'),
+         ('República Centroafricana'),
+         ('República Checa'),
+         ('República de Sudáfrica'),
+         ('República Democrática del Congo Zaire'),
+         ('República Dominicana'),
+         ('Reunión'),
+         ('Ruanda'),
+         ('Rumania'),
+         ('Rusia'),
+         ('Samoa'),
+         ('Samoa occidental'),
+         ('San Kitts y Nevis'),
+         ('San Marino'),
+         ('San Pierre y Miquelon'),
+         ('San Vicente e Islas Granadinas'),
+         ('Santa Helena'),
+         ('Santa Lucía'),
+         ('Santo Tomé y Príncipe'),
+         ('Senegal'),
+         ('Serbia y Montenegro'),
+         ('Sychelles'),
+         ('Sierra Leona'),
+         ('Singapur'),
+         ('Siria'),
+         ('Somalia'),
+         ('Sri Lanka'),
+         ('Suazilandia'),
+         ('Sudán'),
+         ('Suecia'),
+         ('Suiza'),
+         ('Surinam'),
+         ('Svalbard'),
+         ('Tailandia'),
+         ('Taiwán'),
+         ('Tanzania'),
+         ('Tayikistán'), 
+         ('Territorios británicos del océano Indico'),
+         ('Territorios franceses del sur'),
+         ('Timor Oriental'),
+         ('Togo'),
+         ('Tonga'),
+         ('Trinidad y Tobago'),
+         ('Túnez'),
+         ('Turkmenistán'),
+         ('Turquía'),
+         ('Tuvalu'),
+         ('Ucrania'),
+         ('Uganda'),
+         ('Uruguay'),
+         ('Uzbekistán'),
+         ('Vanuatu'),
+         ('Venezuela'),
+         ('Vietnam'),
+         ('Wallis y Futuna'),
+         ('Yemen'),
+         ('Zambia'),
+         ('Zimbabue')
+      ]
+   )
 
    genero= SelectField(label="género",
       choices=[
@@ -185,55 +425,31 @@ class frmCrearEditarUsuario(FlaskForm):
          Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
       ]
    )
-   cedula ='Cédula de ciudadania'
-   tarjetaId ='Tarjeta de identidad'
-   pasaporte = 'Pasaporte'
-   
-   tipoDocumento=SelectField(label='tipo doc',
-      choices=[
-         (cedula),
-         (tarjetaId),
-         (pasaporte)
-         ], 
-         validate_choice=True,
-         validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío')]
-         )
-         
-  
-   numDocumento = StringField(label='número doc',
-      validators=[
-         DataRequired(message='El campo de número de documento no puede quedar vacío'),
-         Length(min=8, max=70, message="La identificación introducida es muy larga o muy corta")
-      ]
-   )
-   
-   
 
-   genero= SelectField(label="género",
-      choices=[
-         ('Masculino'),
-         ('Femenino'),
-         ('Prefiero no decirlo')
-         ],
-      validate_choice=True,
+
+   tipoDocumento=StringField(label='tipo doc',
+         validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío'),
+         Length(min=2,max=2, message='El tipo de documento debe tener %{max}d de carácteres')
+         ]
+      )
+         
+   
+   genero= StringField(label="género",
       validators=[
-         DataRequired(message='El campo de genero no puede quedar vacío')
+         DataRequired(message='El campo de genero no puede quedar vacío'),
+         Length(min=8,max=19,message='El género debe tener minimo %{min}d y maximo %{max}d de carácteres')
       ]
+
    )
-   rol= SelectField(label="rol",
-      choices=[
-         ('Pasajero'),
-         ('Piloto'),
-         ('Superadministrador')
-         ],
-      validate_choice=True,
+
+   rol= StringField(label="rol",
       validators=[
-         DataRequired(message='El campo de rol no puede quedar vacío')
+         DataRequired(message='El campo de rol no puede quedar vacío'),
+         Length(min=1,max=1,message='El rol debe estar asignado a un solo número')
       ]
    )
 
    fechaNacimiento = DateField(label="Fecha nacimiento",
-      
       validators=[DataRequired(message='El campo de fecha de nacimiento no puede quedar vacío')]
       )
 
@@ -250,6 +466,9 @@ class frmCrearEditarUsuario(FlaskForm):
       )
    
    botonEnviar = SubmitField(label="GUARDAR")
+
+
+
 
 class frmConsVuelo(FlaskForm):
    consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=6, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])

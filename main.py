@@ -14,6 +14,7 @@ from werkzeug.utils import escape, redirect
 from clases import *
 
 
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -77,7 +78,7 @@ def registrarse():
          apellidos = form.apellidos.data
          tipoDocumento = form.tipoDocumento.data
          numDocumento = form.numDocumento.data
-         #pais = pendiente
+         pais = form.pais.data
          genero = form.genero.data
          fechaNacimiento = form.fechaNacimiento.data
          telefono = form.telefono.data
@@ -88,7 +89,7 @@ def registrarse():
          pass_enc = enc.hexdigest()
          #instanciar clase para acceso a BD
          usuario = Usuario()
-         usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc)
+         usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc)
    return render_template("registrarse.html", form = form)
 
 @app.route("/consultar-vuelo", methods = ["GET", "POST"])
@@ -132,20 +133,24 @@ def gestionusuarios():
       #verifica que el usuario esté logueado y tenga rol de superadmin
    if 'idUser' in session and session["rol"] == 3:
       form = frmBuscarUsuario()
+      if request.method == "GET":
+         idUser = ""
       consUsuario = ""
       if request.method == "POST":
          idUser = request.form.get('consUsuario')
          infoUser = Usuario()
          consUsuario = infoUser.consultarUsuario(idUser)
       form.validate_on_submit()
-      return render_template("gestion-usuarios.html", form=form, consUsuario = consUsuario)
+      return render_template("gestion-usuarios.html", form=form, consUsuario = consUsuario,idUser = idUser)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/reviews", methods = ["GET", "POST"])
 def reviews():
-   return render_template("reviews.html")
+   pasajero = Pasajero
+   reviews = pasajero.consultarReviews(session['idUser'])
+   return render_template("reviews.html", reviews=reviews)
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
@@ -168,29 +173,42 @@ def crearsuario():
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-
-@app.route("/editar-usuario", methods = ["GET", "POST"])
-def editarusuario():
+""" -------------------------------------------------------------------------------------------- """   
+@app.route("/editar-usuario/<idUser>", methods = ["GET", "POST"])
+def editarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
-      form = frmCrearEditarUsuario()
+      form = frmCrearEditarUsuario()      
+      datosUser = ""
+      usuario = Usuario()
+      datosUser = usuario.editarUsuario(idUser) 
       form.validate_on_submit()
-      return render_template("editar-usuario.html", form=form)        
+      if request.method == "POST":
+         nombres = request.form.get('nombres') 
+         apellidos = request.form.get('apellidos') 
+         tipoDocumento = request.form.get('tipoDocumento') 
+         fechaNacimiento = request.form.get('fechaNacimiento') 
+         telefono = request.form.get('telefono') 
+         correo = request.form.get('correo') 
+         genero = request.form.get('genero') 
+         idRol = request.form.get('rol') 
+         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser)                                  
+      return render_template("editar-usuario.html", form=form,datosUser=datosUser)        
+   
+   
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-   
+""" -------------------------------------------------------------------------------------------- """
 @app.route("/eliminar-usuario/<idUser>", methods = ["GET", "POST"])
-def eliminarusuario(id):
+def eliminarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
-      #Instaciar calse usuario
-      #Ejecutar metodo eliminar()
-      #Retornar a pag gestion usuario
-      return redirect(url_for('gestion-usuarios.html')) 
-              
+      user = Usuario()
+      user.eliminar(idUser)
+      return redirect(url_for('gestionusuarios'))           
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-   
+
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
 def crearvuelo():
    #if 'idUser' in session and session["rol"] == 3:
