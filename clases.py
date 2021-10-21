@@ -2,6 +2,8 @@ from sqlite3.dbapi2 import Cursor
 from flask import session
 import sqlite3
 from sqlite3 import Error
+
+from werkzeug.utils import redirect
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -53,7 +55,7 @@ class Usuario():
         con.close()
         return usuario
 
-    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc):
+    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc):
         #Validar que no exista usuario en la tabla con datos ingresados usar select para validar
         sentencia = "SELECT correo FROM Usuario WHERE idUser = ?"
         db = Database()
@@ -84,7 +86,25 @@ class Usuario():
         editarUser= cursorObj.fetchone()
         con.close()
         return editarUser
-        
+
+        if usuario == "":
+        #Preparar sentencia SQL para registro usuario
+            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
+            db = Database()
+            con = db.sql_connection()
+            #Crear cursor para manipular la BD
+            cursorObj = con.cursor()
+            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
+            con.commit()
+            con.close()
+        else:
+
+            flash("Datos incorrectos")
+            #return redirect(url_for('ingresar'))
+            #return "Usuario ya Existe"          
+
+            return "Usuario ya Existe"         
+
     """ falta pais """
     def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
         sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
