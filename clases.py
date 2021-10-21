@@ -55,3 +55,19 @@ class piloto():
         con.close()
 
         return piloto
+
+class Pasajero():
+    
+    def consultarReviews(self, idUser):
+            
+        sentencia = "SELECT * FROM review WHERE idUser = ?"
+        db = Database()
+        con = db.sql_connection()
+
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        review = cursorObj.fetchall()
+        con.close()
+
+        return review

@@ -116,7 +116,9 @@ def gestionusuarios():
 
 @app.route("/reviews", methods = ["GET", "POST"])
 def reviews():
-   return render_template("reviews.html")
+   pasajero = Pasajero
+   reviews = pasajero.consultarReviews(session['idUser'])
+   return render_template("reviews.html", reviews=reviews)
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
