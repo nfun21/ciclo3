@@ -98,15 +98,15 @@ class frmRegistro(FlaskForm):
          Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
       ]
    )
-   cedula ='Cédula de ciudadania'
-   tarjetaId ='Tarjeta de identidad'
-   pasaporte = 'Pasaporte'
+   CC ='Cédula de ciudadania'
+   TI ='Tarjeta de identidad'
+   PS = 'Pasaporte'
    
    tipoDocumento=SelectField(label='tipo doc',
       choices=[
-         (cedula),
-         (tarjetaId),
-         (pasaporte)
+         (CC),
+         (TI),
+         (PS)
          ], 
          validate_choice=True,
          validators=[DataRequired(message='El campo de tipo de documento no puede quedar vacío')]

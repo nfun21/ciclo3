@@ -41,6 +41,20 @@ class Usuario():
         con.close()
 
         return usuario
+
+    def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc):
+        #usar select para validar
+        #Preparar sentencia SQL para registro usuario
+        sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?)"
+        db = Database()
+        con = db.sql_connection()
+        #Crear cursor para manipular la BD
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, genero, fechaNacimiento, telefono, correo, pass_enc])
+        con.commit()
+        con.close()
+
+        #return ()            
     
 
 class piloto():
