@@ -219,8 +219,8 @@ def editarusuario(idUser):
       datosUser = ""
       usuario = Usuario()
       datosUser = usuario.editarUsuario(idUser) 
-      form.validate_on_submit()
-      if request.method == "POST":
+      
+      if form.validate_on_submit():
          nombres = request.form.get('nombres') 
          apellidos = request.form.get('apellidos') 
          tipoDocumento = request.form.get('tipoDocumento') 
@@ -230,6 +230,9 @@ def editarusuario(idUser):
          genero = request.form.get('genero') 
          idRol = request.form.get('rol') 
          usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser)                                  
+         datosUser = usuario.editarUsuario(idUser) 
+         flash('Usuario editado con éxito.')
+         return render_template("editar-usuario.html", form=form,datosUser=datosUser) 
       return render_template("editar-usuario.html", form=form,datosUser=datosUser)        
    
    
@@ -317,7 +320,7 @@ def reservarVuelo(idVuelo):
       vuelo = Vuelo()
       vuelo.reservarVuelo(idVuelo, session['idUser'])
       flash('El vuelo se ha reservado con éxito.')
-      return redirect(url_for('buscarvuelo'))
+      return redirect(url_for('misvuelos'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
@@ -333,7 +336,7 @@ def cancelarReservaVuelo(idVuelo):
       return redirect(url_for('buscarvuelo'))
    else:
       flash('¡Debe ingresar al sistema para poder reservar!')
-      return redirect(url_for('consultarvuelo'))
+      return redirect(url_for('misvuelos'))
 @app.route("/misvuelos", methods=["GET", "POST"])
 def misvuelos():
    if 'idUser' in session:

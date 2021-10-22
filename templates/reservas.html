@@ -159,8 +159,10 @@
                             </form>
                         </div>
                     {% endif %}
+                {% elif v.estadoVuelo == "Inicializado" or v.estadoVuelo == "Inactivo" %}
+                    <a class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2" href="cancelar-reserva/{{ v.idVuelo }}">Cancelar reserva</a>
                 {% else %}
-                    Podrá publicar una reseña cuando el vuelo haya finalizado.
+                    Podrá publicar una reseña una vez el vuelo haya sido marcado como finalizado.
                 {% endif %}
                   </td>
                   
