@@ -138,16 +138,14 @@ class Usuario():
         return usuario
 
     def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc):
-        #Validar que no exista usuario en la tabla con datos ingresados usar select para validar
-        sentencia = "SELECT correo FROM Usuario WHERE idUser = ?"
+        sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
         db = Database()
         con = db.sql_connection()
+        #Crear cursor para manipular la BD
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[numDocumento])
+        cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
         con.commit()
-        usuario = cursorObj.fetchone()
         con.close()
-        return usuario
         
     def consultarUsuario(self, idUser):
         sentencia = "SELECT i.nombres, i.correo, i.idUser, i.idRol, t.nombreRol as nombreRol FROM Roles t JOIN Roles itb ON t.idRol = itb.idRol JOIN Usuario i ON itb.idRol = i.idRol WHERE i.idUser = ? "
@@ -245,6 +243,20 @@ class Piloto():
         piloto = cursorObj.fetchall()
         con.close()
         return piloto
+
+    def consultarReviewsPi(self, idUser):
+            
+        sentencia = "SELECT i.idReview, i.idVuelo, i.comment, i.puntuacion, i.idUser, i.fechaReview FROM Review i Join Vuelo t ON i.idVuelo = t.idVuelo WHERE t.idPiloto=?"
+        db = Database()
+        con = db.sql_connection()
+
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        review = cursorObj.fetchall()
+        con.close()
+
+        return review
 
 class Pasajero():
     
