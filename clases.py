@@ -191,7 +191,7 @@ class Usuario():
 
 class Piloto():
     def consultarVuelo(self, idUser):
-        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo FROM Vuelo i JOIN VueloPilotos itb ON i.idVuelo = itb.idVuelo JOIN Usuario t ON itb.idUser = t.idUser WHERE t.idUser = ?"
+        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo FROM Vuelo i JOIN Usuario t ON i.idPiloto = t.idUser WHERE t.idUser = ?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
