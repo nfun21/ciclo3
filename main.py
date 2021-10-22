@@ -322,7 +322,7 @@ def cancelarReservaVuelo(idVuelo):
       vuelo = Vuelo()
       vuelo.cancelarReservaVuelo(idVuelo, session['idUser'])
       
-      vuelos = vuelo.buscarVuelos("total","","","",idVuelo)
+      #vuelos = vuelo.buscarVuelos("total","","","",idVuelo)
       flash('La reserva se ha cancelado.')
       return redirect(url_for('buscarvuelo'))
    else:
