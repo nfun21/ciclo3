@@ -206,7 +206,6 @@ class Usuario():
         con.commit()
         con.close()
 
-
 class Piloto():
     def consultarVuelo(self, idUser):
         sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo FROM Vuelo i JOIN Usuario t ON i.idPiloto = t.idUser WHERE t.idUser = ?"

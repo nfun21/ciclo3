@@ -181,10 +181,7 @@ def reviews():
       piloto = Piloto()
       reviews = piloto.consultarReviewsPi(session['idUser'])
       return render_template("reviews.html", reviews=reviews)
-   elif 'idUser' in session and session["rol"] == 3:
-      piloto = Piloto()
-      reviews = piloto.consultarReviewsPi(session['idUser'])
-      return render_template("reviews.html", reviews=reviews)   
+     
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
