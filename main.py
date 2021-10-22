@@ -172,9 +172,14 @@ def gestionusuarios():
 
 @app.route("/reviews", methods = ["GET", "POST"])
 def reviews():
-   pasajero = Pasajero
-   reviews = pasajero.consultarReviews(session['idUser'])
-   return render_template("reviews.html", reviews=reviews)
+   if 'idUser' in session and session["rol"] == 1:
+      pasajero = Pasajero()
+      reviews = pasajero.consultarReviews(session['idUser'])
+      return render_template("reviews.html", reviews=reviews)
+   elif 'idUser' in session and session["rol"] == 2:
+      piloto = Piloto()
+      reviews = piloto.consultarReviewsPi(session['idUser'])
+      return render_template("reviews.html", reviews=reviews)
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():

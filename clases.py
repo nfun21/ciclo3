@@ -244,6 +244,20 @@ class Piloto():
         con.close()
         return piloto
 
+    def consultarReviewsPi(self, idUser):
+            
+        sentencia = "SELECT i.idReview, i.idVuelo, i.comment, i.puntuacion, i.idUser, i.fechaReview FROM Review i Join Vuelo t ON i.idVuelo = t.idVuelo WHERE t.idPiloto=?"
+        db = Database()
+        con = db.sql_connection()
+
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[idUser])
+        con.commit()
+        review = cursorObj.fetchall()
+        con.close()
+
+        return review
+
 class Pasajero():
     
     def consultarReviews(self, idUser):
