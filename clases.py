@@ -1,5 +1,5 @@
 from sqlite3.dbapi2 import Cursor
-from flask import session
+from flask import session, flash, url_for
 import sqlite3
 from sqlite3 import Error
 
@@ -56,16 +56,14 @@ class Usuario():
         return usuario
 
     def registrarse(self, nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc):
-        #Validar que no exista usuario en la tabla con datos ingresados usar select para validar
-        sentencia = "SELECT correo FROM Usuario WHERE idUser = ?"
+        sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
         db = Database()
         con = db.sql_connection()
+        #Crear cursor para manipular la BD
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[numDocumento])
+        cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
         con.commit()
-        usuario = cursorObj.fetchone()
         con.close()
-        return usuario
         
     def consultarUsuario(self, idUser):
         sentencia = "SELECT i.nombres, i.correo, i.idUser, i.idRol, t.nombreRol as nombreRol FROM Roles t JOIN Roles itb ON t.idRol = itb.idRol JOIN Usuario i ON itb.idRol = i.idRol WHERE i.idUser = ? "
@@ -97,24 +95,7 @@ class Usuario():
         editarUser= cursorObj.fetchone()
         con.close()
         return editarUser
-
-        """ if usuario == "":
-        #Preparar sentencia SQL para registro usuario
-            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
-            db = Database()
-            con = db.sql_connection()
-            #Crear cursor para manipular la BD
-            cursorObj = con.cursor()
-            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
-            con.commit()
-            con.close()
-        else:
-
-            flash("Datos incorrectos")
-            #return redirect(url_for('ingresar'))
-            #return "Usuario ya Existe"          
-
-            return "Usuario ya Existe"   """       
+ 
 
     """ falta pais """
     def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
