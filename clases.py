@@ -177,39 +177,20 @@ class Usuario():
         editarUser= cursorObj.fetchone()
         con.close()
         return editarUser
+    
 
-        """ if usuario == "":
-        #Preparar sentencia SQL para registro usuario
-            sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, pais, genero, fechaNacimiento, telefono, correo, password) VALUES (?,?,?,?,?,?,?,?,?,?)"
-            db = Database()
-            con = db.sql_connection()
-            #Crear cursor para manipular la BD
-            cursorObj = con.cursor()
-            cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
-            con.commit()
-            con.close()
-        else:
-
-            flash("Datos incorrectos")
-            #return redirect(url_for('ingresar'))
-            #return "Usuario ya Existe"          
-
-            return "Usuario ya Existe"   """       
-
-    """ falta pais """
-    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
-        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
+    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,pais,telefono,correo,genero,idRol,idUser):
+        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?,fechaNacimiento = ?,pais = ?,telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
         db = Database()
         con = db.sql_connection()
         cursosObj = con.cursor()
-        cursosObj.execute(sentencia,[nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser])
+        cursosObj.execute(sentencia,[nombres,apellidos,tipoDocumento,fechaNacimiento,pais,telefono,correo,genero,idRol,idUser])
         con.commit()
         con.close()
 
-
 class Piloto():
     def consultarVuelo(self, idUser):
-        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo FROM Vuelo i JOIN VueloPilotos itb ON i.idVuelo = itb.idVuelo JOIN Usuario t ON itb.idUser = t.idUser WHERE t.idUser = ?"
+        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo FROM Vuelo i JOIN Usuario t ON i.idPiloto = t.idUser WHERE t.idUser = ?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()

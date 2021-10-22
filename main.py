@@ -181,6 +181,7 @@ def reviews():
       piloto = Piloto()
       reviews = piloto.consultarReviewsPi(session['idUser'])
       return render_template("reviews.html", reviews=reviews)
+     
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
@@ -211,35 +212,33 @@ def crearsuario():
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-""" -------------------------------------------------------------------------------------------- """   
+ 
 @app.route("/editar-usuario/<idUser>", methods = ["GET", "POST"])
 def editarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
       form = frmCrearEditarUsuario()      
       datosUser = ""
       usuario = Usuario()
-      datosUser = usuario.editarUsuario(idUser) 
-      
+      datosUser = usuario.editarUsuario(idUser)  
       if form.validate_on_submit():
          nombres = request.form.get('nombres') 
          apellidos = request.form.get('apellidos') 
          tipoDocumento = request.form.get('tipoDocumento') 
-         fechaNacimiento = request.form.get('fechaNacimiento') 
+         fechaNacimiento = request.form.get('fechaNacimiento')
+         pais = request.form.get('pais') 
          telefono = request.form.get('telefono') 
          correo = request.form.get('correo') 
          genero = request.form.get('genero') 
          idRol = request.form.get('rol') 
-         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser)                                  
+         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,pais,telefono,correo,genero,idRol,idUser)                                  
          datosUser = usuario.editarUsuario(idUser) 
          flash('Usuario editado con éxito.')
          return render_template("editar-usuario.html", form=form,datosUser=datosUser) 
-      return render_template("editar-usuario.html", form=form,datosUser=datosUser)        
-   
-   
+      return render_template("editar-usuario.html", form=form,datosUser=datosUser)          
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-""" -------------------------------------------------------------------------------------------- """
+
 @app.route("/eliminar-usuario/<idUser>", methods = ["GET", "POST"])
 def eliminarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
