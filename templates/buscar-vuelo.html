@@ -130,7 +130,7 @@
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-14">
                   {% if autenticado %}
   
-                    {% if v.reservado == "1" %}
+                    {% if v.reservado == "0" or v.reservado == 0 %}
                       <a class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-4-base u-radius-6 u-btn-2" href="reservar-vuelo/{{ v.idVuelo }}">Reservar</a></td>
                     {% else %}
                       <a class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2" href="cancelar-reserva/{{ v.idVuelo }}">Cancelar reserva</a></td>

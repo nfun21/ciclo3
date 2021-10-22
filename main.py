@@ -126,9 +126,11 @@ def buscarvuelo():
       if 'idUser' in session:
          idUser=session['idUser']
          autenticado = True
+         print(idUser)
       else:
          idUser = ""
-      vuelos = vuelo.buscarVuelos(origenVuelo,destinoVuelo, idUser)
+         
+      vuelos = vuelo.buscarVuelos("",origenVuelo,destinoVuelo,idUser,"")
       if vuelos:
          flash('Mostrando resultados para la búsqueda')
       else:
@@ -177,17 +179,20 @@ def reviews():
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
    #verifica que el usuario esté logueado y tenga rol de superadmin
-   #if 'idUser' in session and session["rol"] == 3:
+   if 'idUser' in session and session["rol"] == 3:
       form = frmConsVuelo()
-      form.validate_on_submit()
       vuelo = Vuelo()
-      vuelos = vuelo.consultarVuelos()
-      ###PAGINACIÓN####
-      pagina = request.args.get('pagina', 1, type=int)
-      vuelos = vuelo.query.paginate(page=pagina, per_page=5)
-      return render_template("gestion-vuelos.html", form=form, vuelos = vuelos)
+      if form.validate_on_submit():
+         busqueda = request.form.get('consvuelo')
+         vuelos = vuelo.buscarVuelos("total","","","",busqueda)
+         titulo = "Resultados"
+      else:
+         titulo = "Últimos vuelos"
+         vuelos = vuelo.consultarVuelos()
+      
+      return render_template("gestion-vuelos.html", form=form, vuelos=vuelos, titulo=titulo)
           
-   #else:
+   else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
 
@@ -238,7 +243,7 @@ def eliminarusuario(idUser):
 
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
 def crearvuelo():
-   #if 'idUser' in session and session["rol"] == 3:
+   if 'idUser' in session and session["rol"] == 3:
       
       form = frmCrearEditarVuelo()
       if form.validate_on_submit():
@@ -258,13 +263,13 @@ def crearvuelo():
          flash('Se creó el vuelo con éxito')
          return redirect(url_for('paginaprincipal'))
       return render_template("crear-vuelo.html", form = form)        
-   # else:
-   #    flash('Usted no tiene permisos para acceder a esta página.')
-   #    return redirect(url_for('paginaprincipal'))
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.')
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/editar-vuelo/<idVuelo>", methods = ["GET", "POST"])
 def editarvuelo(idVuelo):
-   #if 'idUser' in session and session["rol"] == 3:
+   if 'idUser' in session and session["rol"] == 3:
       form = frmCrearEditarVuelo()
       vuelo = Vuelo()
       vueloencontrado = vuelo.consultarVuelo(idVuelo)
@@ -283,9 +288,9 @@ def editarvuelo(idVuelo):
             return render_template("crear-vuelo.html", form = form) 
          vuelo.editarVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo, idVuelo)
          flash('Se editó el vuelo con éxito')
-         return redirect(url_for('paginaprincipal'))
+         return redirect(request.url)
       return render_template("editar-vuelo.html", form = form, vuelo = vueloencontrado)       
-  # else:
+   else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
 
@@ -298,7 +303,7 @@ def eliminarVuelo(idVuelo):
       return redirect(url_for('gestionvuelos'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
-      #return redirect(url_for('paginaprincipal'))
+      return redirect(url_for('paginaprincipal'))
 
 @app.route("/reservar-vuelo/<idVuelo>")
 def reservarVuelo(idVuelo):
@@ -306,7 +311,7 @@ def reservarVuelo(idVuelo):
       vuelo = Vuelo()
       vuelo.reservarVuelo(idVuelo, session['idUser'])
       flash('El vuelo se ha reservado con éxito.')
-      return redirect(url_for('paginaprincipal'))
+      return redirect(url_for('buscarvuelo'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
@@ -316,10 +321,12 @@ def cancelarReservaVuelo(idVuelo):
    if 'idUser' in session:
       vuelo = Vuelo()
       vuelo.cancelarReservaVuelo(idVuelo, session['idUser'])
+      
+      vuelos = vuelo.buscarVuelos("total","","","",idVuelo)
       flash('La reserva se ha cancelado.')
-      return redirect(url_for('paginaprincipal'))
+      return redirect(url_for('buscarvuelo'))
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('¡Debe ingresar al sistema para poder reservar!')
       return redirect(url_for('consultarvuelo'))
 
 @app.route("/piloto", methods = ["GET", "POST"])

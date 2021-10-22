@@ -43,8 +43,8 @@ class frmBuscarVuelo(FlaskForm):
    botonEnviar = SubmitField(label='BUSCAR')
 
 class frmCrearEditarVuelo(FlaskForm):
-   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
    avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
    capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
    estadoVuelo= SelectField(label="estadoVuelo",
@@ -52,7 +52,7 @@ class frmCrearEditarVuelo(FlaskForm):
       ('Inactivo'),
       ('Inicializado'),
       ('Abordando'),
-      ('En uelo'),
+      ('En vuelo'),
       ('Aterrizado'),
       ('Finalizado')
    ],
@@ -471,5 +471,5 @@ class frmCrearEditarUsuario(FlaskForm):
 
 
 class frmConsVuelo(FlaskForm):
-   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=6, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
+   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=50, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
    botonEnviar = SubmitField(label='Consultar')

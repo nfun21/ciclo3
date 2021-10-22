@@ -41,16 +41,7 @@
 </defs></svg>
             </a>
           </div>
-          {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="mensajes">
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-{% endwith %}
+          
           <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../" style="padding: 10px 20px;">Página principal</a>
 </li></ul>
@@ -81,6 +72,16 @@
           <!-- INICIO DEL FORMULARIO CREAR-VUELO -->
           <!-- ERRORES DE VALIDACION -->
           <div>
+            {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="mensajes">
+        {% for message in messages %}
+            <li class="u-form-send-error u-form-send-message" style="list-style: none;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endwith %}
             {% for fields, errors in form.errors.items()  %}
             <ul>
               {% for error in errors %}
@@ -142,6 +143,7 @@
                   <option value="En vuelo" {% if vuelo.estadoVuelo == "En vuelo"%}selected="selected"{% endif %}>En vuelo</option>
                   <option value="Aterrizado" {% if vuelo.estadoVuelo == "Aterrizado"%}selected="selected"{% endif %}>Aterrizado</option>
                   <option value="Finalizado" {% if vuelo.estadoVuelo == "Finalizado"%}selected="selected"{% endif %}>Finalizado</option>
+                  <option value="Cancelado" {% if vuelo.estadoVuelo == "Cancelado"%}selected="selected"{% endif %}>Cancelado</option>
                 </select>
               </div>
               </div>
