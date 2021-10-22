@@ -3992,6 +3992,11 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
+  background: url("images/airplane.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   margin: 0;
 }
 article,
@@ -25396,12 +25401,12 @@ a.u-link.u-hover-grey-75:hover {
 .u-container-layout.u-grey-80:before,
 .u-table-alt-grey-80 tr:nth-child(even) {
   color: #ffffff;
-  background-color: #333333;
+  background-color: none;
 }
 .u-button-style.u-grey-80,
 .u-button-style.u-grey-80[class*="u-border-"] {
   color: #ffffff !important;
-  background-color: #333333 !important;
+  background-color: none !important;
 }
 .u-button-style.u-grey-80:hover,
 .u-button-style.u-grey-80[class*="u-border-"]:hover,
@@ -25413,8 +25418,8 @@ a.u-link.u-hover-grey-75:hover {
 .u-button-style.u-button-style.u-grey-80[class*="u-border-"].active,
 li.active > .u-button-style.u-button-style.u-grey-80,
 li.active > .u-button-style.u-button-style.u-grey-80[class*="u-border-"] {
-  color: #ffffff !important;
-  background-color: #2e2e2e !important;
+  color: black !important;
+  background-color: none !important;
 }
 .u-hover-grey-80:hover,
 .u-hover-grey-80[class*="u-border-"]:hover,

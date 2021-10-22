@@ -11,13 +11,13 @@
   border: 3px solid black;
   border-radius: 10px;
 }
-.bg-img{
+/*.bg-img{
   background: url("images/airplane.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
+}*/
 .u-section-1 {
   background-image: url("images/airplane.jpg");
   background-position: 50% 50%;
