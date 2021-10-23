@@ -61,7 +61,7 @@
       </div></header>
     <section class="u-align-center u-clearfix u-section-1" id="sec-c882">
       <div class="u-clearfix u-sheet u-sheet-1">
-        {% block mensajes %}
+        
 {% with messages = get_flashed_messages() %}
     {% if messages %}
     <div class="mensajes">
@@ -72,7 +72,7 @@
     </div>
     {% endif %}
 {% endwith %}
-{% endblock %}
+
         <div class="u-form u-login-control u-form-1">
   <!---INICIO DEL FORMULARIO DE INGRESO-->
           <!--ERRORES DE VALIDACIÓN-->

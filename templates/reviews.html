@@ -62,12 +62,14 @@
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-text u-text-default u-text-1">Consulta de reseñas</h1>
         <!-- Modelo para imprimir las reseñas-->
-{%for each review in reviews%}
+
+{% for review in reviews %}
+
         <div class="u-list u-list-1">
           <div class="u-repeater u-repeater-1">
             <div class="u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-1">
-                <p class="u-text u-text-2">{{reviews.comment}}</p><span class="u-icon u-icon-circle u-text-palette-1-base u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 512 512" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-2d95"></use></svg><svg class="u-svg-content" viewBox="0 0 512 512" x="0px" y="0px" id="svg-2d95" style="enable-background:new 0 0 512 512;"><g><g><path d="M94.526,244.611c-0.769-2.359-2.809-4.074-5.267-4.432l-24.899-3.618L53.234,214.08c-2.203-4.445-9.484-4.445-11.687,0    l-11.126,22.481l-24.84,3.618c-2.451,0.358-4.491,2.079-5.26,4.439c-0.769,2.353-0.13,4.941,1.649,6.674l18.016,17.56    l-4.25,24.775c-0.417,2.444,0.587,4.921,2.594,6.381c2.014,1.453,4.68,1.643,6.87,0.489l22.188-11.7l22.253,11.7    c0.952,0.502,1.995,0.75,3.031,0.75c1.349,0,2.698-0.424,3.839-1.238c2.008-1.467,3.011-3.937,2.594-6.381l-4.243-24.775    l18.016-17.56C94.657,249.565,95.295,246.971,94.526,244.611z"></path>
+                <p class="u-text u-text-2">{{review.comment}}</p><span class="u-icon u-icon-circle u-text-palette-1-base u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 512 512" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-2d95"></use></svg><svg class="u-svg-content" viewBox="0 0 512 512" x="0px" y="0px" id="svg-2d95" style="enable-background:new 0 0 512 512;"><g><g><path d="M94.526,244.611c-0.769-2.359-2.809-4.074-5.267-4.432l-24.899-3.618L53.234,214.08c-2.203-4.445-9.484-4.445-11.687,0    l-11.126,22.481l-24.84,3.618c-2.451,0.358-4.491,2.079-5.26,4.439c-0.769,2.353-0.13,4.941,1.649,6.674l18.016,17.56    l-4.25,24.775c-0.417,2.444,0.587,4.921,2.594,6.381c2.014,1.453,4.68,1.643,6.87,0.489l22.188-11.7l22.253,11.7    c0.952,0.502,1.995,0.75,3.031,0.75c1.349,0,2.698-0.424,3.839-1.238c2.008-1.467,3.011-3.937,2.594-6.381l-4.243-24.775    l18.016-17.56C94.657,249.565,95.295,246.971,94.526,244.611z"></path>
 </g>
 </g><g><g><path d="M198.815,244.611c-0.769-2.359-2.809-4.074-5.267-4.432l-24.899-3.618l-11.126-22.481c-2.203-4.445-9.484-4.445-11.687,0    l-11.126,22.481l-24.84,3.618c-2.451,0.358-4.491,2.079-5.26,4.439c-0.769,2.353-0.13,4.941,1.649,6.674l18.016,17.56    l-4.25,24.775c-0.417,2.444,0.587,4.928,2.594,6.381c2.008,1.453,4.68,1.643,6.87,0.489l22.188-11.7l22.253,11.7    c0.952,0.502,1.995,0.75,3.031,0.75c1.349,0,2.698-0.424,3.839-1.238c2.008-1.467,3.011-3.937,2.594-6.381l-4.243-24.775    l18.016-17.56C198.946,249.565,199.584,246.971,198.815,244.611z"></path>
 </g>
@@ -80,14 +82,15 @@
 </g></svg></span><span class="u-icon u-icon-circle u-icon-2"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 512 512" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-d344"></use></svg><svg class="u-svg-content" viewBox="0 0 512 512" x="0px" y="0px" id="svg-d344" style="enable-background:new 0 0 512 512;"><g><g><path d="M497.535,14.465c-19.569-19.568-51.395-19.241-70.557,0.726L322.092,124.488L66.131,39.781L12.4,93.513l213.352,131.365    L117.796,337.372l-69.231-11.366L0,374.571l101.78,35.649L137.429,512l48.565-48.565l-11.366-69.231l112.494-107.955    L418.487,499.6l53.732-53.732l-84.706-255.961L496.808,85.022C516.776,65.86,517.103,34.034,497.535,14.465z"></path>
 </g>
 </g></svg></span>
-                <p class="u-text u-text-3">{{reviews.idVuelo}}</p>
-                <p class="u-align-right u-text u-text-4">{{reviews.fechaReview}}</p>
+                <p class="u-text u-text-3">{{review.idVuelo}}</p>
+                <p class="u-align-right u-text u-text-4">{{review.fechaReview}}</p>
                 </p>
               </div>
             </div>
 </g></svg></span>
               </div>
             </div>
+{% endfor %}
           </div>
         </div>
       </div>

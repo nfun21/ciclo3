@@ -91,6 +91,7 @@
         </div>
         <a href="crear-vuelo" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-4-base u-radius-6 u-btn-2">Crear nuevo vuelo</a>
         <div class="u-expanded-width u-table u-table-responsive u-table-1">
+          <center><h2>{{titulo}}</h2></center>
           <table class="u-table-entity">
             <colgroup>
               <col width="8%">
@@ -111,19 +112,39 @@
               </tr>
             </thead>
             <tbody class="u-table-body">
+              {%for v in vuelos %}
               <tr style="height: 75px;">
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">abc123</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Bogotá-COL</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Barranquilla-COL</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">150</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"></td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-12"></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.idVuelo}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.origenVuelo}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.destinoVuelo}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.puestos}}/{{v.capacidad}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.estadoVuelo}}</td>
+                
+                  <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-12">
+                    <a href="editar-vuelo/{{v.idVuelo}}" class="u-border-none u-btn u-btn-round" style="
+                    background: #547bdb !important;
+                "> Editar</a>
+                  <a href="eliminar-vuelo/{{v.idVuelo}}" class="u-btn u-btn-round">Eliminar</a>
+                  <a href="#mas{{v.idVuelo}}" class="u-btn u-btn-round u-dialog-link">+</a>
+                  <section class="u-align-center u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-valign-middle u-section-4" id="mas{{v.idVuelo}}">
+                    <div class="u-container-style u-dialog u-shape-rectangle u-white u-dialog-1">
+                      <div class="u-container-layout u-container-layout-1">
+                        <p >Piloto: {{v.piloto}} </p>
+                        <p >Co-piloto: {{v.piloto}}</p>
+                        <p >Fecha</p>
+                        <input type="datetime-local" readonly value="{{v.fechaVuelo}}">
+                        
+                      </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
+                    </div>
+                  </section>
+                  </td>
+                  
               </tr>
+              {%endfor%}
             </tbody>
           </table>
         </div>
-        <a href="editar-vuelo" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-6 u-btn-3"> Editar</a>
-        <a href="#sec-1c3f" class="u-btn u-btn-round u-button-style u-dialog-link u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-4"> Cancelar</a>
+        
       </div>
     </section>
     

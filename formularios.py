@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
-from wtforms.fields.core import DateField, IntegerField, SelectField
+from wtforms.fields.core import DateField, DateTimeField, IntegerField, SelectField
 from wtforms.validators import ValidationError, DataRequired, \
     Email, EqualTo, Length
 
@@ -42,37 +42,43 @@ class frmBuscarVuelo(FlaskForm):
          ])
    botonEnviar = SubmitField(label='BUSCAR')
 
-class frmEditarVuelo(FlaskForm):
-    ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-    ciudadDestino = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-    codigo = StringField(label='codigo', validators=[DataRequired(), Length(min = 2, max = 10, message='Campo Código Requerido:Mínimo 2 y máximo 10 caracteres.')])
-    avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
-    capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
-    hora = StringField(label='hora', validators=[DataRequired(), Length(min = 9 , max = 9,  message='Campo Hora Requerido:Escribir formato: HH:MM:SS.')])
-    estadoVuelo= SelectField(label="estadoVuelo",
-      choices=[
-         ('Inicializado'),
-         ('Abordando'),
-         ('En Vuelo'),
-         ('Aterrizado')
-      ],
-      validate_choice=True,
-      validators=[
-      DataRequired(message='El campo de Estado Vuelo no puede quedar vacío')
-      ]
-    )
-    botonGuardar = SubmitField(label="GUARDAR")
+class frmCrearEditarVuelo(FlaskForm):
+   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+   avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
+   capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
+   estadoVuelo= SelectField(label="estadoVuelo",
+   choices=[
+      ('Inactivo'),
+      ('Inicializado'),
+      ('Abordando'),
+      ('En vuelo'),
+      ('Aterrizado'),
+      ('Finalizado')
+   ],
+   validate_choice=True,
+   validators=[
+   DataRequired(message='El campo de Estado Vuelo no puede quedar vacío')
+   ]
+   )
+   
+   idPiloto = StringField(label='idPiloto')
+   idcoPiloto = StringField(label='idCo-Piloto')
+   fecha = StringField(label="fecha", validators=[DataRequired('La fecha no puede quedar vacía.')])
+   botonGuardar = SubmitField(label="GUARDAR")
 
-class frmCrearVuelo(FlaskForm):
-    ciudadOrigen = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-    ciudadDestino = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-    codigo = StringField(label='codigo', validators=[DataRequired(), Length(min = 2, max = 10, message='Campo Código Requerido:Mínimo 2 y máximo 10 caracteres.')])
-    avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
-    capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
-    hora = StringField(label='hora', validators=[DataRequired(), Length(min = 9 , max = 9,  message='Campo Capacidad Requerido:Escribir formato: HH:MM:SS.')])
-    botonGuardar = SubmitField(label="GUARDAR")
-    piloto = StringField(label='Piloto')
-    copiloto = StringField(label='Copiloto')
+# class frmCrearVuelo(FlaskForm):
+#     origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+#     destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 5, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
+#     #codigo = StringField(label='codigo', validators=[DataRequired(), Length(min = 2, max = 10, message='Campo Código Requerido:Mínimo 2 y máximo 10 caracteres.')])
+#     avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
+#     capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
+#     botonGuardar = SubmitField(label="GUARDAR")
+    
+#     piloto = StringField(label='Piloto')
+#     idPiloto = StringField(label='idPiloto')
+#     idcoPiloto = StringField(label='idCo-Piloto')
+#     copiloto = StringField(label='Copiloto')
 
 class frmIngreso(FlaskForm):
    correo = StringField(label="correo",
@@ -465,5 +471,5 @@ class frmCrearEditarUsuario(FlaskForm):
 
 
 class frmConsVuelo(FlaskForm):
-   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=6, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
+   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=50, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
    botonEnviar = SubmitField(label='Consultar')
