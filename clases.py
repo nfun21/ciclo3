@@ -177,18 +177,10 @@ class Usuario():
         editarUser= cursorObj.fetchone()
         con.close()
         return editarUser
-<<<<<<< HEAD
- 
-
-    """ falta pais """
-    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser):
-        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
-=======
     
 
     def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,pais,telefono,correo,genero,idRol,idUser):
         sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?,fechaNacimiento = ?,pais = ?,telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
->>>>>>> 8c0717bf8d2427dc0c6cb09e4b46812299e8a5b5
         db = Database()
         con = db.sql_connection()
         cursosObj = con.cursor()

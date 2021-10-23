@@ -98,7 +98,7 @@ def registrarse():
          #instanciar clase para acceso a BD
          usuario = Usuario()
          usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc)
-   flash('Datos Guardados Exitosamente.')
+   #flash('Datos Guardados Exitosamente.')
    return render_template("registrarse.html", form = form)
    
 
