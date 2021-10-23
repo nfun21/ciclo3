@@ -1,0 +1,49 @@
+input[id^="spoiler"]{
+    display: none;
+   }
+   input[id^="spoiler"] + label {
+     display: inline-block;
+     
+     margin: 0 auto;
+     padding: 5px 20px;
+     background: #ff4804;
+     color: #fff;
+     text-align: center;
+     font-size: 18px;
+     border-radius: 4px;
+     cursor: pointer;
+     transition: all .6s;
+   }
+   input[id^="spoiler"]:checked + label {
+     color: #333;
+     background: #ccc;
+   }
+   input[id^="spoiler"] ~ .spoiler {
+     width: 90%;
+     height: 0;
+     overflow: hidden;
+     opacity: 0;
+     margin: 10px auto 0; 
+     padding: 10px; 
+     background: #eee;
+     border: 1px solid #ccc;
+     border-radius: 8px;
+     transition: all .6s;
+   }
+   input[id^="spoiler"]:checked + label + .spoiler{
+     height: auto;
+     opacity: 1;
+     padding: 10px;
+   }
+
+   .puntuacion {
+    text-align: center;
+    color: #aaa;
+    font-size: 28px;
+}
+span.star.light {
+  color: #ff4804;
+}
+span.origen {
+  background: #fef9e6;
+}

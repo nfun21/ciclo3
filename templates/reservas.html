@@ -9,8 +9,10 @@
     <title>gestion-vuelos</title>
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
 <link rel="stylesheet" href="../static/gestion-vuelos.css" media="screen">
+<link rel="stylesheet" href="../static/core.css" media="screen">
     <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../static/nicepage.js" defer=""></script>
+    
     <meta name="generator" content="Sistema de gestión de vuelos G2">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
     
@@ -60,54 +62,45 @@
       </div></header>
     <section class="u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
-        <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de vuelos</h1>
+        <h1 class="u-align-center u-text u-text-default u-text-1">Mis vuelos</h1>
         <div class="u-align-left u-form u-form-1">
-          <!--inicio formulario-->
-          <!--validación de errores-->
-          <div>
-            {% for fields, errors in form.errors.items()  %}
+          
+        </div>
+        
+        <div class="u-expanded-width u-table u-table-responsive u-table-1">
+          
+          {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="mensajes">
+        {% for message in messages %}
+            <li class="u-form-send-error u-form-send-message" style="list-style: none;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endwith %}
+          <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+        <div>
+            {% for fields, errors in form.errors.items() %}
             <ul>
               {% for error in errors %}
               <li class="u-form-send-error u-form-send-message" style="list-style: none;">
                 {{ error }}
-
               </li>
               {% endfor %}
             </ul>
             {% endfor %}
           </div>
-          <form action="" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
-            <div class="u-form-group u-form-name">
-              {{ form.csrf_token() }}
-              
-              <input type="text" placeholder="Introduzca un código de vuelo" id="consvuelo" name="consvuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
-            </div>
-            <div class="u-align-right u-form-group u-form-submit">
-              {{form.botonEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
-            </div>
-            
-          </form>
-          <!---fin formulario-->
-        </div>
-        <a href="crear-vuelo" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-4-base u-radius-6 u-btn-2">Crear nuevo vuelo</a>
-        <div class="u-expanded-width u-table u-table-responsive u-table-1">
-          <center><h2>{{titulo}}</h2></center>
+  
+          <!-- --------------------------------------------------------------------------------------------------------------------------------- -->
           <table class="u-table-entity">
-            <colgroup>
-              <col width="8%">
-              <col width="10.9%">
-              <col width="17%">
-              <col width="14.2%">
-              <col width="12.8%">
-              <col width="37.1%">
-            </colgroup>
+            
             <thead class="u-grey-50 u-table-header u-table-header-1">
               <tr style="height: 41px;">
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Código</th>
-                <th class="u-border-1 u-border-grey-50 u-table-cell">Origen</th>
-                <th class="u-border-1 u-border-grey-50 u-table-cell">Destino</th>
-                <th class="u-border-1 u-border-grey-50 u-table-cell">Capacidad</th>
+                <th class="u-border-1 u-border-grey-50 u-table-cell">Origen / Destino</th>
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Estado</th>
+        
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Operaciones</th>
               </tr>
             </thead>
@@ -115,28 +108,62 @@
               {%for v in vuelos %}
               <tr style="height: 75px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.idVuelo}}</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.origenVuelo}}</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.destinoVuelo}}</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.puestos}}/{{v.capacidad}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><span class="origen">{{v.origenVuelo}}</span><br> <span class="destino">{{v.destinoVuelo}}</span></td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.estadoVuelo}}</td>
+            
                 
                   <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-12">
-                    <a href="editar-vuelo/{{v.idVuelo}}" class="u-border-none u-btn u-btn-round" style="
-                    background: #547bdb !important;
-                "> Editar</a>
-                  <a href="eliminar-vuelo/{{v.idVuelo}}" class="u-btn u-btn-round">Eliminar</a>
-                  <a href="#mas{{v.idVuelo}}" class="u-btn u-btn-round u-dialog-link">+</a>
-                  <section class="u-align-center u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-valign-middle u-section-4" id="mas{{v.idVuelo}}">
-                    <div class="u-container-style u-dialog u-shape-rectangle u-white u-dialog-1">
-                      <div class="u-container-layout u-container-layout-1">
-                        <p >Piloto: {{v.piloto}} </p>
-                        <p >Co-piloto: {{v.piloto}}</p>
-                        <p >Fecha</p>
-                        <input type="datetime-local" readonly value="{{v.fechaVuelo}}">
-                        
-                      </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
-                    </div>
-                  </section>
+                    
+                  
+                {% if v.estadoVuelo =="Finalizado" %}
+                  
+                    {% if v.review > 0 %}
+                        <input type="checkbox"  id="spoiler{{v.idVuelo}}" /> 
+                        <label for="spoiler{{v.idVuelo}}" style="background: #188bc2;" >Ver Reseña</label>
+                        <div class="spoiler">
+                            <div class="puntuacion">
+                                {% for i in range(5) %}
+                                <span class="star {% if i < v.puntuacion %} light{% endif %}">★</span>
+                                {% endfor %}
+                                </div>
+                            <div class="fechaReview">{{v.fechaReview}}</div>
+                            {{v.comment}}
+                        </div>
+                    {% else %}
+                        <input type="checkbox"  id="spoiler{{v.idVuelo}}" /> 
+                        <label for="spoiler{{v.idVuelo}}" >Publicar una reseña</label>
+                        <div class="spoiler">
+                            <form action="" method="POST" >
+                                {{ form.csrf_token() }}
+                                <div class="u-form-group u-form-message">
+                                <label for="message-0173" class="u-form-control-hidden u-label"></label>
+                                <textarea placeholder="Ingrese sus comentarios" rows="4" cols="50" id="message-0173" name="review" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white"></textarea>
+                                </div>
+                                <div class="u-form-group u-form-select u-form-group-2">
+                                <label for="select-b77b" class="u-label">Puntuación</label>
+                                <div class="u-form-select-wrapper">
+                                    <select id="select-b77b" name="puntaje" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                    </select>
+                                    <input type="hidden" value="{{v.idVuelo}}" name="idVuelo">
+                                </div>
+                                </div>
+                                <div class="u-align-left u-form-group u-form-submit">
+                                {{ form.btnEnviar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
+                                </div>
+                                
+                            </form>
+                        </div>
+                    {% endif %}
+                {% elif v.estadoVuelo == "Inicializado" or v.estadoVuelo == "Inactivo" %}
+                    <a class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2" href="cancelar-reserva/{{ v.idVuelo }}">Cancelar reserva</a>
+                {% else %}
+                    Podrá publicar una reseña una vez el vuelo haya sido marcado como finalizado.
+                {% endif %}
                   </td>
                   
               </tr>
@@ -265,5 +292,6 @@ By: Grupo 47-2-Mintic2022</p>
   .u-section-4 .u-btn-2 {
     margin-right: 0;
   }
-}</style></body>
+}</style>
+</body>
 </html>

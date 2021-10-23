@@ -12,6 +12,7 @@ import json
 import hashlib
 from werkzeug.utils import escape, redirect
 from clases import *
+from datetime import datetime
 
 
 
@@ -22,7 +23,7 @@ app.secret_key = os.urandom(24)
 def paginaprincipal():
    if 'idUser' in session:
       if session['rol']==1:
-         return redirect(url_for('pasajero'))
+         return redirect(url_for('pasajeros'))
       elif session['rol']==2:
          return redirect(url_for('piloto'))
       elif session['rol']==3:
@@ -182,6 +183,7 @@ def reviews():
       piloto = Piloto()
       reviews = piloto.consultarReviewsPi(session['idUser'])
       return render_template("reviews.html", reviews=reviews)
+     
 
 @app.route("/gestion-vuelos", methods = ["GET", "POST"])
 def gestionvuelos():
@@ -212,32 +214,33 @@ def crearsuario():
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-""" -------------------------------------------------------------------------------------------- """   
+ 
 @app.route("/editar-usuario/<idUser>", methods = ["GET", "POST"])
 def editarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
       form = frmCrearEditarUsuario()      
       datosUser = ""
       usuario = Usuario()
-      datosUser = usuario.editarUsuario(idUser) 
-      form.validate_on_submit()
-      if request.method == "POST":
+      datosUser = usuario.editarUsuario(idUser)  
+      if form.validate_on_submit():
          nombres = request.form.get('nombres') 
          apellidos = request.form.get('apellidos') 
          tipoDocumento = request.form.get('tipoDocumento') 
-         fechaNacimiento = request.form.get('fechaNacimiento') 
+         fechaNacimiento = request.form.get('fechaNacimiento')
+         pais = request.form.get('pais') 
          telefono = request.form.get('telefono') 
          correo = request.form.get('correo') 
          genero = request.form.get('genero') 
          idRol = request.form.get('rol') 
-         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,telefono,correo,genero,idRol,idUser)                                  
-      return render_template("editar-usuario.html", form=form,datosUser=datosUser)        
-   
-   
+         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,pais,telefono,correo,genero,idRol,idUser)                                  
+         datosUser = usuario.editarUsuario(idUser) 
+         flash('Usuario editado con éxito.')
+         return render_template("editar-usuario.html", form=form,datosUser=datosUser) 
+      return render_template("editar-usuario.html", form=form,datosUser=datosUser)          
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
-""" -------------------------------------------------------------------------------------------- """
+
 @app.route("/eliminar-usuario/<idUser>", methods = ["GET", "POST"])
 def eliminarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
@@ -318,7 +321,7 @@ def reservarVuelo(idVuelo):
       vuelo = Vuelo()
       vuelo.reservarVuelo(idVuelo, session['idUser'])
       flash('El vuelo se ha reservado con éxito.')
-      return redirect(url_for('buscarvuelo'))
+      return redirect(url_for('misvuelos'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))
@@ -334,8 +337,35 @@ def cancelarReservaVuelo(idVuelo):
       return redirect(url_for('buscarvuelo'))
    else:
       flash('¡Debe ingresar al sistema para poder reservar!')
-      return redirect(url_for('consultarvuelo'))
-
+      return redirect(url_for('misvuelos'))
+@app.route("/misvuelos", methods=["GET", "POST"])
+def misvuelos():
+   if 'idUser' in session:
+      vuelo = Vuelo()
+      ##generar vuelos que el usuario tiene reservados y que han finalizado
+      vuelos = vuelo.buscarVuelos("reservas","","",session['idUser'],"")
+      form = frmPublicarReview()
+      if form.validate_on_submit():
+         idVuelo =request.form.get('idVuelo')
+         comment =request.form.get('review')
+         puntuacion =request.form.get('puntaje')
+         fechaReview = datetime.today().strftime('%d-%m-%Y')
+         pasajero = Pasajero()
+         tieneReserva = pasajero.consultarReserva(session['idUser'],idVuelo)
+         if tieneReserva:
+            tieneReview = pasajero.consultarReview(session['idUser'], idVuelo)
+         else:
+            flash('Usted no puede publicar una reseña para este vuelo.')
+         if tieneReview:
+            flash('Usted ya ha publicado una reseña para este vuelo')
+         else:
+            pasajero.publicarReview(session['idUser'],idVuelo,comment, puntuacion,fechaReview)
+            flash('Se publicó la reseña')
+            return redirect(request.url)
+      return render_template("reservas.html", vuelos = vuelos, form=form)
+   else:
+      flash('No tiene permisos para acceder a está página.')
+      return redirect(url_for('paginaprincipal'))
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
    if 'idUser' in session and session["rol"] == 2:
