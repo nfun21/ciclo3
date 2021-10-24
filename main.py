@@ -206,11 +206,25 @@ def gestionvuelos():
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
-def crearsuario():
-   if 'idUser' in session and session["rol"] == 3:         
-      form = frmCrearEditarUsuario()
-      form.validate_on_submit()
-      return render_template("crear-usuario.html", form=form)
+def crearUsuario():
+   if 'idUser' in session and session["rol"] == 3: 
+      if request.method == "POST":        
+         form = frmCrearUsuario()
+         if form.validate_on_submit():
+            nombres = form.nombres.data 
+            apellidos = form.apellidos.data 
+            tipoDocumento = form.tipoDocumento.data
+            numDocumento = form.numDocumento.data 
+            fechaNacimiento = form.fechaNacimiento.data
+            telefono = form.telefono.data 
+            correo = form.correo.data 
+            genero = form.genero.data
+            pais = form.pais.data  
+            rol = form.rol.data 
+            usuario = Usuario()
+            usuario.crearUsuario(nombres, apellidos, tipoDocumento, numDocumento, fechaNacimiento, telefono, correo, genero, pais, rol)
+            #flash('Usuario guardado con éxito.')
+         return render_template("crear-usuario.html", form=form)
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))

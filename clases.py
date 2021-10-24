@@ -146,7 +146,17 @@ class Usuario():
         cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, telefono, correo, pass_enc])
         con.commit()
         con.close()
-        
+
+    def crearUsuario(self, nombres, apellidos, tipoDocumento, numDocumento, fechaNacimiento, telefono, correo, genero, pais, rol):
+        sentencia = "INSERT INTO Usuario (nombres, apellidos, tipoDocumento, idUser, fechaNacimiento, telefono, correo, pais, idRol) VALUES (?,?,?,?,?,?,?,?,?)"
+        db = Database()
+        con = db.sql_connection()
+        #Crear cursor para manipular la BD
+        cursorObj = con.cursor()
+        cursorObj.execute(sentencia,[nombres, apellidos, tipoDocumento, numDocumento, fechaNacimiento, telefono, correo, genero, pais, rol])
+        con.commit()
+        con.close()
+
     def consultarUsuario(self, idUser):
         sentencia = "SELECT i.nombres, i.correo, i.idUser, i.idRol, t.nombreRol as nombreRol FROM Roles t JOIN Roles itb ON t.idRol = itb.idRol JOIN Usuario i ON itb.idRol = i.idRol WHERE i.idUser = ? "
         db = Database()
