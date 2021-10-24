@@ -127,7 +127,7 @@ class Vuelo():
 
 class Usuario():
     def login(self, correo, password):
-        sentencia = "SELECT nombres, apellidos, idUser, idRol FROM Usuario WHERE correo = ? AND  password = ?"
+        sentencia = "SELECT u.nombres, u.apellidos, u.idUser, u.idRol, r.nombreRol FROM Usuario u JOIN Roles r ON u.idRol = r.idRol WHERE correo = ? AND  password = ?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()

@@ -50,6 +50,7 @@ def ingresar():
             session['nombres'] = login['nombres']
             session['apellidos'] = login['apellidos']
             session['rol'] = login['idRol']
+            session['nombreRol'] = login['nombreRol']
             
             #se envía al usuario a su página principal específica
             if session['rol'] == 1:

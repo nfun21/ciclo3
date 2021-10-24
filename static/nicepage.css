@@ -3,7 +3,83 @@
  * License https://froala.com/wysiwyg-editor/terms/
  * Copyright 2014-2020 Froala Labs
  */
+/*MODIFICACIONES templates */
+.u-section-1 .u-sheet-1{
+  min-height: auto!important;
+}
+header {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.enlaces {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  }
+  
+  .div1 { grid-area: 1 / 1 / 2 / 2; }
+  .div2 { grid-area: 1 / 2 / 2 / 3; }
+  .div3 { grid-area: 1 / 3 / 2 / 4; }
+  .div4 { grid-area: 1 / 4 / 2 / 5; }
+  .div5 { grid-area: 2 / 1 / 3 / 2; }
+  .div6 { grid-area: 2 / 2 / 3 / 3; }
+  .div7 { grid-area: 2 / 3 / 3 / 4; }
+  .div8 { grid-area: 2 / 4 / 3 / 5; }
+  .enlaces div {
+    width: 100%;
+    height: 150px;
+    /*background: rgba(255, 255, 255, 0.5);*/
+    text-align: center;
+    border-radius: 3px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    padding: 10px;
+}
+span.nombreRol {
+  display: inline-block;
+  background: #ff4804 !important;
+  padding: 0 20px;
+  color: white;/*#547bdb;*/
+  border-radius: 20px;
+  font-size: 13px;
+}
+.salir{
+  background-color: rgba(255, 72, 4, 0.8);
+  text-align: center;
+  color: white;
+  border-radius: 4px;
+}
+.enlaces a:hover{
+  background-color: rgba(255, 72, 4, 0.9);
+  color: white;
+}
+div.enlaces > div{
+  background:rgb(255, 255, 255,0.8);
+}
+/*div.enlaces > div:nth-child(1), div.enlaces > div:nth-child(4),div.enlaces > div:nth-child(7){
+  background:rgb(168, 164, 25,0.8);
+}
+div.enlaces > div:nth-child(2), div.enlaces > div:nth-child(5){
+  background:rgb(13, 51, 136, 0.55);
+}
+div.enlaces > div:nth-child(3), div.enlaces > div:nth-child(6){
+  background:rgb(253, 15, 15, 0.55);
+}*/
+.spacer{
+  text-align: center;
+  display: block;
+  margin: 20px;
 
+}
+.nombres {
+  color: #ff4804 !important;
+  font-size: 18px;
+  
+}
+/*//////////////////////////////////////////////////////*/
 .fr-clearfix::after {
   clear: both;
   display: block;
@@ -35569,13 +35645,13 @@ a.u-link.u-text-hover-grey-90:hover {
   background-image: none;
 }
 
-.u-footer .u-sheet-1 {
+/*.u-footer .u-sheet-1 {
   min-height: 120px;
-}
+}*/
 
 .u-footer .u-text-1 {
-  width: 417px;
-  margin: 49px auto;
+/*  width: 417px;*/
+  margin: 50px auto 0;
 }
 @media (max-width: 1199px) {
   .u-footer .u-sheet-1 {

@@ -76,6 +76,21 @@
         <a href="{{url_for('misvuelos')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Mis vuelos</a>
         <a href="{{url_for('buscarvuelo')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-3">Buscar y reservar vuelos</a>
         <a href="{{url_for('salir')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-4">Cerrar Sesión</a>
+        <div class="u-clearfix u-sheet u-sheet-1">
+          <div class="spacer"></div>
+          <div class="enlaces">
+            <div class="div1"><span class="nombres">{{session['nombres'] + ' ' + session['apellidos']}}
+              <br><span class="nombreRol">{{session['nombreRol']}}</span>
+            </span> </div>
+            <div> sasaas</div>
+            <div>sasaas </div>
+            <div>asas </div>
+            <div> asas</div>
+            <div> saas</div>
+            <div>asas </div>
+            <a class="salir" href="{{url_for('salir')}}"><div>Cerrar sesion</div></a>
+            </div>
+        
       </div>
     </section>
     
