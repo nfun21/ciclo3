@@ -117,7 +117,7 @@ class Vuelo():
         else:
             origenVuelo = '%'+origenVuelo+'%'
             destinoVuelo = '%'+destinoVuelo+'%'
-            sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = v.idVuelo) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE v.origenVuelo LIKE ? AND v.destinoVuelo LIKE ? AND puestos > 0 AND (v.estadoVuelo ='Inactivo' OR v.estadoVuelo='Inicializado')"
+            sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = v.idVuelo) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE v.origenVuelo LIKE ? AND v.destinoVuelo LIKE ? AND puestos > 0 AND (v.estadoVuelo ='Programado' OR v.estadoVuelo='Inicializado')"
             cursorObj.execute(sentencia,[idUser, origenVuelo, destinoVuelo])
         con.commit()
         resultados = cursorObj.fetchall()
@@ -167,14 +167,14 @@ class Usuario():
         con.commit()
         con.close()
 
-    def consultarUsuario(self, idUser, tipoConsulta):
+    def consultarUsuario(self, idUser, tipoConsulta=""):
         sentencia = "SELECT i.nombres, i.correo, i.idUser, i.idRol, t.nombreRol as nombreRol FROM Roles t JOIN Roles itb ON t.idRol = itb.idRol JOIN Usuario i ON itb.idRol = i.idRol WHERE i.idUser = ? "
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
         
         if tipoConsulta == "correo":
-            sentencia = "SELECT nombres WHERE correo = ? "
+            sentencia = "SELECT nombres FROM Usuario WHERE correo = ? "
             cursorObj.execute(sentencia,[idUser])
         else:
             nombres = '%' + str(idUser) + '%'

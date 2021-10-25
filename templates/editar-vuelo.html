@@ -98,7 +98,7 @@
               <label for="select-0fee" class="Editar u-label">Estado</label>
               <div class="u-form-select-wrapper">
                 <select id="select-0fee" value="{{vuelo.estadoVuelo}}" name="estadoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  <option value="Inactivo" {% if vuelo.estadoVuelo == "Inactivo"%}selected="selected"{% endif %}>Inactivo</option>
+                  <option value="Programado" {% if vuelo.estadoVuelo == "Programado"%}selected="selected"{% endif %}>Programado</option>
                   <option value="Inicializado" {% if vuelo.estadoVuelo == "Inicializado"%}selected="selected"{% endif %}>Inicializado</option>
                   <option value="Abordando" {% if vuelo.estadoVuelo == "Abordando"%}selected="selected"{% endif %}>Abordando</option>
                   <option value="En vuelo" {% if vuelo.estadoVuelo == "En vuelo"%}selected="selected"{% endif %}>En vuelo</option>

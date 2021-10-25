@@ -56,7 +56,7 @@ header {
 }
 .enlaces {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 20px;
   grid-row-gap: 20px;
   }
@@ -69,10 +69,14 @@ header {
   .div6 { grid-area: 2 / 2 / 3 / 3; }
   .div7 { grid-area: 2 / 3 / 3 / 4; }
   .div8 { grid-area: 2 / 4 / 3 / 5; }
+  .enlaces a{
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 3px;
+  }
   .enlaces div {
     width: 100%;
     height: 150px;
-    /*background: rgba(255, 255, 255, 0.5);*/
+    
     text-align: center;
     border-radius: 3px;
     text-align: center;
@@ -90,14 +94,14 @@ span.nombreRol {
   border-radius: 20px;
   font-size: 13px;
 }
-.salir{
+.enlaces a.salir{
   background-color: rgba(255, 72, 4, 0.8);
   text-align: center;
   color: white;
   border-radius: 4px;
 }
 .enlaces a:hover{
-  background-color: rgba(255, 72, 4, 0.9);
+  background-color: rgba(255, 72, 4, 1);
   color: white;
 }
 div.enlaces > div{

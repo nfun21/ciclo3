@@ -99,6 +99,17 @@ def registrarse():
          pass_enc = enc.hexdigest()
          #instanciar clase para acceso a BD
          usuario = Usuario()
+         existeCorreo = usuario.consultarUsuario(correo,"correo")
+         if existeCorreo:
+            flash('El correo utilizado ya se encuentra asociado a una cuenta.')
+            return redirect(url_for('registrarse'))
+         
+         existeId = usuario.consultarUsuario(numDocumento)
+
+         if existeId:
+            flash('La identificación utilizada ya se encuentra asociada a una cuenta.')
+            return redirect(url_for('registrarse'))
+            
          usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, codigoMarcacion,telefono, correo, pass_enc)
    #flash('Datos Guardados Exitosamente.')
    return render_template("registrarse.html", form = form)
@@ -209,10 +220,11 @@ def gestionvuelos():
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
-def crearUsuario():
+def crearusuario():
+   form =frmCrearEditarUsuario()
    if 'idUser' in session and session["rol"] == 3: 
       if request.method == "POST":        
-         form = frmCrearUsuario()
+         
          if form.validate_on_submit():
             nombres = form.nombres.data 
             apellidos = form.apellidos.data 
@@ -224,10 +236,15 @@ def crearUsuario():
             genero = form.genero.data
             pais = form.pais.data  
             rol = form.rol.data 
+            codigoMarcacion = form.codigoMarcacion.data
+            password = numDocumento
+            #Cifrar el password
+            enc = hashlib.sha256(password.encode())
+            pass_enc = enc.hexdigest()
             usuario = Usuario()
-            usuario.crearUsuario(nombres, apellidos, tipoDocumento, numDocumento, fechaNacimiento, telefono, correo, genero, pais, rol)
-            #flash('Usuario guardado con éxito.')
-         return render_template("crear-usuario.html", form=form)
+            usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, codigoMarcacion,telefono, correo, pass_enc)
+            flash('Usuario guardado con éxito.')
+      return render_template("crear-usuario.html", form=form, datosUser="")
    else:
       flash('Usted no tiene permisos para acceder a esta página.')
       return redirect(url_for('paginaprincipal'))

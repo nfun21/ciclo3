@@ -35,6 +35,13 @@
         <h2 class="u-text u-text-default u-text-1 titulo-review">RESEÑAS</h2>
           <h3 class="u-text u-text-default u-text-1 subtitulo-review">{{infoVuelo.origenVuelo}}-{{infoVuelo.destinoVuelo}}</h3>
           <div class="fecha-v-review" style="text-align: center;"><input type="datetime-local" class="fecha-vuelo-review" value="{{infoVuelo.fechaVuelo}}" readonly></div>
+          {% if idRol == 3 %}
+          <div style="text-align: center;">
+          <div class="review-pilots">
+            {{infoVuelo.piloto}} & {{infoVuelo.copiloto}}
+          </div>
+        </div>
+          {% endif %}
         <!-- Modelo para imprimir las reseñas-->
         {% include 'mensajes.html' %}
         
@@ -51,11 +58,7 @@
               <div class="review-body">
                 {{r.comment}}
               </div>
-              {% if idRol == 3 %}
-              <div class="review-pilots">
-                {{r.piloto}} & {{r.copiloto}}
-              </div>
-              {% endif %}
+             
             </div>
 
             

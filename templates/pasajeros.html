@@ -33,20 +33,33 @@
       <div class="u-clearfix u-sheet u-sheet-1">
         {% include 'mensajes.html' %}
         <h1 class="u-align-center u-text u-text-default u-text-1">Bienvenid@:</h1>
-        <h2 class="u-align-center u-subtitle u-text u-text-default u-text-2">{{session['nombres'] + ' ' + session['apellidos']}}</h2>
-        <img class="u-image u-image-default u-preserve-proportions u-image-1" src="static/images/pasajeros.png" alt="" data-image-width="256" data-image-height="256">
-        <h1 class="u-align-center u-text u-text-3">
-          <span style="font-size: 2.25rem;"></span>
+        <div style="text-align: center;">
+        <img height="150" src="static/images/pasajeros.png"></div>
+        <h3 class="u-align-center u-text u-text-3" style="font-weight: bold;">
+          
           <span style="font-size: 2.25rem;">Sistema de Gestión de Vuelos y Reseñas</span>
-        </h1>
-        <p class="u-align-center u-small-text u-text u-text-default u-text-variant u-text-4">Aquí podra realizar el proceso de gestión de vuelos y reseñas<span style="font-size: 1rem;">
+        </h3>
+        <p class="u-align-center u-small-text u-text u-text-default u-text-variant u-text-4" style="margin-top: 0;">Aquí podra realizar el proceso de gestión de vuelos y reseñas<span style="font-size: 1rem;">
             <span style="font-size: 1.25rem;"></span>
           </span>
         </p>
-        <a href="{{url_for('misvuelos')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Mis vuelos</a>
-        <a href="{{url_for('buscarvuelo')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-3">Buscar y reservar vuelos</a>
-        <a href="{{url_for('salir')}}" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-3">Cerrar Sesión</a>
+        
       </div>
+
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="spacer"></div>
+        <div class="enlaces" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="div1"><span class="nombres">{{session['nombres'] + ' ' + session['apellidos']}}
+            <br><span class="nombreRol">{{session['nombreRol']}}</span>
+          </span> </div>
+          
+          
+          <a class="" href="{{url_for('misvuelos')}}"><div>Mis reservas</div></a>
+          <a class="" href="{{url_for('buscarvuelo')}}"><div>Buscar y reservar vuelos</div></a>
+          <a class="salir" href="{{url_for('salir')}}"><div>Cerrar sesion</div></a>
+          </div>
+      
+    </div>
     </section>
     
     
