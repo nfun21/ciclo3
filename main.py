@@ -17,10 +17,13 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.config['SECRET_KEY'] = 'JU-\xf9\x1bT\xfb\x11\xa6\xdb[\xbe\xd6P\xc0\x9f\xda\x7fcN\xb1R8\x8c'
+app.config['CSRF_SESSION_KEY'] = "\xb8#8\xb9\xc1 3E\xe1tt\xf9\xce\xedR_\xca\xeb^uf'\xd1\xe9"
+#app.secret_key = os.urandom(24)
 
 @app.route("/", methods = ["GET"])
 def paginaprincipal():
+
    if 'idUser' in session:
       if session['rol']==1:
          return redirect(url_for('pasajeros'))
