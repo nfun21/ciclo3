@@ -26,42 +26,15 @@
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
   </head>
-  <body class="u-body"><header class="u-clearfix u-header u-header" id="sec-d507"><div class="u-clearfix u-sheet u-sheet-1">
-        <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
-          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
-            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
-              <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><symbol id="menu-hamburger" viewBox="0 0 16 16" style="width: 16px; height: 16px;"><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
-</symbol>
-</defs></svg>
-            </a>
-          </div>
-          <div class="u-custom-menu u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../" style="padding: 10px 20px;">Página principal</a>
-</li></ul>
-          </div>
-          <div class="u-custom-menu u-nav-container-collapse">
-            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-              <div class="u-inner-container-layout u-sidenav-overflow">
-                <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="../" style="padding: 10px 20px;">Página principal</a>
-</li></ul>
-              </div>
-            </div>
-            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
-          </div>
-        </nav>
-        <p class="u-text u-text-default u-text-1">
-          <font color="#f1c50e">AEROPUERTO ALFONSO </font>
-          <span class="u-text-palette-2-base">LÓPEZ</span>
-          <font color="#f1c50e"></font>
-          <span class="u-text-palette-1-base">PUMAREJO</span>
-        </p>
-      </div></header>
+  <body class="u-body">
+        {% include 'menu.html' %}
+        
     <section class="u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de vuelos</h1>
+        {% include 'mensajes.html' %}
         <div class="u-align-left u-form u-form-1">
+          
           <!--inicio formulario-->
           <!--validación de errores-->
           <div>
@@ -114,6 +87,7 @@
             <tbody class="u-table-body">
               {%for v in vuelos %}
               <tr style="height: 75px;">
+                
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.idVuelo}}</td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.origenVuelo}}</td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.destinoVuelo}}</td>
@@ -121,20 +95,25 @@
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.estadoVuelo}}</td>
                 
                   <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-12">
-                    <a href="editar-vuelo/{{v.idVuelo}}" class="u-border-none u-btn u-btn-round" style="
+                    <a href="editar-vuelo/{{v.idVuelo}}" class="btn-simple u-border-none u-btn u-btn-round" style="
                     background: #547bdb !important;
                 "> Editar</a>
-                  <a href="eliminar-vuelo/{{v.idVuelo}}" class="u-btn u-btn-round">Eliminar</a>
-                  <a href="#mas{{v.idVuelo}}" class="u-btn u-btn-round u-dialog-link">+</a>
+                  <a href="eliminar-vuelo/{{v.idVuelo}}" class="btn-simple u-btn u-btn-round">Eliminar</a>
+                  <a href="#mas{{v.idVuelo}}" class="btn-simple u-btn u-btn-round u-dialog-link">+</a>
+                  {% if v.reviews %}
+                      <a href="vuelo/{{v.idVuelo}}/comentarios" class="u-border-none u-btn u-btn-round" style="
+                    background: #547bdb !important; padding: 5px;
+                "> 💬 <span class="numreviews">{{v.reviews}}</span> </a>
+                      {% endif %}
                   <section class="u-align-center u-black u-clearfix u-container-style u-dialog-block u-opacity u-opacity-70 u-valign-middle u-section-4" id="mas{{v.idVuelo}}">
                     <div class="u-container-style u-dialog u-shape-rectangle u-white u-dialog-1">
                       <div class="u-container-layout u-container-layout-1">
                         <p >Piloto: {{v.piloto}} </p>
-                        <p >Co-piloto: {{v.piloto}}</p>
+                        <p >Co-piloto: {{v.copiloto}}</p>
                         <p >Fecha</p>
                         <input type="datetime-local" readonly value="{{v.fechaVuelo}}">
                         
-                      </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 413.348 413.348" id="svg-5801"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"></path></svg></button>
+                      </div><button class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 413.348 413.348"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5801"></use></svg></button>
                     </div>
                   </section>
                   </td>

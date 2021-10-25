@@ -4,6 +4,50 @@
  * Copyright 2014-2020 Froala Labs
  */
 /*MODIFICACIONES templates */
+span.numreviews {
+  display: inline-block;
+  font-size: 10px;
+  margin-left: -6px;
+  background: #ff4804;
+  padding: 0 4px;
+  border-radius: 8px;
+}
+a.btn-simple {
+  padding: 5px 20px!important;
+  font-size: 14px!important;
+}
+span.rol {
+  display: inline-block;
+  padding: 0 10px;
+  border-radius:4px;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+}
+section, footer {
+  background: rgba(255,255,255, 0.5);
+}
+span.rol.PASAJERO {
+ color: #0b9203;
+}
+span.rol.PILOTO {
+  color: #0561eb;
+}
+span.rol.SUPERADMIN {
+  color: red;
+}
+tbody tr, tbody tr td{
+  border: 0!important;
+}
+tbody tr:nth-child(odd){
+  background: rgba(243,243,243, 0.7);
+}
+tbody tr:nth-child(even){
+  background: rgba(255,255,255, 0.7);
+}
+tbody tr:hover{
+  background: rgba(255, 251, 240, 0.8);
+}
 .u-section-1 .u-sheet-1{
   min-height: auto!important;
 }

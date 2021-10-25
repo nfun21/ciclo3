@@ -27,38 +27,9 @@
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
   </head>
-  <body class="u-body"><header class="u-clearfix u-header u-header" id="sec-d507"><div class="u-clearfix u-sheet u-sheet-1">
-        <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
-          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
-            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
-              <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><symbol id="menu-hamburger" viewBox="0 0 16 16" style="width: 16px; height: 16px;"><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
-</symbol>
-</defs></svg>
-            </a>
-          </div>
-          <div class="u-custom-menu u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../" style="padding: 10px 20px;">Página principal</a>
-</li></ul>
-          </div>
-          <div class="u-custom-menu u-nav-container-collapse">
-            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-              <div class="u-inner-container-layout u-sidenav-overflow">
-                <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="../" style="padding: 10px 20px;">Página principal</a>
-</li></ul>
-              </div>
-            </div>
-            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
-          </div>
-        </nav>
-        <p class="u-text u-text-default u-text-1">
-          <font color="#f1c50e">AEROPUERTO ALFONSO </font>
-          <span class="u-text-palette-2-base">LÓPEZ</span>
-          <font color="#f1c50e"></font>
-          <span class="u-text-palette-1-base">PUMAREJO</span>
-        </p>
-      </div></header>
+  <body class="u-body">
+        {% include 'menu.html' %}
+        
     <section class="bg-img u-align-center" id="sec-c882" data-image-width="1600" data-image-height="1067">
       <div class="u-clearfix u-sheet u-sheet-1">
         
@@ -72,6 +43,7 @@
             <h5 style="background-color: white;" class="u-align-justify u-custom-font u-font-montserrat u-text u-text-3">Ingresa tus datos&nbsp;<span class="u-text-palette-1-base"> tal como aparecen en tu documento de identidad. <span class="u-text-black">Los usaremos cuando compres tus tickets.</span>
               </span>
             </h5>
+            {% include 'mensajes.html' %}
             <!---#############################INICIO FORMULARIO DE REGISTRO####################################-->
             <!--- ##########         VALIDACIÓN DE ERRORES  #####-->
             <div>
@@ -101,13 +73,8 @@
                 <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-3">
                   
                   <div class="u-form-select-wrapper">
-                    <select name="tipoDocumento" id="select-9496"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
-                      <option value="Tipo de documento">Tipo de documento</option>
-                      <option value="CC">Cédula de ciudadania</option>
-                      <option value="TI">Tarjeta de identidad</option>
-                      <option value="PS">Pasaporte</option>
-                    </select>
-                    
+                    {{form.tipoDocumento(class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white")}}
+                                        
                   </div>
                 </div>
                 <div class="u-form-group u-form-partition-factor-2 u-form-group-4">
@@ -124,18 +91,18 @@
                 <div class="u-form-group u-form-partition-factor-2 u-form-select u-form-group-6">
                   
                   <div class="u-form-select-wrapper">
-                    <select name="genero" id="select-1036"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white">
-                      <option value="Género">Género</option>
-                      <option value="Masculino">Masculino</option>
-                      <option value="Femenino">Femenino</option>
-                      <option value="Prefiero no decirlo">Prefiero no decirlo</option>
-                    </select>
+                    {{form.genero(class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white")}}
+                    
                     
                   </div>
                 </div>
                 <div class="u-form-group u-form-group-2">
                   <label for="date-5543" class="u-label u-label-7">Fecha de nacimiento</label>
                   <input name="fechaNacimiento" type="date" placeholder="DD/MMM/YYYY" id="date-5543"  class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white" required="">
+                </div>
+                <div class="u-form-group u-form-partition-factor-4 u-form-group-8">
+                  {{form.codigoMarcacion(class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-radius-10 u-white")}}
+                  
                 </div>
                 
                 <div class="u-form-group u-form-partition-factor-2 u-form-group-9">

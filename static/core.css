@@ -47,3 +47,92 @@ span.star.light {
 span.origen {
   background: #fef9e6;
 }
+/* Reseñas*/
+.review-header div {
+  width: 33.3%;
+  float: left;
+}
+
+.review-stars {
+  font-size: 30px;
+  color: #b6b6b6;
+}
+
+.review-flight {
+  background: url('images/user.png');
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 26px;
+  font-size: 14px;
+  float: left;display: flex;
+  align-items: center;
+  
+}
+.review-date {
+  background: url('images/calendar.png');
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-right: 23px;
+  font-size: 14px;
+  float: left;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  background-size: 16px;
+}
+.review {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  }
+
+.contenedor-reviews{
+  background-color: rgba(255,255,255, 0.7);
+  padding: 20px 35px;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.review-body{text-align: left;}
+
+.review-pilots {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  padding-left: 20px;
+  display: inline-block;
+  background: url('images/plane.png');
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 18px;
+}
+
+.titulo-review {
+  margin-bottom: 0!important;
+}
+.subtitulo-review{
+  margin:0!important;
+  text-align: center;
+  display: block;
+}
+.fecha-vuelo.review{
+  display: inline-block;
+  text-align: center;
+}
+
+input.fecha-vuelo-review {
+  text-align: center;
+  width: 100%;
+  padding-left: 40px;
+  background: none;
+  border: none;
+  display: inline-block;
+  
+}
+
+.fecha-v-review input:focus{
+  outline: none;
+}
+
