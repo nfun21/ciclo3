@@ -3,13 +3,15 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
 from wtforms.fields.core import DateField, DateTimeField, IntegerField, SelectField
+from wtforms_validators import AlphaNumeric, Integer
 from wtforms.validators import ValidationError, DataRequired, \
     Email, EqualTo, Length
 import json
+from datetime import datetime
 
 class frmPublicarReview(FlaskForm):
    review= StringField(label="review",
-   validators=[DataRequired(message="Es necesario que escriba un comentario."),Length(min=4, max=750, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
+   validators=[DataRequired(message="Es necesario que escriba un comentario."),Length(min=4, max=500, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
    puntaje= SelectField(label="puntaje",
       choices=[
          ('1'),
@@ -36,10 +38,10 @@ class frmRecuperar(FlaskForm):
    botonRecuperar = SubmitField(label="Enviar")
 
 class frmBuscarVuelo(FlaskForm):
-   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')])
+   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter')])
    ciudaddestino = StringField(label='ciudaddestino',
       validators=[
-         DataRequired(message ='Es necesario establecer la ciudad de destino'), Length (min=1, max=120, message ='La ciudad debe tener por lo menos %(min)d caracter')
+         DataRequired(message ='Es necesario establecer la ciudad de destino'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter')
          ])
    botonEnviar = SubmitField(label='BUSCAR')
 
@@ -63,8 +65,8 @@ class frmCrearEditarVuelo(FlaskForm):
    ]
    )
    
-   idPiloto = StringField(label='idPiloto')
-   idcoPiloto = StringField(label='idCo-Piloto')
+   idPiloto = StringField(label='idPiloto', validators=[DataRequired(), Length(min = 1, max = 150, message='La id del piloto es muy corta o muy larga')])
+   idcoPiloto = StringField(label='idCo-Piloto', validators=[DataRequired(), Length(min = 1, max = 150, message='La id del co-piloto es muy corta o muy larga')])
    fecha = StringField(label="fecha", validators=[DataRequired('La fecha no puede quedar vacía.')])
    botonGuardar = SubmitField(label="GUARDAR")
 
@@ -79,19 +81,24 @@ class frmIngreso(FlaskForm):
       Length(min=2, max=15, message='La contraseña debe tener mínimo 8 caracteres y máximo 15')]
       )
    botonEnviar = SubmitField(label="INGRESAR")
-
+#validación para fecha de nacimiento. 
+#No permite que se ingrese una fecha mayor a la actual.
+def validate_date(form, field):
+   hoy2 = datetime(field.data.year,field.data.month, field.data.day)
+   if hoy2 > datetime.today():
+      raise ValidationError("La fecha de nacimiento no puede ser mayor que la fecha actual")
 class frmUsuario(FlaskForm):
    nombres=StringField(label='nombres',
       validators=[
          DataRequired(message='El campo de nombres no puede quedar vacío'),
-         Length(min=3, max=120, message='El nombre no puede tener menos de 3 caracteres y más de 120')
+         Length(min=3, max=50, message='El nombre no puede tener menos de 3 caracteres y más de 50')
       ]
    )
 
    apellidos=StringField(label='apellidos',
       validators=[
          DataRequired(message='El campo de apellidos no puede quedar vacío'),
-         Length(min=3, max=120, message='El apellido no puede tener menos de 3 caracteres y más de 120')
+         Length(min=3, max=50, message='El apellido no puede tener menos de 3 caracteres y más de 50')
       ]
    )
 
@@ -109,7 +116,9 @@ class frmUsuario(FlaskForm):
    numDocumento = StringField(label='número doc',
       validators=[
          DataRequired(message='El campo de número de documento no puede quedar vacío'),
-         Length(min=8, max=70, message="La identificación introducida es muy larga o muy corta")
+         Length(min=8, max=50, message="La identificación introducida es muy larga o muy corta"),
+         AlphaNumeric(message="El número de identificación contiene caracteres prohibidos.")
+         
       ]
    )
    #######################  CAMPO PARA PAISES  #########################
@@ -133,10 +142,10 @@ class frmUsuario(FlaskForm):
 
    f.close()
 
-   telefono=StringField(label="telefono",
+   telefono=IntegerField(label="telefono",
       validators=[
          DataRequired(message='El campo de teléfono no puede quedar vacío'),
-         Length(min=6,max=20, message='El número de teléfono es muy corto o muy largo')
+         Integer()
       ]
    )
 
@@ -146,7 +155,7 @@ class frmUsuario(FlaskForm):
 
    fechaNacimiento = DateField(label="Fecha nacimiento",
       
-      validators=[DataRequired(message='El campo de fecha de nacimiento no puede quedar vacío')]
+      validators=[DataRequired(message='El campo de fecha de nacimiento no puede quedar vacío'), validate_date]
       )
 
    correo = StringField(label="correo",
@@ -154,6 +163,7 @@ class frmUsuario(FlaskForm):
       Email(message='El correo no es válido'),
       Length(min=8, max=120, message='El correo debe tener mínimo 8 caracteres y máximo 120')]
       )
+
 
 class frmRegistro(frmUsuario):
    password = PasswordField(label='contraseña', 
