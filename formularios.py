@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, TextAreaField ,BooleanField, \
     SubmitField
 from wtforms.fields.core import DateField, DateTimeField, IntegerField, SelectField
 from wtforms_validators import AlphaNumeric, Integer
-from wtforms.validators import ValidationError, DataRequired, \
+from wtforms.validators import Regexp, ValidationError, DataRequired, \
     Email, EqualTo, Length
 import json
 from datetime import datetime
@@ -91,17 +91,20 @@ def validarNumDoc(form, field):
   if form.tipoDocumento.data != 'PS' and not field.data.isnumeric():
         raise ValidationError("El número del documento de identidad debe ser numérico.")
 class frmUsuario(FlaskForm):
+   caracteresProhibidos = "^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*'\\-,/\\\.(){}|~<>;:[\]]{2,}$"
    nombres=StringField(label='nombres',
       validators=[
          DataRequired(message='El campo de nombres no puede quedar vacío'),
-         Length(min=3, max=50, message='El nombre no puede tener menos de 3 caracteres y más de 50')
+         Length(min=3, max=50, message='El nombre no puede tener menos de 3 caracteres y más de 50'),
+         Regexp(caracteresProhibidos, message="El nombre contiene caracteres prohibidos")
       ]
    )
 
    apellidos=StringField(label='apellidos',
       validators=[
          DataRequired(message='El campo de apellidos no puede quedar vacío'),
-         Length(min=3, max=50, message='El apellido no puede tener menos de 3 caracteres y más de 50')
+         Length(min=3, max=50, message='El apellido no puede tener menos de 3 caracteres y más de 50'),
+         Regexp(caracteresProhibidos, message="El apellido contiene caracteres prohibidos")
       ]
    )
 
