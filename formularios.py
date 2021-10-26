@@ -87,6 +87,9 @@ def validate_date(form, field):
    hoy2 = datetime(field.data.year,field.data.month, field.data.day)
    if hoy2 > datetime.today():
       raise ValidationError("La fecha de nacimiento no puede ser mayor que la fecha actual")
+def validarNumDoc(form, field):
+  if form.tipoDocumento.data != 'PS' and not field.data.isnumeric():
+        raise ValidationError("El número del documento de identidad debe ser numérico.")
 class frmUsuario(FlaskForm):
    nombres=StringField(label='nombres',
       validators=[
@@ -117,7 +120,8 @@ class frmUsuario(FlaskForm):
       validators=[
          DataRequired(message='El campo de número de documento no puede quedar vacío'),
          Length(min=8, max=50, message="La identificación introducida es muy larga o muy corta"),
-         AlphaNumeric(message="El número de identificación contiene caracteres prohibidos.")
+         AlphaNumeric(message="El número de identificación contiene caracteres prohibidos."),
+         validarNumDoc
          
       ]
    )
@@ -145,7 +149,7 @@ class frmUsuario(FlaskForm):
    telefono=IntegerField(label="telefono",
       validators=[
          DataRequired(message='El campo de teléfono no puede quedar vacío'),
-         Integer()
+         
       ]
    )
 
