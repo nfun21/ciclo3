@@ -339,8 +339,8 @@ def editarvuelo(idVuelo):
       form = frmCrearEditarVuelo()
       vuelo = Vuelo()
       vueloencontrado = vuelo.consultarVuelo(idVuelo)
-      if request.method == "POST":
-         form.validate_on_submit()
+      if form.validate_on_submit():
+         
          capacidad = request.form.get('capacidad')
          origenVuelo = request.form.get('origenVuelo')
          destinoVuelo = request.form.get('destinoVuelo')

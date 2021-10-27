@@ -8,7 +8,7 @@ from wtforms.validators import Regexp, ValidationError, DataRequired, \
     Email, EqualTo, Length
 import json
 from datetime import datetime
-
+caracteresProhibidos = "^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*'\\-,/\\\.(){}|~<>;:[\]]{2,}$"
 class frmPublicarReview(FlaskForm):
    review= StringField(label="review",
    validators=[DataRequired(message="Es necesario que escriba un comentario."),Length(min=4, max=500, message='La reseña debe contener minimo %(min)d y %(max)d máximo de caracteres')])
@@ -46,10 +46,10 @@ class frmBuscarVuelo(FlaskForm):
    botonEnviar = SubmitField(label='BUSCAR')
 
 class frmCrearEditarVuelo(FlaskForm):
-   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.')])
-   avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.')])
-   capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres')])
+   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.'), Regexp(caracteresProhibidos, message="La ciudad de origen contiene caracteres prohibidos")])
+   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.'), Regexp(caracteresProhibidos, message="La ciudad de destino contiene caracteres prohibidos")])
+   avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.'), Regexp("^[A-Z]{3}-[0-9]{3}$", message="Ha introducido un avión inválido.")])
+   capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres'), Integer(message="La capacidad del vuelo sólo permite valores numéricos.")])
    estadoVuelo= SelectField(label="estadoVuelo",
    choices=[
       ('Programado'),
@@ -91,7 +91,7 @@ def validarNumDoc(form, field):
   if form.tipoDocumento.data != 'PS' and not field.data.isnumeric():
         raise ValidationError("El número del documento de identidad debe ser numérico.")
 class frmUsuario(FlaskForm):
-   caracteresProhibidos = "^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*'\\-,/\\\.(){}|~<>;:[\]]{2,}$"
+   
    nombres=StringField(label='nombres',
       validators=[
          DataRequired(message='El campo de nombres no puede quedar vacío'),
@@ -200,5 +200,5 @@ class frmBuscarUsuario(FlaskForm):
    botonEnviar = SubmitField(label='Consultar')
 
 class frmConsVuelo(FlaskForm):
-   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=50, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
+   consvuelo = StringField(label="consvuelo", validators=[DataRequired(message ='Es necesario digitar el codigo de vuelo'), Length (min=1, max=50, message ='el código debe contener por lo menos %(min)d caracter/es y máximo %(max)d'), Integer(message="El código del vuelo debe ser numérico.")])
    botonEnviar = SubmitField(label='Consultar')
