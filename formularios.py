@@ -38,9 +38,10 @@ class frmRecuperar(FlaskForm):
    botonRecuperar = SubmitField(label="Enviar")
 
 class frmBuscarVuelo(FlaskForm):
-   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter')])
+   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter'), Regexp(caracteresProhibidos, message="La ciudad de origen contiene caracteres prohibidos")])
    ciudaddestino = StringField(label='ciudaddestino',
       validators=[
+         Regexp(caracteresProhibidos, message="La ciudad de destino contiene caracteres prohibidos"),
          DataRequired(message ='Es necesario establecer la ciudad de destino'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter')
          ])
    botonEnviar = SubmitField(label='BUSCAR')
