@@ -37,18 +37,7 @@
           {% include 'mensajes.html' %}
             <!----INICIO FORMULARIO-->
             <!--- ##########         VALIDACIÓN DE ERRORES  #####-->
-            <div>
-              {% for fields, errors in form.errors.items()  %}
-              <ul>
-                {% for error in errors %}
-                <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                  {{ error }}
-  
-                </li>
-                {% endfor %}
-              </ul>
-              {% endfor %}
-            </div>
+            {% include 'mensajes-validacion.html' %}
           <form action="" method="POST">
             {{ form.csrf_token() }}
             <div class="u-form-group u-form-name u-form-partition-factor-2">

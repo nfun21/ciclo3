@@ -6,12 +6,8 @@
     <meta name="keywords" content="Gestión de vuelos">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-<<<<<<< HEAD
-    <title>Editar Vuelo</title>
-=======
     <title>Editar vuelo</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
->>>>>>> 7ff9988a97975b9da7c206973559282c559d73e8
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
 <link rel="stylesheet" href="../static/crear-vuelo.css" media="screen">
     
@@ -44,21 +40,11 @@
         <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de Vuelos - Editar Vuelo</h1>
         
         <div class="u-form u-form-1">
+          {% include 'mensajes.html' %}
+          {% include 'mensajes-validacion.html' %}
           <!-- INICIO DEL FORMULARIO CREAR-VUELO -->
           <!-- ERRORES DE VALIDACION -->
-          <div>
-            {% include 'mensajes.html' %}
-            {% for fields, errors in form.errors.items()  %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+          
           <!--------------#################-------------------------------------->
           <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             {{ form.csrf_token() }}
@@ -79,7 +65,7 @@
             <div class="u-form-group u-form-select u-form-group-4">
               <label for="select-a716" class="u-label">Piloto:</label>
               <div class="u-form-select-wrapper">
-                <input type="text" id="piloto" name="piloto" value="{{vuelo.piloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <input type="text" placeholder="Escriba y seleccione de la lista desplegable" id="piloto" name="piloto" value="{{vuelo.piloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                 <input type="hidden" id="idPiloto" name="idPiloto" value="{{vuelo.idPiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                 
               </div>
@@ -87,13 +73,13 @@
               <div class="u-form-group u-form-select u-form-group-4">
                 <label for="select-a716" class="u-label">Co-Piloto:</label>
                 <div class="u-form-select-wrapper">
-                  <input type="text" id="copiloto" name="copiloto" value="{{vuelo.copiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                  <input type="text" placeholder="Escriba y seleccione de la lista desplegable" id="copiloto" name="copiloto" value="{{vuelo.copiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <input type="hidden" id="idcoPiloto" name="idcoPiloto" value="{{vuelo.idcoPiloto}}" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                 </div>
             </div>
             <div class="u-form-group u-form-group-5">
               <label for="text-4d2f" class="Editar u-label">Avión</label>
-              <input type="text" value="{{vuelo.avion}}" placeholder="Avión" id="text-4d2f" name="avion" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" value="{{vuelo.avion}}" placeholder="Ejemplo: AUW-826" id="text-4d2f" name="avion" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-group u-form-group-6">
               <label for="text-2904" class="Editar u-label">Capacidad</label>

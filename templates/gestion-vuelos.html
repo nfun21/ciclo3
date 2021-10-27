@@ -37,18 +37,7 @@
           
           <!--inicio formulario-->
           <!--validación de errores-->
-          <div>
-            {% for fields, errors in form.errors.items()  %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+          {% include 'mensajes-validacion.html' %}
           <form action="" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
             <div class="u-form-group u-form-name">
               {{ form.csrf_token() }}

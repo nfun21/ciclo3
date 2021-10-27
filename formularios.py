@@ -196,7 +196,8 @@ class frmCrearEditarUsuario(frmUsuario):
    botonEnviar = SubmitField(label="GUARDAR")
 
 class frmBuscarUsuario(FlaskForm):
-   idUsuario = StringField(label="idUsuario", validators=[DataRequired(message =' '), Length (min=3, max=120, message ='El ID debe contener por lo menos %(min)d caracter/es y máximo %(max)d')])
+   consUsuario = StringField(label="idUsuario", validators=[DataRequired(message =' '), Length (min=1, max=50, message ='El ID debe contener por lo menos %(min)d caracter/es y máximo %(max)d'),
+   AlphaNumeric(message="El campo de usuario contiene caracteres prohibidos.")])
    botonEnviar = SubmitField(label='Consultar')
 
 class frmConsVuelo(FlaskForm):

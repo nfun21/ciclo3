@@ -3,6 +3,26 @@
   background-position: 50% 50%;
 }*/
 
+.busqueda-vuelo, .registro, .ingreso{
+  
+  text-align: center;
+  padding-top: 65px;
+  margin-top: -25px;
+  display: inline-block;
+  
+  background-repeat: no-repeat!important;
+  background-position: center!important;
+  
+}
+.busqueda-vuelo{
+  background: url('images/search.png');;
+}
+.registro{
+  background: url('images/user-32.png');
+}
+.ingreso{
+  background: url("images/padlock.png");
+}
 .u-section-1 .u-sheet-1 {
   min-height: 100vh;
 }

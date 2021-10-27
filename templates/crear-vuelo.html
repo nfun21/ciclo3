@@ -38,28 +38,17 @@
     <section class="u-align-center u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de Vuelos - Crear Vuelo</h1>
-        <h1 class="u-text u-text-2">
-          <span style="font-size: 2.25rem;"></span>
-          <span style="font-size: 2.25rem;">
-            <span class="u-text-body-color">Por favor ingrese la informacion correspondiente para crear el vuelo.</span>
-          </span>
-        </h1>
+        <h5 class="u-text u-text-2">
+          
+          
+            Por favor ingrese la informacion correspondiente para crear el vuelo.
+          
+        </h5>
         <div class="u-form u-form-1">
           {% include 'mensajes.html' %}
           <!-- INICIO DEL FORMULARIO CREAR-VUELO -->
           <!-- ERRORES DE VALIDACION -->
-          <div>
-            {% for fields, errors in form.errors.items()  %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+          {% include 'mensajes-validacion.html' %}
           <!--------------#################-------------------------------------->
           <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             {{ form.csrf_token() }}
@@ -80,7 +69,7 @@
             <div class="u-form-group u-form-select u-form-group-4">
               <label for="select-a716" class="u-label">Piloto:</label>
               <div class="u-form-select-wrapper">
-                <input type="text" id="piloto" name="piloto" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <input type="text" placeholder="Escriba y seleccione de la lista desplegable" id="piloto" name="piloto" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                 <input type="hidden" id="idPiloto" name="idPiloto" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                 
               </div>
@@ -88,13 +77,13 @@
               <div class="u-form-group u-form-select u-form-group-4">
                 <label for="select-a716" class="u-label">Co-Piloto:</label>
                 <div class="u-form-select-wrapper">
-                  <input type="text" id="copiloto" name="copiloto" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                  <input type="text" placeholder="Escriba y seleccione de la lista desplegable" id="copiloto" name="copiloto" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <input type="hidden" id="idcoPiloto" name="idcoPiloto" value="" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                 </div>
             </div>
             <div class="u-form-group u-form-group-5">
               <label for="text-4d2f" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Avión" id="text-4d2f" name="avion" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="text" placeholder="Avión" id="text-4d2f" name="Ejemplo: AUW-826" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
             <div class="u-form-group u-form-group-6">
               <label for="text-2904" class="u-form-control-hidden u-label"></label>

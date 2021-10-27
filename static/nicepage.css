@@ -4,6 +4,35 @@
  * Copyright 2014-2020 Froala Labs
  */
 /*MODIFICACIONES templates */
+
+ul.alertas{
+  padding-left: 0!important;
+}
+h1{
+display: block;
+background: linear-gradient(
+90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+}
+li.alertas {
+  display: block;
+  list-style: none;
+  padding: 12px;
+  margin: 5px;
+  text-align: center!important;
+}
+li.alertas.okmsg {
+  background: rgb(57, 229, 102,0.7);
+  border: 1px solid #02ff39;
+}
+li.alertas.errormsg {
+  background: rgb(223 48 48 / 80%);
+  border: 1px solid #ff0202;
+  color: white;
+}
+li.alertas.warningmsg {
+  background: rgb(208 211 45 / 80%);
+  border: 1px solid #e4ff02;
+}
 span.numreviews {
   display: inline-block;
   font-size: 10px;
@@ -54,6 +83,7 @@ tbody tr:hover{
 header {
   background-color: rgba(255, 255, 255, 0.6);
 }
+
 .enlaces {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -85,6 +115,11 @@ header {
     justify-content: center;
     font-weight: bold;
     padding: 10px;
+}
+@media only screen and (max-width: 500px) {
+  .enlaces{
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 span.nombreRol {
   display: inline-block;

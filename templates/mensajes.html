@@ -1,8 +1,9 @@
-{% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 <div class="mensajes">
-    {% for message in messages %}
-        <li class="u-form-send-error u-form-send-message" style="list-style: none;">{{ message }}</li>
+    <ul class="alertas">
+    {% for category, message in messages %}
+        <li class="alertas {{ category }}">{{ message }}</li>
     {% endfor %}
     </ul>
 </div>

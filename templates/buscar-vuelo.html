@@ -6,11 +6,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-<<<<<<< HEAD
-    <title>Buscar Vuelo</title>
-=======
     <title>Buscar vuelo</title>
->>>>>>> 7ff9988a97975b9da7c206973559282c559d73e8
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
 <link rel="stylesheet" href="../static/buscar-vuelo.css" media="screen">
     <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
@@ -40,18 +36,7 @@
 
 <!-- ACÁ INICIA EL FORMULARIO -->
           <!-- Errores de validación -->
-          <div>
-            <a class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2" href="{{url_for('consultarvuelo')}}">Buscar con un código de vuelo</a>
-            {% for fields, errors in form.errors.items() %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+          {% include 'mensajes-validacion.html' %}
           <!-- TERMINAN ERRORES -->
           <form action="buscar-vuelo" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-vuelo" style="padding: 10px;">
             {{ form.csrf_token() }}
