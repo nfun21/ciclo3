@@ -6,7 +6,7 @@
     <meta name="keywords" content="Gestión de vuelos">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>gestion-usuarios</title>
+    <title>Gestion Usuarios</title>
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
 <link rel="stylesheet" href="../static/gestion-usuarios.css" media="screen">
 <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
@@ -33,23 +33,13 @@
     <section class="u-clearfix u-section-1" id="sec-9944">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h1 class="u-align-center u-text u-text-default u-text-1">Gestión de usuarios<br>
-        </h1>
+        </h1> 
+        {% include 'mensajes.html' %}
+        <!----INICIO FORMULARIO-->
+        <!----validación de errores-->
+         {% include 'mensajes-validacion.html' %}
         <div class="u-align-left u-form u-form-1">
-          {% include 'mensajes.html' %}
-         <!----INICIO FORMULARIO-->
-         <!----validación de errores-->
-          <div>
-            {% for fields, errors in form.errors.items()  %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+         
           
           <form action="" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-5 u-inner-form" source="custom" name="buscar-usuario" style="padding: 10px;">
             {{ form.csrf_token() }}

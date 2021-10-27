@@ -208,12 +208,12 @@ class Usuario():
         return editarUser
     
 
-    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,pais,codigoMarcacion,telefono,correo,genero,idRol,idUser):
-        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?,fechaNacimiento = ?,pais = ?,codigoMarcacion = ?,telefono = ?, correo = ?, genero = ?, idRol = ? WHERE idUser= ?"
+    def actualizarUsuario(self,nombres,apellidos,tipoDocumento,fechaNacimiento,pais,codigoMarcacion,telefono,correo,genero,idRol,idUser, nuevaidUser):
+        sentencia = "UPDATE Usuario SET nombres = ?, apellidos = ?, tipoDocumento = ?,fechaNacimiento = ?,pais = ?,codigoMarcacion = ?,telefono = ?, correo = ?, genero = ?, idRol = ?, idUser=? WHERE idUser= ?"
         db = Database()
         con = db.sql_connection()
         cursosObj = con.cursor()
-        cursosObj.execute(sentencia,[nombres,apellidos,tipoDocumento,fechaNacimiento,pais,codigoMarcacion,telefono,correo,genero,idRol,idUser])
+        cursosObj.execute(sentencia,[nombres,apellidos,tipoDocumento,fechaNacimiento,pais,codigoMarcacion,telefono,correo,genero,idRol,nuevaidUser, idUser])
         con.commit()
         con.close()
     

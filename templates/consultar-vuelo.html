@@ -6,7 +6,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>consultar-vuelo</title>
+    <title>Consultar Vuelo</title>
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
 <link rel="stylesheet" href="../static/consultar-vuelo.css" media="screen">
     <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
@@ -37,17 +37,7 @@
           {% include 'mensajes.html' %}
 <!-- ACÁ INICIA EL FORMULARIO -->
           <!-- Errores de validación -->
-          <div>
-            {% for fields, errors in form.errors.items() %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+          {% include 'mensajes-validacion.html' %}
           <form action="" method="POST">
             {{ form.csrf_token() }}
             <div class="u-form-group u-form-name">

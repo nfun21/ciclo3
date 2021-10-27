@@ -66,7 +66,7 @@ def ingresar():
                session.clear()
                return redirect(url_for('paginaprincipal'))
          else:
-            flash("Datos incorrectos")
+            flash("Datos incorrectos", 'errormsg')
             return redirect(url_for('ingresar'))
 
          
@@ -75,7 +75,7 @@ def ingresar():
 @app.route('/salir')
 def salir():
    session.clear()
-   flash('Se cerró la sesión.')
+   flash('Se cerró la sesión.', 'warningmsg')
    return redirect(url_for('paginaprincipal'))
 
 #API Rest para registrar al usuario
@@ -104,13 +104,13 @@ def registrarse():
          usuario = Usuario()
          existeCorreo = usuario.consultarUsuario(correo,"correo")
          if existeCorreo:
-            flash('El correo utilizado ya se encuentra asociado a una cuenta.')
+            flash('El correo utilizado ya se encuentra asociado a una cuenta.', 'errormsg')
             return redirect(url_for('registrarse'))
          
          existeId = usuario.consultarUsuario(numDocumento)
 
          if existeId:
-            flash('La identificación utilizada ya se encuentra asociada a una cuenta.')
+            flash('La identificación utilizada ya se encuentra asociada a una cuenta.', 'errormsg')
             return redirect(url_for('registrarse'))
             
          usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, codigoMarcacion,telefono, correo, pass_enc)
@@ -151,9 +151,9 @@ def buscarvuelo():
          
       vuelos = vuelo.buscarVuelos("",origenVuelo,destinoVuelo,idUser,"")
       if vuelos:
-         flash('Mostrando resultados para la búsqueda')
+         flash('Mostrando resultados para la búsqueda' , 'okmsg')
       else:
-         flash('No se encontraron resultados')
+         flash('No se encontraron resultados', 'errormsg')
    return render_template("buscar-vuelo.html", form = form, vuelos=vuelos, autenticado = autenticado)
 
 @app.route("/recuperar-cuenta", methods = ["GET", "POST"])
@@ -168,7 +168,7 @@ def superadmin():
    if 'idUser' in session and session["rol"] == 3:
       return render_template("superadmin.html", session=session)
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.' , 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/gestion-usuarios", methods = ["GET", "POST"])
@@ -177,17 +177,17 @@ def gestionusuarios():
    if 'idUser' in session and session["rol"] == 3:
       consUsuarios =""
       form = frmBuscarUsuario()
-      if request.method == "GET":
-         idUser = ""
-      consUsuario = ""
+      idUser = ""
       if request.method == "POST":
-         idUser = request.form.get('consUsuario')
-         infoUser = Usuario()
-         consUsuarios = infoUser.consultarUsuario(idUser)
-      form.validate_on_submit()
+         if form.validate_on_submit():
+            idUser = request.form.get('consUsuario')
+            infoUser = Usuario()
+            consUsuarios = infoUser.consultarUsuario(idUser)
+            if not consUsuarios:
+               flash("No se encontraron resultados para la búsqueda.", 'errormsg')
       return render_template("gestion-usuarios.html", form=form, consUsuarios = consUsuarios,idUser = idUser)
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/reviews", methods = ["GET", "POST"])
@@ -219,11 +219,12 @@ def gestionvuelos():
       return render_template("gestion-vuelos.html", form=form, vuelos=vuelos, titulo=titulo)
           
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-usuario", methods = ["GET", "POST"])
 def crearusuario():
+   titulo = "Crear usuario"
    form =frmCrearEditarUsuario()
    if 'idUser' in session and session["rol"] == 3: 
       if request.method == "POST":        
@@ -234,6 +235,7 @@ def crearusuario():
             tipoDocumento = form.tipoDocumento.data
             numDocumento = form.numDocumento.data 
             fechaNacimiento = form.fechaNacimiento.data
+            
             telefono = form.telefono.data 
             correo = form.correo.data 
             genero = form.genero.data
@@ -245,11 +247,22 @@ def crearusuario():
             enc = hashlib.sha256(password.encode())
             pass_enc = enc.hexdigest()
             usuario = Usuario()
+            existeCorreo = usuario.consultarUsuario(correo,"correo")
+            if existeCorreo:
+               flash('El correo utilizado ya se encuentra asociado a una cuenta.', 'errormsg')
+               return redirect(url_for('crearusuario'))
+            
+            existeId = usuario.consultarUsuario(numDocumento)
+
+            if existeId:
+               flash('La identificación utilizada ya se encuentra asociada a una cuenta.', 'errormsg')
+               return redirect(url_for('crearusuario'))
+
             usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, codigoMarcacion,telefono, correo, pass_enc)
             flash('Usuario guardado con éxito.')
-      return render_template("crear-usuario.html", form=form, datosUser="")
+      return render_template("crear-usuario.html", form=form, datosUser="", titulo=titulo)
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
  
 @app.route("/editar-usuario/<idUser>", methods = ["GET", "POST"])
@@ -264,6 +277,7 @@ def editarusuario(idUser):
          nombres = request.form.get('nombres') 
          apellidos = request.form.get('apellidos') 
          tipoDocumento = request.form.get('tipoDocumento') 
+         nuevaidUser = request.form.get('numDocumento') 
          fechaNacimiento = request.form.get('fechaNacimiento')
          pais = request.form.get('pais') 
          telefono = request.form.get('telefono') 
@@ -271,13 +285,13 @@ def editarusuario(idUser):
          genero = request.form.get('genero') 
          idRol = request.form.get('rol') 
          codigoMarcacion = request.form.get('codigoMarcacion') 
-         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,pais,codigoMarcacion,telefono,correo,genero,idRol,idUser)                                  
+         usuario.actualizarUsuario(nombres,apellidos,tipoDocumento,fechaNacimiento,pais,codigoMarcacion,telefono,correo,genero,idRol,idUser, nuevaidUser)                                  
          datosUser = usuario.editarUsuario(idUser) 
-         flash('Usuario editado con éxito.')
-         return render_template("crear-usuario.html", form=form,datosUser=datosUser, titulo=titulo) 
+         flash('Usuario editado con éxito.', 'okmsg')
+         return redirect(url_for('editarusuario', idUser=nuevaidUser)) 
       return render_template("crear-usuario.html", form=form,datosUser=datosUser, titulo=titulo)          
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/eliminar-usuario/<idUser>", methods = ["GET", "POST"])
@@ -287,7 +301,7 @@ def eliminarusuario(idUser):
       user.eliminar(idUser)
       return redirect(url_for('gestionusuarios'))           
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/crear-vuelo", methods = ["GET", "POST"])
@@ -305,15 +319,18 @@ def crearvuelo():
          fecha = request.form.get('fecha')
          idPiloto = request.form.get('idPiloto')
          idcoPiloto = request.form.get('idcoPiloto')
+         if not idPiloto or not idcoPiloto:
+            flash('Los campos de piloto y copiloto no pueden quedar vacios, o ingresó un piloto o un copiloto inválido.', 'errormsg')
+            return render_template("crear-vuelo.html", form = form) 
          if idPiloto == idcoPiloto:
-            flash('Piloto y co-piloto no pueden ser iguales.')
+            flash('Piloto y co-piloto no pueden ser iguales.', 'errormsg')
             return render_template("crear-vuelo.html", form = form) 
          vuelo.crearVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo)
-         flash('Se creó el vuelo con éxito')
+         flash('Se creó el vuelo con éxito', 'okmsg')
          return redirect(url_for('gestionvuelos'))
       return render_template("crear-vuelo.html", form = form)        
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/editar-vuelo/<idVuelo>", methods = ["GET", "POST"])
@@ -322,8 +339,8 @@ def editarvuelo(idVuelo):
       form = frmCrearEditarVuelo()
       vuelo = Vuelo()
       vueloencontrado = vuelo.consultarVuelo(idVuelo)
-      if request.method == "POST":
-         form.validate_on_submit()
+      if form.validate_on_submit():
+         
          capacidad = request.form.get('capacidad')
          origenVuelo = request.form.get('origenVuelo')
          destinoVuelo = request.form.get('destinoVuelo')
@@ -333,14 +350,14 @@ def editarvuelo(idVuelo):
          idPiloto = request.form.get('idPiloto')
          idcoPiloto = request.form.get('idcoPiloto')
          if idPiloto == idcoPiloto:
-            flash('Piloto y co-piloto no pueden ser iguales.')
+            flash('Piloto y co-piloto no pueden ser iguales.', 'errormsg')
             return render_template("crear-vuelo.html", form = form) 
          vuelo.editarVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo, idVuelo)
-         flash('Se editó el vuelo con éxito')
+         flash('Se editó el vuelo con éxito', 'okmsg')
          return redirect(request.url)
       return render_template("editar-vuelo.html", form = form, vuelo = vueloencontrado)       
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.'), 'errormsg'
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/eliminar-vuelo/<idVuelo>")
@@ -348,10 +365,10 @@ def eliminarVuelo(idVuelo):
    if 'idUser' in session and session["rol"] == 3:
       vuelo = Vuelo()
       vuelo.eliminarVuelo(idVuelo)
-      flash('El vuelo se ha eliminado con éxito.')
+      flash('El vuelo se ha eliminado con éxito.', 'okmsg')
       return redirect(url_for('gestionvuelos'))
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/reservar-vuelo/<idVuelo>")
@@ -359,10 +376,10 @@ def reservarVuelo(idVuelo):
    if 'idUser' in session:
       vuelo = Vuelo()
       vuelo.reservarVuelo(idVuelo, session['idUser'])
-      flash('El vuelo se ha reservado con éxito.')
+      flash('El vuelo se ha reservado con éxito.', 'okmsg')
       return redirect(url_for('misvuelos'))
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/cancelar-reserva/<idVuelo>")
@@ -372,10 +389,10 @@ def cancelarReservaVuelo(idVuelo):
       vuelo.cancelarReservaVuelo(idVuelo, session['idUser'])
       
       #vuelos = vuelo.buscarVuelos("total","","","",idVuelo)
-      flash('La reserva se ha cancelado.')
+      flash('La reserva se ha cancelado.', 'warningmsg')
       return redirect(url_for('buscarvuelo'))
    else:
-      flash('¡Debe ingresar al sistema para poder reservar!')
+      flash('¡Debe ingresar al sistema para poder reservar!' , 'warningmsg')
       return redirect(url_for('misvuelos'))
 @app.route("/misvuelos", methods=["GET", "POST"])
 def misvuelos():
@@ -394,16 +411,16 @@ def misvuelos():
          if tieneReserva:
             tieneReview = pasajero.consultarReview(session['idUser'], idVuelo)
          else:
-            flash('Usted no puede publicar una reseña para este vuelo.')
+            flash('Usted no puede publicar una reseña para este vuelo.', 'errormsg')
          if tieneReview:
-            flash('Usted ya ha publicado una reseña para este vuelo')
+            flash('Usted ya ha publicado una reseña para este vuelo', 'errormsg')
          else:
             pasajero.publicarReview(session['idUser'],idVuelo,comment, puntuacion,fechaReview)
-            flash('Se publicó la reseña')
+            flash('Se publicó la reseña', 'okmsg')
             return redirect(request.url)
       return render_template("reservas.html", vuelos = vuelos, form=form)
    else:
-      flash('No tiene permisos para acceder a está página.')
+      flash('No tiene permisos para acceder a está página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 @app.route("/piloto", methods = ["GET", "POST"])
 def piloto():
@@ -416,7 +433,7 @@ def piloto():
          
       return render_template("piloto.html", vueloPiloto = vueloPiloto, datosPiloto=datosPiloto)
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 # -------------------------------------------------------------------------
 @app.route("/buscarpiloto")
@@ -433,7 +450,7 @@ def pasajeros():
    if 'idUser' in session and session["rol"] == 1:
       return render_template("pasajeros.html", session = session)
    else:
-      flash('Usted no tiene permisos para acceder a esta página.')
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
       return redirect(url_for('paginaprincipal'))
 
 @app.route("/vuelo/<idVuelo>/comentarios")
@@ -455,10 +472,10 @@ def verreviews(idVuelo):
             infoVuelo = vuelo.consultarVuelo(idVuelo)
          return render_template('reviews.html', reviewsVuelo = reviewsVuelo, idRol = idRol, infoVuelo=infoVuelo)
       else:
-         flash('Usted no tiene permisos para ver esta página')
+         flash('Usted no tiene permisos para ver esta página', 'errormsg')
          return redirect(url_for('paginaprincipal'))
    else:
-         flash('Usted no tiene permisos para ver esta página')
+         flash('Usted no tiene permisos para ver esta página', 'errormsg')
          return redirect(url_for('paginaprincipal'))
 
 @app.route("/publicar-review", methods = ["GET", "POST"])

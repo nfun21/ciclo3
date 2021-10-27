@@ -1,0 +1,11 @@
+{% for fields, errors in form.errors.items()  %}
+<div>
+    <ul class="alertas">
+      {% for error in errors %}
+      <li class="alertas errormsg">
+        {{ error }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}

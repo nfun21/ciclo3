@@ -7,7 +7,7 @@
     <meta name="keywords" content="Gestión de vuelos">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>ingresar</title>
+    <title>Ingresar</title>
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
 <link rel="stylesheet" href="../static/ingresar.css" media="screen">
     <script class="u-script" type="text/javascript" src="../static/jquery.js" defer=""></script>
@@ -38,18 +38,7 @@
         <div class="u-form u-login-control u-form-1">
   <!---INICIO DEL FORMULARIO DE INGRESO-->
           <!--ERRORES DE VALIDACIÓN-->
-          <div>
-            {% for fields, errors in form.errors.items()  %}
-            <ul>
-              {% for error in errors %}
-              <li class="u-form-send-error u-form-send-message" style="list-style: none;">
-                {{ error }}
-
-              </li>
-              {% endfor %}
-            </ul>
-            {% endfor %}
-          </div>
+          {% include 'mensajes-validacion.html' %}
           <!--------------#################-------------------------------------->
           <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             {{ form.csrf_token() }}
@@ -70,7 +59,7 @@
           </form>
 
         </div>
-        <a href="recuperar-cuenta" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-btn u-button-style u-login-control u-login-forgot-password u-none u-text-palette-1-base u-btn-2">Recuperar contraseña</a>
+        
         <a href="registrarse" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-btn u-button-style u-login-control u-login-create-account u-none u-text-palette-1-base u-btn-3">Registrarse</a>
       </div>
     </section>
