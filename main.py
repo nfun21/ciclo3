@@ -114,7 +114,8 @@ def registrarse():
             return redirect(url_for('registrarse'))
             
          usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, codigoMarcacion,telefono, correo, pass_enc)
-   #flash('Datos Guardados Exitosamente.')
+         flash('Datos Guardados Exitosamente.',"okmsg")
+         return redirect(url_for('ingresar'))
    return render_template("registrarse.html", form = form)
    
 
@@ -299,6 +300,7 @@ def eliminarusuario(idUser):
    if 'idUser' in session and session["rol"] == 3:
       user = Usuario()
       user.eliminar(idUser)
+      flash('Usuario eliminado correctamente.', 'okmsg')
       return redirect(url_for('gestionusuarios'))           
    else:
       flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
