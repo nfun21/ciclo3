@@ -47,10 +47,10 @@ class frmBuscarVuelo(FlaskForm):
    botonEnviar = SubmitField(label='BUSCAR')
 
 class frmCrearEditarVuelo(FlaskForm):
-   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.'), Regexp(caracteresProhibidos, message="La ciudad de origen contiene caracteres prohibidos")])
-   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.'), Regexp(caracteresProhibidos, message="La ciudad de destino contiene caracteres prohibidos")])
-   avion = StringField(label='avion', validators=[DataRequired(), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.'), Regexp("^[A-Z]{3}-[0-9]{3}$", message="Ha introducido un avión inválido.")])
-   capacidad = StringField(label='capacidad', validators=[DataRequired(), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres'), Integer(message="La capacidad del vuelo sólo permite valores numéricos.")])
+   origenVuelo = StringField(label='ciudadOrigen', validators=[DataRequired(message="origen"), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.'), Regexp(caracteresProhibidos, message="La ciudad de origen contiene caracteres prohibidos")])
+   destinoVuelo = StringField(label='ciudadDestino', validators=[DataRequired(message="destino"), Length(min = 3, max = 50, message='Campo Ciudad Origen Requerido:Mínimo 2 y máximo 50 caracteres.'), Regexp(caracteresProhibidos, message="La ciudad de destino contiene caracteres prohibidos")])
+   avion = StringField(label='avion', validators=[DataRequired(message="avion"), Length(min = 5, max = 30,  message='Campo Avión Requerido:Mínimo 5 y máximo 30 caracteres.'), Regexp("^[A-Z]{3}-[0-9]{3}$", message="Ha introducido un avión inválido.")])
+   capacidad = StringField(label='capacidad', validators=[DataRequired(message="capacidad"), Length(min = 1, max = 3, message='Campo Capacidad Requerido:Mínimo 1 y máximo 3 caracteres'), Integer(message="La capacidad del vuelo sólo permite valores numéricos.")])
    estadoVuelo= SelectField(label="estadoVuelo",
    choices=[
       ('Programado'),
@@ -66,8 +66,8 @@ class frmCrearEditarVuelo(FlaskForm):
    ]
    )
    
-   idPiloto = StringField(label='idPiloto', validators=[DataRequired(), Length(min = 1, max = 150, message='La id del piloto es muy corta o muy larga')])
-   idcoPiloto = StringField(label='idCo-Piloto', validators=[DataRequired(), Length(min = 1, max = 150, message='La id del co-piloto es muy corta o muy larga')])
+   idPiloto = StringField(label='idPiloto', validators=[DataRequired(message="idpiloto"), Length(min = 1, max = 150, message='La id del piloto es muy corta o muy larga')])
+   idcoPiloto = StringField(label='idCo-Piloto', validators=[DataRequired(message="idcopioto"), Length(min = 1, max = 150, message='La id del co-piloto es muy corta o muy larga')])
    fecha = StringField(label="fecha", validators=[DataRequired('La fecha no puede quedar vacía.')])
    botonGuardar = SubmitField(label="GUARDAR")
 
