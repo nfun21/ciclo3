@@ -9,6 +9,7 @@ from wtforms.validators import Regexp, ValidationError, DataRequired, \
 import json
 from datetime import datetime
 caracteresProhibidos = "^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*'\\-,/\\\.(){}|~<>;:[\]]{2,}$"
+# caracteresProhibidos = "^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*'\\-,/\\\.(){}|~<>;:[\]]$"
 def validarFechaVuelo(form, field):
    fechaVuelo = datetime.strptime(field.data, '%Y-%m-%dT%H:%M')
    if fechaVuelo < datetime.today():
@@ -50,7 +51,7 @@ class frmBuscarVuelo(FlaskForm):
       ('Ninguno', 'Quiero buscar vuelos de ida y retorno...'),
    ],
    validate_choice=True,)
-   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Es necesario establecer la ciudad de origen'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter'), Regexp(caracteresProhibidos, message="La ciudad de origen contiene caracteres prohibidos")])
+   ciudadorigen = StringField(label='ciudadorigen', validators=[DataRequired(message ='Debe escribir una ciudad para realizar la búsqueda.'), Length (min=1, max=50, message ='La ciudad debe tener por lo menos %(min)d caracter'), Regexp(caracteresProhibidos, message="El nombre de la ciudad contiene caracteres prohibidos")])
    
    botonEnviar = SubmitField(label='BUSCAR')
 

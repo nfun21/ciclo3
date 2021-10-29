@@ -61,7 +61,7 @@
               {%for v in vuelos %}
               <tr style="height: 75px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.idVuelo}}</td>
-                <td class="{{v.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.origenVuelo}}<br> ({%if v.tipoVuelo =="Entrante" %}Retorno{%else%}Ida{%endif%}) </span></td>
+                <td class="{{v.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{%if v.tipoVuelo =="Entrante" %}{{ v.origenVuelo }}<br> Valledupar{%else%} Valledupar<br> {{ v.origenVuelo }}{%endif%} </td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.estadoVuelo}}</td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{v.fechaVuelo}}</td>
             

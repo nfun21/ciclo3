@@ -72,7 +72,7 @@
             <thead class="u-grey-50 u-table-header u-table-header-1">
               <tr style="height: 71px;">
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Código</th>
-                <th class="u-border-1 u-border-grey-50 u-table-cell">Origen</th>
+                <th class="u-border-1 u-border-grey-50 u-table-cell">Origen<br>Destino</th>
                 
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Fecha</th>
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Asientos disponibles</th>
@@ -83,8 +83,8 @@
               {% for v in vuelos %}
               <tr style="height: 69px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ v.idVuelo}}</p></td>
-                <td class="{{ v.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ v.origenVuelo }}<br> ({%if v.tipoVuelo =="Entrante" %}Retorno{%else%}Ida{%endif%}) </p></td>
-                
+                <td class="{{ v.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{%if v.tipoVuelo =="Entrante" %}{{ v.origenVuelo }}<br> Valledupar{%else%} Valledupar<br> {{ v.origenVuelo }}{%endif%} </p></td>
+                <br>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ v.fechaVuelo }}</p></td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-13"><p>{{ v.puestos}}</p></td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-14">

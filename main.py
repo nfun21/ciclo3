@@ -265,7 +265,7 @@ def crearusuario():
                return redirect(url_for('crearusuario'))
 
             usuario.registrarse(nombres, apellidos, tipoDocumento, numDocumento, pais, genero, fechaNacimiento, codigoMarcacion,telefono, correo, pass_enc)
-            flash('Usuario guardado con éxito.')
+            flash('Usuario guardado con éxito. | El número del documento de identidad se ha asociado como contraseña.',"okmsg")
       return render_template("crear-usuario.html", form=form, datosUser="", titulo=titulo)
    else:
       flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
@@ -319,7 +319,7 @@ def crearvuelo():
       if form.validate_on_submit():
          vuelo = Vuelo()
          capacidad = request.form.get('capacidad')
-         tipoVuelo = request.form.get('capacidad')
+         tipoVuelo = request.form.get('tipoVuelo')
          origenVuelo = request.form.get('origenVuelo')
          estadoVuelo = "Programado"
          avion =request.form.get('avion')
@@ -383,7 +383,7 @@ def reservarVuelo(idVuelo):
    if 'idUser' in session:
       vuelo = Vuelo()
       vuelo.reservarVuelo(idVuelo, session['idUser'])
-      flash('El vuelo se ha reservado con éxito.', 'okmsg')
+      flash('El vuelo se ha reservado con éxito. El código del vuelo es: '+str(idVuelo), 'okmsg')
       return redirect(url_for('misvuelos'))
    else:
       flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
