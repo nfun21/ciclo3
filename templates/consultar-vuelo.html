@@ -54,34 +54,42 @@
           </form>
         </div>
         {%if consVuelo%}
-        <div class="u-table u-table-responsive u-table-1">
-          <table class="u-table-entity">
-            <colgroup>
-              <col width="37.7%">
-              <col width="62.3%">
-            </colgroup>
-            <thead class="u-grey-50 u-table-header u-table-header-1">
+        <div class="mensajes">
+          <ul class="alertas">
+          
+              <li class="alertas okmsg">Mostrando información para el vuelo <strong>{%if consVuelo.tipoVuelo =="Entrante" %}{{consVuelo.origenVuelo}}-Valledupar{%else%} Valledupar-{{consVuelo.origenVuelo}}{%endif%}</strong></li>
+          
+          </ul>
+      </div>
+        <div class="u-table u-table-responsive u-table-1"style="margin-top:0;">
+          <table class="u-table-entity" style="width: auto;margin: auto;" >
+            
+            <!-- <thead class="u-grey-50 u-table-header u-table-header-1">
               <tr style="height: 40px;">
                 <th class="u-border-1 u-border-grey-50 u-table-cell">Información del vuelo</th>
                 <th class="u-border-1 u-border-grey-50 u-table-cell"> {{consVuelo.idVuelo}} </th>
               </tr>
-            </thead>
+            </thead> -->
             <tbody class="u-table-body">
               <tr style="height: 75px;">
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Estado del vuelo:</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Código:</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.idVuelo}} </td>
+              </tr>
+              <tr style="height: 75px;">
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Estado:</td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.estadoVuelo}} </td>
               </tr>
               <tr style="height: 76px;">
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Origen- Destino:</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.origenVuelo}} - {{consVuelo.destinoVuelo}}</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{%if consVuelo.tipoVuelo =="Entrante" %}Origen{%else%}Destino{%endif%}: </td>
+                <td style="background-position-x: 94%;" class="{{consVuelo.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.origenVuelo}} </td>
               </tr>
               <tr style="height: 76px;">
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Piloto:</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.piloto}} </td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Piloto: <br>Co-piloto:</td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> {{consVuelo.piloto}} <br>{{consVuelo.copiloto}}</td>
               </tr>
               <tr style="height: 76px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Capacidad:</td>
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consVuelo.capacidad}} </td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{consVuelo.puestos}}/{{consVuelo.capacidad}} </td>
               </tr>
               <tr style="height: 76px;">
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">Avión</td>

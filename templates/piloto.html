@@ -99,11 +99,11 @@
 
                 <thead class="u-grey-50 u-table-header u-table-header-1">
                   <tr style="height: 46px;">
+                    <th class="u-border-1 u-border-grey-50 u-table-cell">Ciudad</th>
                     <th class="u-border-1 u-border-grey-50 u-table-cell">Fecha</th>
                     <th class="u-border-1 u-border-grey-50 u-table-cell">Avión</th>
                     <th class="u-border-1 u-border-grey-50 u-table-cell">Pasajeros</th>
-                    <th class="u-border-1 u-border-grey-50 u-table-cell">Origen</th>
-                    <th class="u-border-1 u-border-grey-50 u-table-cell">Destino</th>
+                    
                     <th class="u-border-1 u-border-grey-50 u-table-cell"></th>
                   </tr>
                 </thead>
@@ -111,11 +111,11 @@
                   
                   {% for algo in vueloPiloto %}
                   <tr style="height: 82px;">
+                    <td class="{{algo.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.origenVuelo}}</td>
                     <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.fechaVuelo}}</td>
                     <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.avion}}</td>
-                    <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.capacidad}}</td>
-                    <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.origenVuelo}}</td>
-                    <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.destinoVuelo}}</td>
+                    <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell">{{algo.puestos}}/{{algo.capacidad}}</td>
+                    
                     <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"> 
                       {% if algo.reviews %}
                       <a href="vuelo/{{algo.idVuelo}}/comentarios" class="u-border-none u-btn u-btn-round" style="

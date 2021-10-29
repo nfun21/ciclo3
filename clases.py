@@ -2,14 +2,16 @@ from sqlite3.dbapi2 import Cursor
 from flask import session, flash, url_for
 import sqlite3
 from sqlite3 import Error
-
+from datetime import datetime
 from werkzeug.utils import redirect
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
-
+def convertirFechas(fecha):
+   fecha = datetime.strptime(fecha, '%Y-%m-%dT%H:%M')
+   return fecha.strftime('%d/%m/%y %I:%M%p')
 class Database():
     def sql_connection(self):
         try:
@@ -25,7 +27,7 @@ class Vuelo():
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = ?) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE idVuelo = ?"
+        sentencia = "SELECT v.tipoVuelo, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = ?) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE idVuelo = ?"
         cursorObj.execute(sentencia,[idUser, idVuelo, idVuelo])
         con.commit()
         vuelo = cursorObj.fetchone()
@@ -36,30 +38,33 @@ class Vuelo():
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        sentencia = "SELECT (SELECT COUNT(*) FROM Review WHERE idVuelo = v.idVuelo) as reviews, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser ORDER BY v.fechaVuelo LIMIT 10"
+        sentencia = "SELECT (SELECT COUNT(*) FROM Review WHERE idVuelo = v.idVuelo) as reviews, v.tipoVuelo, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser ORDER BY v.fechaVuelo LIMIT 10"
         cursorObj.execute(sentencia)
         con.commit()
         vuelos = cursorObj.fetchall()
         con.close()
+        
+        for x in range(len(vuelos)):
+            vuelos[x]["fechaVuelo"] = convertirFechas(vuelos[x]["fechaVuelo"])
         return vuelos
 
-    def crearVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idCopiloto, estadoVuelo):
-        sentencia = "INSERT INTO Vuelo (capacidad, origenVuelo, destinoVuelo, avion, fechaVuelo,idPiloto, idcoPiloto, estadoVuelo) VALUES (?,?,?,?,?,?,?,?)"
+    def crearVuelo(self, capacidad, origenVuelo,  avion, fecha, idPiloto, idCopiloto, estadoVuelo, tipoVuelo):
+        sentencia = "INSERT INTO Vuelo (capacidad, origenVuelo,  avion, fechaVuelo,idPiloto, idcoPiloto, estadoVuelo, tipoVuelo) VALUES (?,?,?,?,?,?,?,?)"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[capacidad, origenVuelo, destinoVuelo, avion, fecha,idPiloto,idCopiloto, estadoVuelo])
+        cursorObj.execute(sentencia,[capacidad, origenVuelo,  avion, fecha,idPiloto,idCopiloto, estadoVuelo, tipoVuelo])
         con.commit()
         vuelo = cursorObj.fetchone()
         con.close()
         return vuelo
 
-    def editarVuelo(self, capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idCopiloto, estadoVuelo,idVuelo):
-        sentencia = "UPDATE Vuelo SET capacidad = ?, origenVuelo=?, destinoVuelo=?, avion=?, fechaVuelo=?,idPiloto=?, idcoPiloto=?, estadoVuelo=? WHERE idVuelo=?"
+    def editarVuelo(self, capacidad, origenVuelo,  avion, fecha, idPiloto, idCopiloto, estadoVuelo,idVuelo, tipoVuelo):
+        sentencia = "UPDATE Vuelo SET capacidad = ?, origenVuelo=?, avion=?, fechaVuelo=?,idPiloto=?, idcoPiloto=?, estadoVuelo=?, tipoVuelo=? WHERE idVuelo=?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sentencia,[capacidad, origenVuelo, destinoVuelo, avion, fecha,idPiloto,idCopiloto, estadoVuelo,idVuelo])
+        cursorObj.execute(sentencia,[capacidad, origenVuelo,  avion, fecha,idPiloto,idCopiloto, estadoVuelo,tipoVuelo,idVuelo])
         con.commit()
         con.close()
 
@@ -91,6 +96,23 @@ class Vuelo():
         con.commit()
         con.close()
         return True
+    def autocompletarVuelos(self, ciudad, tipoVuelo):
+        if ciudad:
+            origenVuelo = '%'+ciudad+'%'
+            db = Database()
+            con = db.sql_connection()
+            cursorObj = con.cursor()
+            if tipoVuelo=="Ninguno":
+                sentencia = "SELECT DISTINCT origenVuelo as vuelo FROM Vuelo WHERE origenVuelo LIKE ?"
+                cursorObj.execute(sentencia,[origenVuelo])
+            else:
+                sentencia = "SELECT DISTINCT origenVuelo as vuelo FROM Vuelo WHERE tipoVuelo = ? AND origenVuelo LIKE ? AND estadoVuelo='Programado'"
+                cursorObj.execute(sentencia,[tipoVuelo, origenVuelo])
+            con.commit()
+            vuelo = cursorObj.fetchall()
+            con.close()
+            return vuelo
+        return False
 
     def cancelarReservaVuelo(self, idVuelo, idUser):
         sentencia = "DELETE FROM Reservas WHERE idVuelo = ? AND idUser = ?"
@@ -101,26 +123,33 @@ class Vuelo():
         con.commit()
         con.close()
 
-    def buscarVuelos(self,tipoBusqueda="",origenVuelo="", destinoVuelo="",idUser="", busqueda="") :
+    def buscarVuelos(self,tipoBusqueda="",origenVuelo="", idUser="", busqueda="",tipoVuelo="") :
+        
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
-        if tipoBusqueda == "total":
+        if tipoBusqueda == "total":##obtiene todos los vuelos basándose en criterios
             busqueda1 = '%'+str(busqueda)+'%'
-            busqueda2 = '%'+str(busqueda)+'%'
-
-            sentencia = "SELECT (SELECT COUNT(*) FROM Review WHERE idVuelo = v.idVuelo) as reviews, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE origenVuelo LIKE ? OR destinoVuelo LIKE ? OR idVuelo = ? ORDER BY v.fechaVuelo LIMIT 10 "
-            cursorObj.execute(sentencia,[busqueda1, busqueda2, busqueda])
-        elif tipoBusqueda == "reservas":
-            sentencia = "SELECT rv.comment, rv.puntuacion, rv.fechaReview, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Review WHERE idVuelo = v.idVuelo AND idUser = ?) as review FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser LEFT JOIN Reservas r on v.idVuelo = r.idVuelo LEFT JOIN Review rv on v.idVuelo = rv.idVuelo and r.idUser = rv.idUser WHERE r.idUser = ?" # AND v.estadoVuelo = 'Finalizado'
+            
+            sentencia = "SELECT (SELECT COUNT(*) FROM Review WHERE idVuelo = v.idVuelo) as reviews, v.tipoVuelo, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.capacidad, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE origenVuelo LIKE ? OR idVuelo = ? ORDER BY v.fechaVuelo LIMIT 10 "
+            cursorObj.execute(sentencia,[busqueda1, busqueda])
+            
+        elif tipoBusqueda == "reservas":##obtiene los vuelos reservados por el usuario en particular
+            sentencia = "SELECT rv.comment, rv.puntuacion, rv.fechaReview, v.tipoVuelo, v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo,  v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Review WHERE idVuelo = v.idVuelo AND idUser = ?) as review FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser LEFT JOIN Reservas r on v.idVuelo = r.idVuelo LEFT JOIN Review rv on v.idVuelo = rv.idVuelo and r.idUser = rv.idUser WHERE r.idUser = ?" # AND v.estadoVuelo = 'Finalizado'
             cursorObj.execute(sentencia,[idUser, idUser])
-        else:
+        else:##búsqueda genérica para reservas en buscar-vuelos
             origenVuelo = '%'+origenVuelo+'%'
-            destinoVuelo = '%'+destinoVuelo+'%'
-            sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.origenVuelo, v.destinoVuelo, (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = v.idVuelo) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE v.origenVuelo LIKE ? AND v.destinoVuelo LIKE ? AND puestos > 0 AND (v.estadoVuelo ='Programado' OR v.estadoVuelo='Inicializado')"
-            cursorObj.execute(sentencia,[idUser, origenVuelo, destinoVuelo])
+            if tipoVuelo !="Ninguno":
+                sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.tipoVuelo, v.origenVuelo,  (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = v.idVuelo) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE v.tipoVuelo = ? AND v.origenVuelo LIKE ? AND puestos > 0 AND v.estadoVuelo ='Programado'"
+                cursorObj.execute(sentencia,[idUser,  tipoVuelo, origenVuelo])
+            else:
+                sentencia = "SELECT v.idVuelo, v.avion, v.estadoVuelo, v.tipoVuelo, v.origenVuelo,  (v.capacidad-(SELECT COUNT(*) FROM Reservas WHERE idVuelo = v.idVuelo)) as puestos, v.fechaVuelo, p.idUser AS idPiloto,  cp.idUser AS idcoPiloto, p.nombres|| '  ' || p.apellidos AS piloto , cp.nombres|| '  ' || cp.apellidos AS copiloto, (SELECT COUNT(*) FROM Reservas WHERE idUser = ? AND idVuelo = v.idVuelo) as reservado FROM Vuelo v LEFT JOIN Usuario p on v.idPiloto = p.idUser LEFT JOIN Usuario cp on v.idcoPiloto = cp.idUser WHERE v.origenVuelo LIKE ? AND puestos > 0 AND v.estadoVuelo ='Programado'"
+                cursorObj.execute(sentencia,[idUser,  origenVuelo])
         con.commit()
         resultados = cursorObj.fetchall()
+        
+        for x in range(len(resultados)):
+            resultados[x]['fechaVuelo'] = convertirFechas(resultados[x]['fechaVuelo'])
         con.close()
         return resultados
 
@@ -220,13 +249,15 @@ class Usuario():
 
 class Piloto():
     def consultarVuelos(self, idUser):
-        sentencia = "SELECT i.estadoVuelo, i.capacidad, i.avion, i.fechaVuelo, i.origenVuelo, i.destinoVuelo, i.idVuelo, (SELECT COUNT (*) FROM Review WHERE idVuelo = i.idVuelo) as reviews FROM Vuelo i LEFT JOIN Usuario t ON i.idPiloto = t.idUser WHERE i.idPiloto = ? OR i.idcoPiloto =?"
+        sentencia = "SELECT i.estadoVuelo, i.tipoVuelo, i.capacidad, (SELECT COUNT(*) FROM Reservas WHERE idVuelo = i.idVuelo) as puestos, i.avion, i.fechaVuelo, i.origenVuelo,  i.idVuelo, (SELECT COUNT (*) FROM Review WHERE idVuelo = i.idVuelo) as reviews FROM Vuelo i LEFT JOIN Usuario t ON i.idPiloto = t.idUser WHERE i.idPiloto = ? OR i.idcoPiloto =?"
         db = Database()
         con = db.sql_connection()
         cursorObj = con.cursor()
         cursorObj.execute(sentencia,[idUser, idUser])
         con.commit()
         pilotovuelo = cursorObj.fetchall()
+        for x in range(len(pilotovuelo)):
+            pilotovuelo[x]['fechaVuelo'] = convertirFechas(pilotovuelo[x]['fechaVuelo'])
         con.close()
 
         return pilotovuelo
@@ -255,7 +286,7 @@ class Piloto():
         piloto = cursorObj.fetchall()
         con.close()
         return piloto
-
+####ojo: donde se usa esto de consultarvuelo?
     def consultarVuelo(self, idUser, idVuelo):
         sentencia = "SELECT * FROM Vuelo WHERE ( idPiloto = ? OR idcoPiloto = ?) AND idVuelo = ?"
         db = Database()
@@ -266,7 +297,7 @@ class Piloto():
         vuelo = cursorObj.fetchall()
         con.close()
         return vuelo
-
+####ojo: donde se usa esto de consultarReviewsPi
     def consultarReviewsPi(self, idUser):
             
         sentencia = "SELECT i.idReview, i.idVuelo, i.comment, i.puntuacion, i.idUser, i.fechaReview FROM Review i Join Vuelo t ON i.idVuelo = t.idVuelo WHERE t.idPiloto=?"
@@ -282,7 +313,7 @@ class Piloto():
         return review
 
 class Pasajero():
-    
+####ojo: donde se usa esto de consultarReviews    
     def consultarReviews(self, idUser):
             
         sentencia = "SELECT * FROM review WHERE idUser = ?"
@@ -296,6 +327,7 @@ class Pasajero():
         con.close()
 
         return review
+####ojo: donde se usa esto de consultarReview
     def consultarReview(self, idUser, idVuelo):
         sentencia = "SELECT * FROM Review WHERE idVuelo = ? AND idUser = ?"
         db = Database()

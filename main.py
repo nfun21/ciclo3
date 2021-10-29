@@ -21,6 +21,8 @@ app.config['SECRET_KEY'] = 'JU-\xf9\x1bT\xfb\x11\xa6\xdb[\xbe\xd6P\xc0\x9f\xda\x
 app.config['CSRF_SESSION_KEY'] = "\xb8#8\xb9\xc1 3E\xe1tt\xf9\xce\xedR_\xca\xeb^uf'\xd1\xe9"
 #app.secret_key = os.urandom(24)
 
+
+
 @app.route("/", methods = ["GET"])
 def paginaprincipal():
 
@@ -142,15 +144,16 @@ def buscarvuelo():
    if form.validate_on_submit():
       vuelo = Vuelo()
       origenVuelo =request.form.get('ciudadorigen')
-      destinoVuelo =request.form.get('ciudaddestino')
+      tipoVuelo =request.form.get('tipoVuelo')
+      
       if 'idUser' in session:
          idUser=session['idUser']
          autenticado = True
-         print(idUser)
+         
       else:
          idUser = ""
          
-      vuelos = vuelo.buscarVuelos("",origenVuelo,destinoVuelo,idUser,"")
+      vuelos = vuelo.buscarVuelos("",origenVuelo,idUser,"", tipoVuelo)
       if vuelos:
          flash('Mostrando resultados para la búsqueda' , 'okmsg')
       else:
@@ -211,8 +214,10 @@ def gestionvuelos():
       vuelo = Vuelo()
       if form.validate_on_submit():
          busqueda = request.form.get('consvuelo')
-         vuelos = vuelo.buscarVuelos("total","","","",busqueda)
+         vuelos = vuelo.buscarVuelos("total","","",busqueda,"")
          titulo = "Resultados"
+         if not vuelos:
+            flash('No se encontraron resultados', 'errormsg')
       else:
          titulo = "Últimos vuelos"
          vuelos = vuelo.consultarVuelos()
@@ -310,13 +315,13 @@ def eliminarusuario(idUser):
 def crearvuelo():
    if 'idUser' in session and session["rol"] == 3:
       
-      form = frmCrearEditarVuelo()
+      form = frmCrearVuelo()
       if form.validate_on_submit():
          vuelo = Vuelo()
          capacidad = request.form.get('capacidad')
+         tipoVuelo = request.form.get('capacidad')
          origenVuelo = request.form.get('origenVuelo')
-         destinoVuelo = request.form.get('destinoVuelo')
-         estadoVuelo = request.form.get('estadoVuelo')
+         estadoVuelo = "Programado"
          avion =request.form.get('avion')
          fecha = request.form.get('fecha')
          idPiloto = request.form.get('idPiloto')
@@ -327,7 +332,7 @@ def crearvuelo():
          if idPiloto == idcoPiloto:
             flash('Piloto y co-piloto no pueden ser iguales.', 'errormsg')
             return render_template("crear-vuelo.html", form = form) 
-         vuelo.crearVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo)
+         vuelo.crearVuelo(capacidad, origenVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo, tipoVuelo)
          flash('Se creó el vuelo con éxito', 'okmsg')
          return redirect(url_for('gestionvuelos'))
       return render_template("crear-vuelo.html", form = form)        
@@ -338,14 +343,14 @@ def crearvuelo():
 @app.route("/editar-vuelo/<idVuelo>", methods = ["GET", "POST"])
 def editarvuelo(idVuelo):
    if 'idUser' in session and session["rol"] == 3:
-      form = frmCrearEditarVuelo()
       vuelo = Vuelo()
       vueloencontrado = vuelo.consultarVuelo(idVuelo)
+      form = frmEditarVuelo(tipoVuelo=vueloencontrado['tipoVuelo'], estadoVuelo=vueloencontrado['estadoVuelo'])
       if form.validate_on_submit():
-         
+         tipoVuelo=request.form.get('tipoVuelo')
          capacidad = request.form.get('capacidad')
          origenVuelo = request.form.get('origenVuelo')
-         destinoVuelo = request.form.get('destinoVuelo')
+         
          estadoVuelo = request.form.get('estadoVuelo')
          avion =request.form.get('avion')
          fecha = request.form.get('fecha')
@@ -354,7 +359,7 @@ def editarvuelo(idVuelo):
          if idPiloto == idcoPiloto:
             flash('Piloto y co-piloto no pueden ser iguales.', 'errormsg')
             return render_template("crear-vuelo.html", form = form) 
-         vuelo.editarVuelo(capacidad, origenVuelo, destinoVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo, idVuelo)
+         vuelo.editarVuelo(capacidad, origenVuelo, avion, fecha, idPiloto, idcoPiloto,estadoVuelo, idVuelo, tipoVuelo)
          flash('Se editó el vuelo con éxito', 'okmsg')
          return redirect(request.url)
       return render_template("editar-vuelo.html", form = form, vuelo = vueloencontrado)       
@@ -401,7 +406,7 @@ def misvuelos():
    if 'idUser' in session:
       vuelo = Vuelo()
       ##generar vuelos que el usuario tiene reservados y que han finalizado
-      vuelos = vuelo.buscarVuelos("reservas","","",session['idUser'],"")
+      vuelos = vuelo.buscarVuelos("reservas","",session['idUser'],"")
       form = frmPublicarReview()
       if form.validate_on_submit():
          idVuelo =request.form.get('idVuelo')
@@ -440,10 +445,14 @@ def piloto():
 # -------------------------------------------------------------------------
 @app.route("/buscarpiloto")
 def buscarpiloto():
-   nombrePiloto = request.args.get('nombre')
-   piloto = Piloto()
-   resultados = piloto.buscarPiloto(nombrePiloto)
-   return Response(json.dumps(resultados), mimetype='application/json')
+   if 'idUser' in session and session['rol'] ==3:
+      nombrePiloto = request.args.get('nombre')
+      piloto = Piloto()
+      resultados = piloto.buscarPiloto(nombrePiloto)
+      return Response(json.dumps(resultados), mimetype='application/json')
+   else:
+      flash('Usted no tiene permisos para acceder a esta página.', 'errormsg')
+      return redirect(url_for('paginaprincipal'))
 
 
 @app.route("/pasajeros", methods = ["GET", "POST"])
@@ -486,6 +495,10 @@ def publicarreview():
    form.validate_on_submit()
    return render_template("publicar-review.html",form=form)
 
-
-
-
+@app.route("/apivuelos")
+def apivuelos():
+   ciudad = request.args.get('ciudad')
+   tipoVuelo = request.args.get('tipoVuelo')
+   vuelo = Vuelo()
+   resultados = vuelo.autocompletarVuelos(ciudad, tipoVuelo)
+   return Response(json.dumps(resultados), mimetype='application/json')

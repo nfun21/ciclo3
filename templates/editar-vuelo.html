@@ -9,7 +9,7 @@
     <title>Editar vuelo</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="../static/nicepage.css" media="screen">
-<link rel="stylesheet" href="../static/crear-vuelo.css" media="screen">
+    <link rel="stylesheet" href="../static/crear-vuelo.css" media="screen">
     
     <script class="u-script" type="text/javascript" src="../static/nicepage.js" defer=""></script>
     <meta name="generator" content="Sistema de gestión de vuelos G2">
@@ -48,20 +48,19 @@
           <!--------------#################-------------------------------------->
           <form method="POST" action="" class="u-clearfix u-form-custom-backend u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             {{ form.csrf_token() }}
-            <!-- <input type="hidden" id="siteId" name="siteId" value="65902055"> -->
-            <!-- <input type="hidden" id="pageId" name="pageId" value="62109672"> -->
+            
+            <div class="u-form-group u-form-select u-form-group-9">
+              <label for="select-0fee" class="Editar u-label">Tipo de vuelo:</label>
+              <div class="u-form-select-wrapper">
+                {{form.tipoVuelo(class= "u-border-1 u-border-grey-30 u-input u-input-rectangle u-white")}}
+              </div>
+            </div>
             <div class="u-form-group u-form-name">
-              <label for="name-d422" class="Editar u-label">Origen</label>
+              <label for="name-d422" class="Editar u-label">{% if vuelo.tipoVuelo =="Entrante" %}Ciudad de origen{%else%}Ciudad de destino{%endif%}</label>
               <input type="text" value="{{vuelo.origenVuelo}}" placeholder="Ciudad de origen" id="name-d422" name="origenVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
-            <div class="u-form-email u-form-group">
-              <label for="email-d422" class="Editar u-label">Destino</label>
-              <input type="text" value="{{vuelo.destinoVuelo}} "placeholder="Ciudad de destino" id="email-d422" name="destinoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
-            </div>
-            <!-- <div class="u-form-group u-form-group-3">
-              <label for="text-4411" class="Editar u-label"></label>
-              <input type="text" placeholder="Código" id="text-4411" name="codigo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-            </div> -->
+           
+          
             <div class="u-form-group u-form-select u-form-group-4">
               <label for="select-a716" class="u-label">Piloto:</label>
               <div class="u-form-select-wrapper">
@@ -88,17 +87,10 @@
             <div class="u-form-group u-form-select u-form-group-9">
               <label for="select-0fee" class="Editar u-label">Estado</label>
               <div class="u-form-select-wrapper">
-                <select id="select-0fee" value="{{vuelo.estadoVuelo}}" name="estadoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  <option value="Programado" {% if vuelo.estadoVuelo == "Programado"%}selected="selected"{% endif %}>Programado</option>
-                  <option value="Inicializado" {% if vuelo.estadoVuelo == "Inicializado"%}selected="selected"{% endif %}>Inicializado</option>
-                  <option value="Abordando" {% if vuelo.estadoVuelo == "Abordando"%}selected="selected"{% endif %}>Abordando</option>
-                  <option value="En vuelo" {% if vuelo.estadoVuelo == "En vuelo"%}selected="selected"{% endif %}>En vuelo</option>
-                  <option value="Aterrizado" {% if vuelo.estadoVuelo == "Aterrizado"%}selected="selected"{% endif %}>Aterrizado</option>
-                  <option value="Finalizado" {% if vuelo.estadoVuelo == "Finalizado"%}selected="selected"{% endif %}>Finalizado</option>
-                  <option value="Cancelado" {% if vuelo.estadoVuelo == "Cancelado"%}selected="selected"{% endif %}>Cancelado</option>
-                </select>
+                {{form.estadoVuelo(class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white")}}
               </div>
-              </div>
+            </div>
+            
             <div class="u-form-date u-form-group u-form-group-7">
               <label for="date-16c8" class="u-label">Fecha:</label>
               <input value="{{vuelo.fechaVuelo}}" type="datetime-local" placeholder="MM/DD/YYYY" id="date-16c8" name="fecha" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">

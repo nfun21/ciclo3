@@ -33,7 +33,7 @@
     <section class="u-clearfix u-section-1" id="sec-1176">
       <div class="u-clearfix u-sheet u-sheet-1">
         <h2 class="u-text u-text-default u-text-1 titulo-review">RESEÑAS</h2>
-          <h3 class="u-text u-text-default u-text-1 subtitulo-review">{{infoVuelo.origenVuelo}}-{{infoVuelo.destinoVuelo}}</h3>
+          <h3 class="u-text u-text-default u-text-1 subtitulo-review">{%if infoVuelo.tipoVuelo =="Entrante" %}{{infoVuelo.origenVuelo}}-Valledupar{%else%} Valledupar-{{infoVuelo.origenVuelo}}{%endif%}</h3>
           <div class="fecha-v-review" style="text-align: center;"><input type="datetime-local" class="fecha-vuelo-review" value="{{infoVuelo.fechaVuelo}}" readonly></div>
           {% if idRol == 3 %}
           <div style="text-align: center;">

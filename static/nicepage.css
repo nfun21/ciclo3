@@ -4,7 +4,22 @@
  * Copyright 2014-2020 Froala Labs
  */
 /*MODIFICACIONES templates */
+.Entrante {
+  background: url('images/entrante.png');
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-right: 32px;
+  background-size: 18px;
 
+}
+.Saliente {
+  background: url('images/saliente.png');
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-right: 32px;
+  background-size: 18px;
+
+}
 ul.alertas{
   padding-left: 0!important;
 }

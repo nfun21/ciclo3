@@ -54,14 +54,18 @@
             {{ form.csrf_token() }}
             <!-- <input type="hidden" id="siteId" name="siteId" value="65902055"> -->
             <!-- <input type="hidden" id="pageId" name="pageId" value="62109672"> -->
+            <div class="u-form-group u-form-select u-form-group-9">
+              <label for="select-0fee" class="Editar u-label">Tipo de vuelo:</label>
+              <div class="u-form-select-wrapper">
+                {{form.tipoVuelo(class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white")}}
+              </div>
+            </div>
+            
             <div class="u-form-group u-form-name">
               <label for="name-d422" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Ciudad de origen" id="name-d422" name="origenVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+              <input type="text" placeholder="Ciudad de destino➡️" id="name-d422" name="origenVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
-            <div class="u-form-email u-form-group">
-              <label for="email-d422" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Ciudad de destino" id="email-d422" name="destinoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
-            </div>
+            
             <!-- <div class="u-form-group u-form-group-3">
               <label for="text-4411" class="u-form-control-hidden u-label"></label>
               <input type="text" placeholder="Código" id="text-4411" name="codigo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
@@ -89,32 +93,18 @@
               <label for="text-2904" class="u-form-control-hidden u-label"></label>
               <input type="text" placeholder="Capacidad" id="text-2904" name="capacidad" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
-            <div class="u-form-group u-form-select u-form-group-9">
-              <label for="select-0fee" class="u-form-control-hidden u-label"></label>
-              <div class="u-form-select-wrapper">
-                <select id="select-0fee" name="estadoVuelo" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                  
-                  <option value="Programado">Programado</option>
-                  <option value="Inicializado">Inicializado</option>
-                  
-                  
-                </select>
-              </div>
-              </div>
+           
             <div class="u-form-date u-form-group u-form-group-7">
               <label for="date-16c8" class="u-label">Fecha:</label>
               <input type="datetime-local" placeholder="MM/DD/YYYY" id="date-16c8" name="fecha" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
             </div>
             
             <div class="u-align-left u-form-group u-form-submit">
-              <!-- <a href="#" class="u-btn u-btn-submit u-button-style">GUARDAR</a> -->
-              <!-- <input type="submit" value="submit" class="u-form-control-hidden"> -->
+             
               {{form.botonGuardar(class="u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-1")}}
 
             </div>
-            <div class="u-form-send-message u-form-send-success">Se ha creado el vuelo.</div>
-            <div class="u-form-send-error u-form-send-message">No se pudo crear el vuelo.</div>
-            <input type="hidden" value="" name="recaptchaResponse">
+            
           </form>
         </div>
       </div>

@@ -83,4 +83,14 @@ $('#piloto').on('input', function() {//check that input is being updated
     
   });
 
-
+  document.getElementById("tipoVuelo").onchange = function(e) {
+    if (this[this.selectedIndex].value == "Entrante") {
+      document.getElementsByName('origenVuelo')[0].placeholder='Ciudad de origen⬅️';
+      
+    }else{
+      document.getElementsByName('origenVuelo')[0].placeholder='Ciudad de destino➡️';
+      
+    }
+    
+};
+$(document).ready(function() {$("#tipoVuelo").attr('value', 'Browse');});
