@@ -85,7 +85,7 @@
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ v.idVuelo}}</p></td>
                 <td class="{{ v.tipoVuelo}} u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ v.origenVuelo }}<br> ({%if v.tipoVuelo =="Entrante" %}Retorno{%else%}Ida{%endif%}) </p></td>
                 
-                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p><input style="border:0;" type="datetime-local" value="{{ v.fechaVuelo }}" readonly></p></td>
+                <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell"><p>{{ v.fechaVuelo }}</p></td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-13"><p>{{ v.puestos}}</p></td>
                 <td class="u-border-1 u-border-grey-40 u-border-no-left u-border-no-right u-table-cell u-table-cell-14">
                   {% if autenticado %}
